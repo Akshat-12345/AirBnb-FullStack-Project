@@ -1,0 +1,15 @@
+<%- layout("/layouts/boiler_plate.ejs") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+        <h1 class="text-danger fw-bold mb-3"><%= err.status %> Error</h1>
+        <p class="fs-5 mb-4"><%= err.message %></p>
+        <a href="/listings" class="btn btn-outline-danger rounded-3 fw-semibold px-4 py-2">
+          Back to Listings
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

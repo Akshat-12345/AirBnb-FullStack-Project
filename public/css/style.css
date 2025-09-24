@@ -1,0 +1,377 @@
+/* Base Navbar */
+.navbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.85); /* Semi-transparent for glass effect */
+  backdrop-filter: blur(10px); /* Glassmorphism */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0.8rem 2rem;
+  transition: background 0.3s ease;
+}
+
+/* Brand */
+.navbar-brand {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #FF385C !important;
+  letter-spacing: -0.5px;
+}
+
+.navbar-brand img {
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+}
+
+/* Nav Links */
+.nav-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #222 !important;
+  margin-left: 1.8rem;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Underline Hover Animation */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #FF385C;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #FF385C !important;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Toggler (Mobile) */
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280,0,0,0.7%29' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Brand Styling */
+.navbar-brand {
+  font-size: 2.2rem !important;  /* Text aur bada */
+  font-weight: 800 !important;
+  color: #FF385C !important;
+  display: flex;
+  align-items: center;
+  margin-left: 40px; /* Left se shift */
+}
+
+.navbar-brand img {
+  width: 50px !important;   /* Logo ka size bada */
+  height: 50px !important;
+  margin-right: 15px; /* Text aur image ke beech gap */
+}
+
+
+
+
+.footer {
+  background-color: #f7f7f7;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.footer h6 {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.footer ul li a:hover {
+  color: #FF385C; 
+}
+
+.footer-bottom {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #666;
+  margin-left: 15px;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #FF385C;
+}
+
+
+
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  border-radius: 16px !important;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  border-radius: 16px 16px 0 0;
+}
+
+.fav-btn {
+  opacity: 0.9;
+  transition: 0.2s ease;
+  font-size: 1rem;
+}
+.fav-btn:hover {
+  background-color: #ff385c;
+  color: white;
+  transform: scale(1.1);
+}
+
+
+/* new.ejs */
+
+.form-card {
+  background: #fff;
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+}
+
+.form-control:focus {
+  border-color: #FF385C;
+  box-shadow: 0 0 0 0.2rem rgba(255,56,92,0.25);
+}
+
+button.btn-danger {
+  background-color: #FF385C;
+  border: none;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+button.btn-danger:hover {
+  background-color: #e61e4d;
+  transform: translateY(-2px);
+}
+
+
+
+
+
+/* edit.ejs */
+
+
+.form-card {
+  background: #fff;
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+}
+
+.form-control:focus {
+  border-color: #FF385C;
+  box-shadow: 0 0 0 0.2rem rgba(255,56,92,0.25);
+}
+
+button.btn-danger {
+  background-color: #FF385C;
+  border: none;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+button.btn-danger:hover {
+  background-color: #e61e4d;
+  transform: translateY(-2px);
+}
+
+
+
+
+/* show.ejs */
+.description-text {
+  white-space: pre-wrap; /* line breaks dikhane ke liye */
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
+/* Hero Image fix */
+.hero-wrapper {
+  width: 100%;
+  margin-top: 20px; /* navbar se neeche kheenchne ke liye */
+}
+.hero-img-full {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* Review Box */
+
+/* Hover effect */
+.review-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+.review-box h4 {
+  font-size: 1.6rem;
+  color: #222;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+/* Star Rating */
+.star-rating {
+  direction: rtl;
+  display: inline-flex;
+  gap: 8px;
+  font-size: 2rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out, transform 0.2s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #ff6e85;
+  transform: scale(1.1);
+}
+
+.star-rating input:checked ~ label {
+  color: #ff385c; /* Airbnb Pink */
+}
+
+/* Comment Box */
+.review-box textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  font-size: 1rem;
+  resize: none;
+  transition: all 0.3s ease;
+}
+
+.review-box textarea:focus {
+  border-color: #ff385c;
+  box-shadow: 0 0 8px rgba(255, 56, 92, 0.2);
+  outline: none;
+}
+
+/* Submit Button */
+.review-box button {
+  background: #ff385c;
+  border: none;
+  color: #fff;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.review-box button:hover {
+  background: #e60048;
+  transform: scale(1.05);
+}
+/* Hero Image */
+.hero-img {
+  width: 100%;
+  max-height: 500px;   /* yaha image ki height kam kar di */
+  object-fit: cover;   /* crop karega but aspect ratio maintain hoga */
+  border-radius: 15px;
+}
+
+/* Review Box same size as Image */
+.review-box {
+  width: 100%;
+  max-width: 1500px;   /* image jitna */
+  min-height: 450px;   /* image ki height ke equal */
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* content center mein aayega */
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+
+
+#map{
+  height: 400px;
+  width : 80vh;
+}
+
+
+
+
+
+
+
+
+

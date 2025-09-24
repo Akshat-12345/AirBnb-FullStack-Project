@@ -1,0 +1,60 @@
+<%= layout("/layouts/boiler_plate.ejs") %>
+
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+
+  /* Background image scroll kare */
+  body {
+    background: url('/images/pic4.jpg') 
+                no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll; /* fix ki jagah scroll */
+    min-height: 100vh;
+  }
+
+  /* Center card */
+  .signup-container {
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Card custom look */
+  .card {
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+  }
+
+  /* Pink Airbnb heading */
+  .airbnb-heading {
+    color: #FF385C; 
+    font-weight: 700;
+  }
+</style>
+
+
+<div class="signup-container">
+  <div class="card p-4" style="width: 400px;">
+    <h2 class="text-center airbnb-heading mb-4">Sign-In</h2>
+    <form action="/login" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text" class="form-control" name="email" id="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" id="password" required>
+      </div>
+      <button class="btn w-100 text-white" style="background-color:#FF385C;">Sign In</button>
+    </form>
+    <p class="text-center mt-3">
+      Didn't have an account? <a href="/signup" style="color:#FF385C; text-decoration:none;">Signup here</a>
+    </p>
+  </div>
+</div>
+
+

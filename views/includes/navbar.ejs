@@ -1,0 +1,179 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+  /* --- FINAL POLISHED AIRBNB NAVBAR --- */
+  :root {
+    --brand-red: #FF385C;
+    --grey-border: #ebebeb;
+    --text-dark: #222222;
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .navbar.navbar-custom {
+    height: 90px;
+    border-bottom: 1px solid var(--grey-border);
+    padding: 0 2.5rem; /* Thoda aur padding */
+    background-color: white;
+  }
+
+  /* --- 1. BRAND LOGO & NAME (IMPROVED) --- */
+  .navbar-brand-custom {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Icon aur text ke beech ka gap */
+  }
+  .brand-logo-img {
+    height: 32px;
+    width: auto;
+  }
+  .brand-logo-text {
+    color: var(--brand-red);
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 35px;
+    letter-spacing: -0.6px; /* Professional touch ke liye */
+  }
+
+  /* --- 2. CENTER SEARCH BAR --- */
+  .center-search-bar {
+    border: 1px solid var(--grey-border);
+    border-radius: 40px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    transition: box-shadow 0.25s ease; /* Smooth transition */
+  }
+  .center-search-bar:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .search-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 8px 8px 8px 24px;
+  }
+  .search-bar-text {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 16px;
+    border-right: 1px solid var(--grey-border);
+  }
+  .search-bar-text:last-of-type { border-right: none; }
+  .search-icon {
+    background-color: var(--brand-red);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+  }
+
+  /* --- 3. RIGHT SIDE LINKS & PROFILE MENU --- */
+  .add-listing-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    padding: 12px 16px;
+    border-radius: 22px;
+    text-decoration: none;
+    transition: background-color 0.25s ease; /* Smooth transition */
+  }
+  .add-listing-link:hover {
+    background-color: #f7f7f7;
+  }
+  .dropdown-menu {
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    min-width: 220px;
+    margin-top: 12px !important;
+  }
+  .dropdown-item { padding: 12px 16px; font-size: 14px; }
+  
+  /* --- 4. RESPONSIVE & MOBILE VIEW --- */
+  @media (max-width: 992px) {
+    .navbar-custom { padding: 0 1.5rem; }
+    .center-search-bar { display: none; } /* Hide full search bar on mobile */
+  }
+
+  /* --- NEW & IMPROVED CIRCULAR AVATAR (CSS CHANGES HERE) --- */
+  .profile-avatar-circle {
+    width: 45px;  /* Thoda sa bada kiya */
+    height: 45px;
+    border-radius: 50%;
+    background-color: #e75840; /* White background for clean look */
+    color: #ffffff; /* Softer grey for icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Icon thoda bada */
+    cursor: pointer;
+    border: 1px solid #dddddd;
+    transition: all 0.2s ease; /* Sabhi properties par smooth transition */
+  }
+
+  .profile-avatar-circle:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transform: scale(1.05); /* Halk sa zoom effect */
+  }
+
+  /* Attractive gradient for logged-in users */
+  .profile-avatar-circle.logged-in {
+    background: linear-gradient(45deg, #E61E4D, #FF385C); /* Brand color gradient */
+    color: white;
+    font-weight: 600;
+    font-size: 20px; /* Initial ke liye size adjust kiya */
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+</style>
+
+<nav class="navbar navbar-expand-md sticky-top navbar-custom">
+  <div class="container-fluid">
+
+    <a class="navbar-brand navbar-brand-custom" href="/">
+      <img src="/images/airbnb.png" alt="Airbnb Logo" class="brand-logo-img">
+      <span class="brand-logo-text">airbnb</span>
+    </a>
+
+    <div class="d-none d-lg-block mx-auto">
+      <div class="center-search-bar">
+        <a href="/listings" class="search-link">
+          <div class="search-bar-text">Stays</div>
+          <div class="search-bar-text">Experiences</div>
+          <div class="search-bar-text text-secondary">Online Experiences</div>
+          <div class="search-icon">
+            <i class="bi bi-search"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+    <div class="d-flex align-items: center">
+      <a class="add-listing-link d-none d-md-block" href="/listings/new">Join as a Host</a>
+
+      <div class="dropdown ms-3">
+        <% if(!currUser){ %>
+          <div class="profile-avatar-circle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        <% } else { %>
+          <div class="profile-avatar-circle logged-in" data-bs-toggle="dropdown" aria-expanded="false">
+            <%= currUser.username.charAt(0).toUpperCase() %>
+          </div>
+        <% } %>
+        
+        <ul class="dropdown-menu dropdown-menu-end">
+          <% if(!currUser){ %>
+            <li><a class="dropdown-item fw-bold" href="/signup">Sign Up</a></li>
+            <li><a class="dropdown-item" href="/login">Log In</a></li>
+          <% } else { %>
+            <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+          <% } %>
+        </ul>
+      </div>
+
+    </div>
+    
+  </div>
+</nav>

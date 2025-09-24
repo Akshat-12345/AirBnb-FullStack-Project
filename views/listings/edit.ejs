@@ -1,0 +1,85 @@
+<%= layout("/layouts/boiler_plate.ejs") %>
+
+<style>
+  .edit-img-preview {
+    max-width: 200px; /* Limits the max width */
+    max-height: 150px; /* Limits the max height */
+    border-radius: 0.5rem; /* Rounded corners */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+  }
+</style>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4 p-4 form-card">
+        <h3 class="mb-4 text-center fw-bold text-danger">Edit Listing Details</h3>
+        
+        <form method="POST" action="/listings/<%= data._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold">Title</label>
+            <input id="title" type="text" class="form-control rounded-3" name="listing[title]" value="<%= data.title %>" placeholder="Enter Title" required>
+            <div class="valid-feedback">Title Looks good!</div>
+            <div class="invalid-feedback">Incorrect Title</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label fw-semibold">Description</label>
+            <textarea id="description" class="form-control rounded-3" name="listing[description]" rows="3" placeholder="Enter Description..." required><%= data.description %></textarea>
+            <div class="valid-feedback">Nice Description!</div>
+            <div class="invalid-feedback">Enter a Short Description</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Original Image Preview</label><br>
+            <img src="<%= originalImageUrl %>" class="edit-img-preview img-thumbnail" alt="Original Listing Image">
+          </div>
+          
+          <div class="mb-3">
+            <label for="image" class="form-label fw-semibold">Upload New Image</label>
+            <input id="image" type="file" class="form-control rounded-3" name="listing[image]">
+          </div>
+
+          <div class="mb-3">
+            <label for="price" class="form-label fw-semibold">Price</label>
+            <input id="price" type="number" class="form-control rounded-3" name="listing[price]" value="<%= data.price %>" placeholder="Enter Price" required>
+            <div class="invalid-feedback">Enter a Valid Amount</div>
+            <div class="valid-feedback">Great!</div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="location" class="form-label fw-semibold">Location</label>
+              <input id="location" type="text" class="form-control rounded-3" name="listing[location]" value="<%= data.location %>" placeholder="e.g., Goa" required>
+              <div class="invalid-feedback">Enter Correct Location</div>
+              <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="country" class="form-label fw-semibold">Country</label>
+              <input id="country" type="text" class="form-control rounded-3" name="listing[country]" value="<%= data.country %>" placeholder="e.g., India" required>
+              <div class="invalid-feedback">Enter Correct Country Name</div>
+              <div class="valid-feedback">Looks good!</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="category" class="form-label fw-semibold">Category</label>
+            <% const categories = ['Trending', 'Rooms', 'Amazing views', 'Mansions', 'Amazing pools', 'Beach', 'Cabins', 'Camping', 'Farms']; %>
+            <select id="category" class="form-select rounded-3" name="listing[category]" required>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat %>" <%= data.category === cat ? 'selected' : '' %>><%= cat %></option>
+              <% }) %>
+            </select>
+            <div class="invalid-feedback">Please select a category.</div>
+          </div>
+          <div class="d-grid mt-3">
+            <button type="submit" class="btn btn-danger rounded-3 fw-semibold py-2">
+              Update Listing
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

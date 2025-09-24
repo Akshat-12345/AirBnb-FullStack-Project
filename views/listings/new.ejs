@@ -1,0 +1,84 @@
+<%= layout("/layouts/boiler_plate.ejs") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4 p-4 form-card">
+        <h3 class="mb-4 text-center fw-bold text-danger">Create A New Listing</h3>
+        
+        <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Title</label>
+ 
+           <input type="text" class="form-control rounded-3" name="listing[title]" placeholder="Enter Title" required>
+            <div class="valid-feedback">Title Looks good!</div>
+            <div class="invalid-feedback">Incorrect Title</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Description</label>
+      
+      <textarea class="form-control rounded-3" name="listing[description]" rows="3" placeholder="Enter Description..." required></textarea>
+            <div class="valid-feedback">Great Description!</div>
+            <div class="invalid-feedback">Enter a Short Description</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Price</label>
+          
+  <input type="number" class="form-control rounded-3" name="listing[price]" placeholder="Enter Price" required>
+            <div class="invalid-feedback">Price Required</div>
+            <div class="valid-feedback">Great!</div>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Upload Image</label>
+      
+        <input type="file" class="form-control rounded-3" name="listing[image]" placeholder="Enter Image URL" required>
+            <div class="invalid-feedback">Enter Valid Image</div>
+            <div class="valid-feedback">Nice!</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Location</label>
+         
+   <input type="text" class="form-control rounded-3" name="listing[location]" placeholder="Enter Location Here" required>
+            <div class="invalid-feedback">Enter Correct Location</div>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Country</label>
+            <input 
+type="text" class="form-control rounded-3" name="listing[country]" placeholder="Enter Country Name" required>
+            <div class="invalid-feedback">Enter Correct Country Name</div>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Category</label>
+            <select class="form-select rounded-3" name="listing[category]" required>
+              <option selected disabled value="">Choose a category...</option>
+              <option value="Trending">Trending</option>
+              <option value="Rooms">Rooms</option>
+              <option value="Amazing views">Amazing views</option>
+              <option value="Mansions">Mansions</option>
+              <option value="Amazing pools">Amazing pools</option>
+              <option value="Beach">Beach</option>
+              <option value="Cabins">Cabins</option>
+              <option value="Camping">Camping</option>
+              <option value="Farms">Farms</option>
+            </select>
+            <div class="invalid-feedback">Please select a category.</div>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-danger rounded-3 fw-semibold py-2">
+            
+  Add Listing
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
