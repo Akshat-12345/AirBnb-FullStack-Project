@@ -28,6 +28,8 @@ let port = 3000;
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user.js');
+// Add this at the top of app.js with other require statements
+const Razorpay = require('razorpay');
 const dbUrl = process.env.ATLAS_DB;
 main()
    .then(()=>{
@@ -85,6 +87,7 @@ app.use((req,res,next)=>{
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     res.locals.currUser = req.user;
+    res.locals.razorpayKeyId = process.env.RAZORPAY_KEY_ID; 
     next();
 })
 app.engine('ejs',ejsMate);
@@ -101,6 +104,45 @@ app.listen(port,()=>{
 app.get("/",(req,res)=>{
     res.send("Root is Working");
 })
+
+
+// ... your other app setup code ...
+
+// Initialize Razorpay client
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+// Route to create a Razorpay order
+app.post('/listings/:id/checkout', async (req, res) => {
+    try {
+        let listing = await Listing.findById(req.params.id);
+        if (!listing) {
+            return res.status(404).send("Listing not found");
+        }
+
+        const amount = listing.price * 100; // Razorpay expects amount in the smallest currency unit (paise)
+        const options = {
+            amount: amount,
+            currency: "INR",
+            receipt: `receipt_order_${Math.random().toString(36).substring(7)}`, // Generate a unique receipt ID
+        };
+        
+        const order = await razorpay.orders.create(options);
+        
+        if (!order) {
+            return res.status(500).send("Error creating order");
+        }
+        
+        // Send the order details back to the frontend
+        res.json(order);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong!");
+    }
+});
 
 app.use('/listings',listings);
 app.use('/listings/:id/reviews',reviews);

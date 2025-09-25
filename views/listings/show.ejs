@@ -194,7 +194,6 @@ const reviewCount = data.reviews.length;
 </style>
 
 <div class="container listing-container">
-  <!-- Listing Header -->
   <div class="listing-header">
     <h1><%= data.title %></h1>
     <div class="listing-header-details">
@@ -212,7 +211,6 @@ const reviewCount = data.reviews.length;
 
   <img src="<%= data.image.url %>" alt="<%= data.title %>" class="listing-image">
 
-  <!-- Host + Description + Booking -->
   <div class="row">
     <div class="col-lg-7">
       <div class="host-details d-flex justify-content-between align-items-center">
@@ -249,7 +247,6 @@ const reviewCount = data.reviews.length;
     </div>
   </div>
 
-  <!-- Reviews Section -->
   <div class="reviews-section" id="reviews">
     <h3 class="reviews-header">
       <% if (reviewCount > 0) { %>
@@ -275,7 +272,6 @@ const reviewCount = data.reviews.length;
               </div>
             </div>
 
-            <!-- Rating Stars -->
             <div class="review-rating-stars">
               <% for(let i=1; i<=5; i++){ %>
                 <% if(i <= review.rating){ %>
@@ -287,7 +283,6 @@ const reviewCount = data.reviews.length;
               <span class="review-rating-value"><%= review.rating %></span>
             </div>
 
-            <!-- Comment -->
             <p class="review-comment"><%= review.comment %></p>
             <a class="show-more-btn" style="display:none;">Show more</a>
 
@@ -302,7 +297,6 @@ const reviewCount = data.reviews.length;
     </div>
   </div>
 
-  <!-- Leave Review Form -->
   <% if(currUser){ %>
     <div class="review-form-section mt-5">
       <div class="review-form-container">
@@ -329,7 +323,6 @@ const reviewCount = data.reviews.length;
     </div>
   <% } %>
 
-  <!-- Map Section -->
   <div class="map-section" id="map-location">
     <% if (typeof coordinates !== 'undefined' && coordinates) { %>
       <h3 class="reviews-header">Where you'll be</h3>
@@ -340,7 +333,6 @@ const reviewCount = data.reviews.length;
   </div>
 </div>
 
-<!-- Map Script -->
 <% if (typeof coordinates !== 'undefined' && coordinates) { %>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -413,5 +405,69 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+});
+</script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reserveBtn = document.querySelector('.btn-reserve');
+    if (reserveBtn) {
+        reserveBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            // We use JSON.stringify to safely pass server data to JavaScript
+            const listingId = <%- JSON.stringify(data._id) %>;
+            const keyId = <%- JSON.stringify(razorpayKeyId) %>;
+            const listingTitle = <%- JSON.stringify(data.title) %>;
+            const userName = <%- JSON.stringify(currUser ? currUser.username : "") %>;
+            const userEmail = <%- JSON.stringify(currUser ? currUser.email : "") %>;
+
+            // 1. Call your backend to create an order
+            const response = await fetch(`/listings/${listingId}/checkout`, {
+                method: 'POST',
+            });
+            
+            if (!response.ok) {
+                alert("Failed to create payment order. Please try again.");
+                return;
+            }
+
+            const order = await response.json();
+
+            // 2. Configure Razorpay options using the clean JavaScript variables
+            const options = {
+                "key": keyId,
+                "amount": order.amount,
+                "currency": order.currency,
+                "name": "Akshat's Airbnb",
+                "description": `Booking for ${listingTitle}`,
+                "image": "/images/logo.png",
+                "order_id": order.id,
+                "handler": function (response){
+                    alert("Payment successful! Thank you for booking.");
+                    // You can optionally redirect or update the UI here
+                    // window.location.href = '/my-bookings';
+                },
+                "prefill": {
+                    "name": userName,
+                    "email": userEmail,
+                },
+                "theme": {
+                    "color": "#ff385c"
+                }
+            };
+
+            // 3. Create a new Razorpay instance and open the checkout form
+            const rzp1 = new Razorpay(options);
+
+            rzp1.on('payment.failed', function (response){
+                alert("Payment failed. Please try again or use a different payment method.");
+                console.error("Payment Failed:", response.error);
+            });
+            
+            rzp1.open();
+        });
+    }
 });
 </script>
