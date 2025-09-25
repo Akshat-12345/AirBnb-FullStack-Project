@@ -6,12 +6,12 @@
     margin: 0;
   }
 
-  /* Background image scroll kare */
+  /* Background image will be fixed and not scroll */
   body {
     background: url('/images/pic1.jpg') 
                 no-repeat center center;
     background-size: cover;
-    background-attachment: scroll; /* fix ki jagah scroll */
+    background-attachment: fixed; /* fix ki jagah scroll ko बदला गया hai */
     min-height: 100vh;
   }
 
@@ -49,6 +49,7 @@
         <label for="email" class="form-label">Email</label>
         <input type="text" class="form-control" name="email" id="email" required>
       </div>
+    
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
         <input type="password" class="form-control" name="password" id="password" required>
@@ -56,9 +57,8 @@
       <button class="btn w-100 text-white" style="background-color:#FF385C;">SignUp</button>
     </form>
     <p class="text-center mt-3">
-      Already have an account? <a href="/login" style="color:#FF385C; text-decoration:none;">Login here</a>
+      Already have an account?
+      <a href="/login" style="color:#FF385C; text-decoration:none;">Login here</a>
     </p>
   </div>
 </div>
-
-

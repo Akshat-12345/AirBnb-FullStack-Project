@@ -1,44 +1,53 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 <style>
-  /* --- FINAL POLISHED AIRBNB NAVBAR --- */
   :root {
     --brand-red: #FF385C;
-    --grey-border: #ebebeb;
+    --grey-border: #dddddd;
     --text-dark: #222222;
     --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
-  .navbar.navbar-custom {
+  .navbar-custom {
     height: 90px;
-    border-bottom: 1px solid var(--grey-border);
-    padding: 0 2.5rem; /* Thoda aur padding */
+    border-bottom: 1px solid #ebebeb;
+    padding: 0 1.5rem; /* Default padding for mobile */
     background-color: white;
+    font-family: var(--font-main);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  /* --- 1. BRAND LOGO & NAME (IMPROVED) --- */
+  /* --- 1. BRAND LOGO & NAME --- */
   .navbar-brand-custom {
     display: flex;
     align-items: center;
-    gap: 8px; /* Icon aur text ke beech ka gap */
+    gap: 8px;
+    text-decoration: none;
   }
   .brand-logo-img {
     height: 32px;
-    width: auto;
   }
   .brand-logo-text {
     color: var(--brand-red);
-    font-family: var(--font-main);
     font-weight: 700;
-    font-size: 35px;
-    letter-spacing: -0.6px; /* Professional touch ke liye */
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+  /* Hide text on very small screens if needed */
+  @media (max-width: 380px) {
+    .brand-logo-text {
+      display: none;
+    }
   }
 
-  /* --- 2. CENTER SEARCH BAR --- */
+  /* --- 2. CENTER SEARCH BAR (Desktop Only) --- */
   .center-search-bar {
     border: 1px solid var(--grey-border);
     border-radius: 40px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-    transition: box-shadow 0.25s ease; /* Smooth transition */
+    transition: box-shadow 0.2s ease;
   }
   .center-search-bar:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -57,7 +66,7 @@
     border-right: 1px solid var(--grey-border);
   }
   .search-bar-text:last-of-type { border-right: none; }
-  .search-icon {
+  .search-icon-desktop {
     background-color: var(--brand-red);
     color: white;
     width: 32px;
@@ -68,8 +77,15 @@
     justify-content: center;
     margin-left: 12px;
   }
+  
+  /* --- 3. RIGHT SIDE ITEMS --- */
+  .right-nav-items {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Gap between icons on mobile */
+  }
 
-  /* --- 3. RIGHT SIDE LINKS & PROFILE MENU --- */
+  /* "Join as Host" Link (Desktop Only) */
   .add-listing-link {
     font-size: 14px;
     font-weight: 600;
@@ -77,103 +93,97 @@
     padding: 12px 16px;
     border-radius: 22px;
     text-decoration: none;
-    transition: background-color 0.25s ease; /* Smooth transition */
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
   }
   .add-listing-link:hover {
     background-color: #f7f7f7;
   }
+
+  /* Search Icon (Mobile Only) */
+  .mobile-search-icon {
+    font-size: 18px;
+    color: var(--text-dark);
+    text-decoration: none;
+    padding: 8px;
+  }
+
+  /* --- 4. SHARED DROPDOWN & AVATAR --- */
   .dropdown-menu {
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
     padding: 8px 0;
-    min-width: 220px;
+    min-width: 240px;
     margin-top: 12px !important;
   }
   .dropdown-item { padding: 12px 16px; font-size: 14px; }
-  
-  /* --- 4. RESPONSIVE & MOBILE VIEW --- */
-  @media (max-width: 992px) {
-    .navbar-custom { padding: 0 1.5rem; }
-    .center-search-bar { display: none; } /* Hide full search bar on mobile */
-  }
+  .dropdown-divider { margin: 8px 0; }
 
-  /* --- NEW & IMPROVED CIRCULAR AVATAR (CSS CHANGES HERE) --- */
   .profile-avatar-circle {
-    width: 45px;  /* Thoda sa bada kiya */
-    height: 45px;
-    border-radius: 50%;
-    background-color: #e75840; /* White background for clean look */
-    color: #ffffff; /* Softer grey for icon */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px; /* Icon thoda bada */
-    cursor: pointer;
-    border: 1px solid #dddddd;
-    transition: all 0.2s ease; /* Sabhi properties par smooth transition */
+    width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: 1px solid var(--grey-border); transition: all 0.2s ease; flex-shrink: 0;
   }
-
-  .profile-avatar-circle:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    transform: scale(1.05); /* Halk sa zoom effect */
-  }
-
-  /* Attractive gradient for logged-in users */
   .profile-avatar-circle.logged-in {
-    background: linear-gradient(45deg, #E61E4D, #FF385C); /* Brand color gradient */
-    color: white;
-    font-weight: 600;
-    font-size: 20px; /* Initial ke liye size adjust kiya */
-    border: 1px solid rgba(0,0,0,0.1);
+    background: linear-gradient(45deg, #E61E4D, #FF385C); color: white; font-weight: 600; font-size: 20px; border: none;
+  }
+
+  /* --- 5. RESPONSIVE LAYOUT SWITCH --- */
+  @media (min-width: 992px) {
+    .navbar-custom {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      padding: 0 2.5rem;
+    }
+    .navbar-brand-custom { justify-self: start; }
+    .right-nav-items { justify-self: end; }
   }
 </style>
 
-<nav class="navbar navbar-expand-md sticky-top navbar-custom">
-  <div class="container-fluid">
+<nav class="navbar sticky-top navbar-custom">
+  <a class="navbar-brand-custom" href="/">
+    <img src="/images/airbnb.png" alt="Airbnb Logo" class="brand-logo-img">
+    <span class="brand-logo-text">airbnb</span>
+  </a>
 
-    <a class="navbar-brand navbar-brand-custom" href="/">
-      <img src="/images/airbnb.png" alt="Airbnb Logo" class="brand-logo-img">
-      <span class="brand-logo-text">airbnb</span>
+  <div class="center-search-bar d-none d-lg-flex mx-auto">
+    <a href="/listings" class="search-link">
+      <div class="search-bar-text">Stays</div>
+      <div class="search-bar-text">Experiences</div>
+      <div class="search-bar-text text-secondary">Online Experiences</div>
+      <div class="search-icon-desktop"><i class="bi bi-search"></i></div>
+    </a>
+  </div>
+  
+  <div class="right-nav-items">
+    <a class="add-listing-link d-none d-lg-block" href="/listings/new">Join as a Host</a>
+
+    <a href="/listings" class="mobile-search-icon d-lg-none">
+      <i class="bi bi-search"></i>
     </a>
 
-    <div class="d-none d-lg-block mx-auto">
-      <div class="center-search-bar">
-        <a href="/listings" class="search-link">
-          <div class="search-bar-text">Stays</div>
-          <div class="search-bar-text">Experiences</div>
-          <div class="search-bar-text text-secondary">Online Experiences</div>
-          <div class="search-icon">
-            <i class="bi bi-search"></i>
-          </div>
-        </a>
-      </div>
-    </div>
-    
-    <div class="d-flex align-items: center">
-      <a class="add-listing-link d-none d-md-block" href="/listings/new">Join as a Host</a>
-
-      <div class="dropdown ms-3">
+    <div class="dropdown">
+      <% if(!currUser){ %>
+        <div class="profile-avatar-circle" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-fill"></i>
+        </div>
+      <% } else { %>
+        <div class="profile-avatar-circle logged-in" data-bs-toggle="dropdown" aria-expanded="false">
+          <%= currUser.username.charAt(0).toUpperCase() %>
+        </div>
+      <% } %>
+      
+      <ul class="dropdown-menu dropdown-menu-end">
         <% if(!currUser){ %>
-          <div class="profile-avatar-circle" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-fill"></i>
-          </div>
-        <% } else { %>
-          <div class="profile-avatar-circle logged-in" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= currUser.username.charAt(0).toUpperCase() %>
-          </div>
+          <li><a class="dropdown-item fw-bold" href="/signup">Sign Up</a></li>
+          <li><a class="dropdown-item" href="/login">Log In</a></li>
         <% } %>
-        
-        <ul class="dropdown-menu dropdown-menu-end">
-          <% if(!currUser){ %>
-            <li><a class="dropdown-item fw-bold" href="/signup">Sign Up</a></li>
-            <li><a class="dropdown-item" href="/login">Log In</a></li>
-          <% } else { %>
-            <li><a class="dropdown-item" href="/logout">Log Out</a></li>
-          <% } %>
-        </ul>
-      </div>
-
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="/listings/new">Join as a Host</a></li>
+        <li><a class="dropdown-item" href="#">Help Center</a></li>
+        <% if (currUser) { %>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+        <% } %>
+      </ul>
     </div>
-    
   </div>
 </nav>

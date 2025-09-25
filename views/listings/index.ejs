@@ -19,11 +19,11 @@
     display: flex;
     gap: 2.8rem;
     overflow-x: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
   .categories::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome, Safari, and Opera */
   }
   .category {
     display: flex;
@@ -125,6 +125,48 @@
     font-weight: 500;
     margin-top: -2px;
   }
+
+  /* --- RESPONSIVE STYLES --- */
+
+  /* For Tablets */
+  @media (max-width: 992px) {
+    .filter-bar-container {
+      padding: 0 1.5rem;
+    }
+    .categories {
+      gap: 2rem;
+    }
+  }
+
+  /* For Mobile devices */
+  @media (max-width: 768px) {
+    .filter-bar-container {
+      padding: 0 1rem;
+    }
+    .filter-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .categories {
+      width: 100%;
+      gap: 1.8rem;
+    }
+    .filter-controls {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 0;
+    }
+    .tax-toggle {
+      width: 100%;
+      max-width: 400px; /* Prevents it from looking too wide on larger mobile screens */
+      justify-content: space-between;
+    }
+    .tax-label {
+      font-size: 0.8rem;
+    }
+  }
+
 </style>
 
 <div class="filter-bar-container">
@@ -159,6 +201,7 @@
         <i class="fa-solid fa-tractor"></i><span>Farms</span>
       </a>
     </div>
+
     <div class="filter-controls">
       <div class="tax-toggle">
         <span class="tax-label">Display total before taxes</span>
@@ -172,7 +215,7 @@
 
 <div class="container-fluid mt-4 px-3">
   <div class="row g-3">
-  
+ 
     <% datas.forEach((data) => { %>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center">
         <div class="card h-100 border-0 rounded-4 overflow-hidden position-relative card-hover" style="width: 370px;">
