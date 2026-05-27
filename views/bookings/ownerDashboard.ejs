@@ -1,0 +1,74 @@
+<% layout("/layouts/boiler_plate.ejs") %>
+<style>
+    .host-metric { border-radius: 16px; position: relative; overflow: hidden; transition: transform 0.2s; }
+    .host-metric:hover { transform: translateY(-3px); }
+</style>
+<div class="container mt-5 mb-5">
+    <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap">
+        <div>
+            <h2 class="fw-bold"><i class="bi bi-graph-up-arrow text-danger me-2"></i>Host Command Analytics Center</h2>
+            <p class="text-muted mb-0">Real-time occupancy evaluation, revenue optimization engines, and asset status updates.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div class="card host-metric border-0 shadow-sm p-4 bg-dark text-white shadow">
+                <span class="text-white-50 text-uppercase small fw-bold"><i class="bi bi-cash-coin me-2"></i>Gross Capital Revenue</span>
+                <h2 class="display-6 fw-bold mt-2 mb-0 text-success">&#8377;<%= metrics.totalRevenue.toLocaleString("en-IN") %></h2>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card host-metric border-0 shadow-sm p-4 bg-white text-dark border">
+                <span class="text-muted text-uppercase small fw-bold"><i class="bi bi-building me-2"></i>Listed Accommodations</span>
+                <h2 class="display-6 fw-bold mt-2 mb-0"><%= myListings.length %> <span class="fs-5 text-muted">Properties</span></h2>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card host-metric border-0 shadow-sm p-4 bg-white text-dark border">
+                <span class="text-muted text-uppercase small fw-bold"><i class="bi bi-calendar-check me-2"></i>Reservations Received</span>
+                <h2 class="display-6 fw-bold mt-2 mb-0"><%= metrics.totalBookings %> <span class="badge bg-danger fs-6 ms-2 font-monospace" style="vertical-align: middle;"><%= metrics.activeReservations %> Live</span></h2>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="fw-bold mb-3">Active Customer Reservations Logs</h3>
+    <% if(incomingBookings.length === 0) { %>
+        <div class="alert alert-light text-center border p-5 rounded-4 bg-white shadow-sm">
+            <i class="bi bi-folder-x display-4 text-muted mb-3"></i>
+            <h5 class="text-muted">No reservations booked under your property index yet.</h5>
+        </div>
+    <% } else { %>
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white border">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-nowrap">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="ps-4">Targeted Asset Property</th>
+                            <th>Guest Designation</th>
+                            <th>Check-in Schedule</th>
+                            <th>Check-out Schedule</th>
+                            <th>Net Payment Flow</th>
+                            <th class="pe-4">Transactional ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let r of incomingBookings) { %>
+                            <tr>
+                                <td class="ps-4"><strong><%= r.listing ? r.listing.title : "Index Deleted" %></strong></td>
+                                <td>
+                                    <div class="fw-bold">@<%= r.user ? r.user.username : "N/A" %></div>
+                                    <div class="small text-muted font-monospace"><%= r.user ? r.user.email : "N/A" %></div>
+                                </td>
+                                <td><%= new Date(r.checkInDate).toLocaleDateString("en-IN") %></td>
+                                <td><%= new Date(r.checkOutDate).toLocaleDateString("en-IN") %></td>
+                                <td class="text-success fw-bold">&#8377;<%= r.totalPrice.toLocaleString("en-IN") %></td>
+                                <td class="pe-4 font-monospace text-muted small"><%= r.razorpayPaymentId %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% } %>
+</div>

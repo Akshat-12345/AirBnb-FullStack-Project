@@ -11,7 +11,7 @@
   .navbar-custom {
     height: 90px;
     border-bottom: 1px solid #ebebeb;
-    padding: 0 1.5rem; /* Default padding for mobile */
+    padding: 0 1.5rem; 
     background-color: white;
     font-family: var(--font-main);
     display: flex;
@@ -35,7 +35,7 @@
     font-size: 28px;
     letter-spacing: -0.6px;
   }
-  /* Hide text on very small screens if needed */
+  
   @media (max-width: 380px) {
     .brand-logo-text {
       display: none;
@@ -82,10 +82,9 @@
   .right-nav-items {
     display: flex;
     align-items: center;
-    gap: 12px; /* Gap between icons on mobile */
+    gap: 12px; 
   }
 
-  /* "Join as Host" Link (Desktop Only) */
   .add-listing-link {
     font-size: 14px;
     font-weight: 600;
@@ -100,7 +99,6 @@
     background-color: #f7f7f7;
   }
 
-  /* Search Icon (Mobile Only) */
   .mobile-search-icon {
     font-size: 18px;
     color: var(--text-dark);
@@ -115,8 +113,17 @@
     padding: 8px 0;
     min-width: 240px;
     margin-top: 12px !important;
+    border: none;
   }
-  .dropdown-item { padding: 12px 16px; font-size: 14px; }
+  .dropdown-item { 
+    padding: 12px 16px; 
+    font-size: 14px; 
+    color: var(--text-dark);
+    transition: background-color 0.2s;
+  }
+  .dropdown-item:hover {
+    background-color: #f7f7f7;
+  }
   .dropdown-divider { margin: 8px 0; }
 
   .profile-avatar-circle {
@@ -175,13 +182,20 @@
         <% if(!currUser){ %>
           <li><a class="dropdown-item fw-bold" href="/signup">Sign Up</a></li>
           <li><a class="dropdown-item" href="/login">Log In</a></li>
+        <% } else { %>
+          <li><div class="dropdown-item-text text-muted small fw-bold pb-1">Logged in as @<%= currUser.username %></div></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item fw-bold" href="/bookings/my-bookings"><i class="bi bi-suit-case-fill text-primary me-2"></i>My Bookings</a></li>
+          <li><a class="dropdown-item fw-bold" href="/bookings/owner-dashboard"><i class="bi bi-speedometer2 text-success me-2"></i>Host Dashboard</a></li>
         <% } %>
+        
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="/listings/new">Join as a Host</a></li>
         <li><a class="dropdown-item" href="#">Help Center</a></li>
+        
         <% if (currUser) { %>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+          <li><a class="dropdown-item text-danger fw-semibold" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
         <% } %>
       </ul>
     </div>

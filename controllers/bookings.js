@@ -107,3 +107,84 @@ module.exports.verifyPayment = async (req, res) => {
         res.status(500).json({ success: false, message: "Verification Error" });
     }
 };
+
+// === 3. ADVANCED USER BOOKINGS ENGINE ===
+module.exports.myBookings = async (req, res) => {
+    try {
+        if (!req.user) {
+            req.flash("error", "You must be logged in to view your dashboard!");
+            return res.redirect("/login");
+        }
+
+        const bookings = await Booking.find({ user: req.user._id, paymentStatus: "Paid" })
+            .populate("listing")
+            .sort({ createdAt: -1 });
+
+        let totalSpent = 0;
+        let totalNights = 0;
+        let upcomingTripsCount = 0;
+        const now = new Date();
+
+        bookings.forEach(b => {
+            totalSpent += b.totalPrice;
+            const d1 = new Date(b.checkInDate);
+            const d2 = new Date(b.checkOutDate);
+            const diffDays = Math.ceil((d2 - d1) / (1000 * 3600 * 24));
+            totalNights += diffDays > 0 ? diffDays : 1;
+            
+            if (d1 > now) {
+                upcomingTripsCount++;
+            }
+        });
+
+        res.render("bookings/myBookings.ejs", { 
+            bookings, 
+            metrics: { totalSpent, totalTrips: bookings.length, totalNights, upcomingTripsCount } 
+        });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Something went wrong while loading customer dashboard!");
+        res.redirect("/listings");
+    }
+};
+
+// === 4. ADVANCED OWNER ANALYTICS DASHBOARD ===
+module.exports.ownerDashboard = async (req, res) => {
+    try {
+        if (!req.user) {
+            req.flash("error", "You must be logged in to access the control panel!");
+            return res.redirect("/login");
+        }
+
+        const myListings = await Listing.find({ owner: req.user._id });
+        const listingIds = myListings.map(l => l._id);
+
+        const incomingBookings = await Booking.find({ listing: { $in: listingIds }, paymentStatus: "Paid" })
+            .populate("listing")
+            .populate("user", "username email")
+            .sort({ createdAt: -1 });
+
+        let totalRevenue = 0;
+        let activeReservations = 0;
+        const now = new Date();
+
+        incomingBookings.forEach(b => {
+            totalRevenue += b.totalPrice;
+            const checkIn = new Date(b.checkInDate);
+            const checkOut = new Date(b.checkOutDate);
+            if (now >= checkIn && now <= checkOut) {
+                activeReservations++;
+            }
+        });
+
+        res.render("bookings/ownerDashboard.ejs", { 
+            myListings, 
+            incomingBookings,
+            metrics: { totalRevenue, totalBookings: incomingBookings.length, activeReservations }
+        });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Failed to compile host analytics reporting stack!");
+        res.redirect("/listings");
+    }
+};

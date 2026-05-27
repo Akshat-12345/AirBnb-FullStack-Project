@@ -503,8 +503,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         const verifyData = await verifyResponse.json();
 
                         if (verifyData.success) {
-                            // Perfect redirection triggered without blocking interface
-                            window.location.href = `/bookings/success?id=${dataRes.bookingId}`;
+                            // REDIRECT TO ADVANCED USER BOOKING DASHBOARD
+                            window.location.href = `/bookings/my-bookings`;
                         } else {
                             alert("Payment signature authentication failed at server!");
                         }
