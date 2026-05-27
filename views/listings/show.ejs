@@ -241,6 +241,24 @@ const reviewCount = data.reviews.length;
       <div class="booking-card">
         <p class="booking-price">₹ <%= data.price.toLocaleString("en-IN") %> <span>/ night</span></p>
         <hr class="my-3">
+        
+        <form id="booking-dates-form" novalidate class="needs-validation">
+          <div class="mb-3">
+            <label for="checkInDate" class="form-label small fw-bold text-secondary">Check-in Date</label>
+            <input type="date" id="checkInDate" class="form-control" style="min-height: auto; padding: 10px;" required>
+          </div>
+          <div class="mb-3">
+            <label for="checkOutDate" class="form-label small fw-bold text-secondary">Check-out Date</label>
+            <input type="date" id="checkOutDate" class="form-control" style="min-height: auto; padding: 10px;" required>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="isSplitBooking">
+            <label class="form-check-label small text-secondary" for="isSplitBooking">
+              Split Bill with Friends?
+            </label>
+          </div>
+        </form>
+
         <p class="text-secondary small">This is a rare find. Prices are competitive for these dates.</p>
         <button class="btn-reserve mt-3">Reserve</button>
       </div>
@@ -416,57 +434,104 @@ document.addEventListener('DOMContentLoaded', function() {
         reserveBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
-            // We use JSON.stringify to safely pass server data to JavaScript
+            // Check if dates are entered
+            const checkInInput = document.getElementById("checkInDate");
+            const checkOutInput = document.getElementById("checkOutDate");
+            
+            if (!checkInInput.value || !checkOutInput.value) {
+                alert("Please select both Check-in and Check-out dates before reserving!");
+                return;
+            }
+
+            const isSplitBooking = document.getElementById("isSplitBooking").checked;
             const listingId = <%- JSON.stringify(data._id) %>;
             const keyId = <%- JSON.stringify(razorpayKeyId) %>;
             const listingTitle = <%- JSON.stringify(data.title) %>;
             const userName = <%- JSON.stringify(currUser ? currUser.username : "") %>;
             const userEmail = <%- JSON.stringify(currUser ? currUser.email : "") %>;
 
-            // 1. Call your backend to create an order
-            const response = await fetch(`/listings/${listingId}/checkout`, {
-                method: 'POST',
-            });
-            
-            if (!response.ok) {
-                alert("Failed to create payment order. Please try again.");
-                return;
-            }
-
-            const order = await response.json();
-
-            // 2. Configure Razorpay options using the clean JavaScript variables
-            const options = {
-                "key": keyId,
-                "amount": order.amount,
-                "currency": order.currency,
-                "name": "Akshat's Airbnb",
-                "description": `Booking for ${listingTitle}`,
-                "image": "/images/logo.png",
-                "order_id": order.id,
-                "handler": function (response){
-                    alert("Payment successful! Thank you for booking.");
-                    // You can optionally redirect or update the UI here
-                    // window.location.href = '/my-bookings';
-                },
-                "prefill": {
-                    "name": userName,
-                    "email": userEmail,
-                },
-                "theme": {
-                    "color": "#ff385c"
+            try {
+                // 1. Call updated backend route to save booking draft and create razorpay order
+                const response = await fetch(`/listings/${listingId}/book`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        checkInDate: checkInInput.value,
+                        checkOutDate: checkOutInput.value,
+                        isSplitBooking: isSplitBooking
+                    })
+                });
+                
+                if (!response.ok) {
+                    alert("Failed to create payment order. Make sure you are logged in.");
+                    return;
                 }
-            };
 
-            // 3. Create a new Razorpay instance and open the checkout form
-            const rzp1 = new Razorpay(options);
+                const dataRes = await response.json();
+                
+                if(!dataRes.success) {
+                    alert("Booking Error: " + dataRes.message);
+                    return;
+                }
 
-            rzp1.on('payment.failed', function (response){
-                alert("Payment failed. Please try again or use a different payment method.");
-                console.error("Payment Failed:", response.error);
-            });
-            
-            rzp1.open();
+                // 2. Configure Razorpay options using server responses
+                const options = {
+                    "key": keyId,
+                    "amount": dataRes.rzpOrder.amount,
+                    "currency": dataRes.rzpOrder.currency,
+                    "name": "Akshat's Airbnb",
+                    "description": `Booking for ${listingTitle}`,
+                    "image": "/images/logo.png",
+                    "order_id": dataRes.rzpOrder.id,
+                    "handler": async function (rzpResponse){
+                        // 3. HIT VERIFICATION ENDPOINT TO FIX THE REDIRECTION TRACK AT FRONTEND
+                        const verifyResponse = await fetch('/bookings/verify-payment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                razorpay_order_id: rzpResponse.razorpay_order_id,
+                                razorpay_payment_id: rzpResponse.razorpay_payment_id,
+                                razorpay_signature: rzpResponse.razorpay_signature,
+                                bookingId: dataRes.bookingId
+                            })
+                        });
+
+                        const verifyData = await verifyResponse.json();
+
+                        if (verifyData.success) {
+                            // Perfect redirection triggered without blocking interface
+                            window.location.href = `/bookings/success?id=${dataRes.bookingId}`;
+                        } else {
+                            alert("Payment signature authentication failed at server!");
+                        }
+                    },
+                    "prefill": {
+                        "name": userName,
+                        "email": userEmail,
+                    },
+                    "theme": {
+                        "color": "#ff385c"
+                    }
+                };
+
+                // 4. Open Razorpay Interface Modal safely
+                const rzp1 = new Razorpay(options);
+
+                rzp1.on('payment.failed', function (failResponse){
+                    alert("Payment failed. Please try again or use a different payment method.");
+                    console.error("Payment Failure Meta Log:", failResponse.error);
+                });
+                
+                rzp1.open();
+
+            } catch (err) {
+                console.error("Critical error inside frontend pipeline context:", err);
+                alert("Something went wrong during execution process!");
+            }
         });
     }
 });

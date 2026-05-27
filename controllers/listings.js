@@ -34,10 +34,17 @@ module.exports.showListing = async(req,res)=>{
     
     let coordinates;
     try {
+        // const response = await axios.get(geocodingUrl, {
+        //     headers: {
+        //         'User-Agent': 'Wanderlust/1.0 (dev.wanderlust@example.com)' // This header is required by the API
+        //     }
+        // });
         const response = await axios.get(geocodingUrl, {
             headers: {
-                'User-Agent': 'Wanderlust/1.0 (dev.wanderlust@example.com)' // This header is required by the API
-            }
+                'User-Agent': 'AkshatTest/1.0',  // Jo abhi terminal mein success hua
+                'Accept': 'application/json'
+            },
+            timeout: 5000 // 5 seconds ka timeout taaki request latki na rahe
         });
 
         // Check if Nominatim found a location
