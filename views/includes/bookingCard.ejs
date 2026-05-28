@@ -1,0 +1,78 @@
+<div class="booking-card">
+  <p class="booking-price">₹ <%= data.price.toLocaleString("en-IN") %> <span>/ night</span></p>
+  <hr class="my-3">
+  
+  <form id="booking-dates-form" novalidate class="needs-validation">
+    <div class="mb-3">
+      <label for="checkInDate" class="form-label small fw-bold text-secondary">Check-in Date</label>
+      <input type="date" id="checkInDate" class="form-control" style="min-height: auto; padding: 10px;" required>
+    </div>
+    <div class="mb-3">
+      <label for="checkOutDate" class="form-label small fw-bold text-secondary">Check-out Date</label>
+      <input type="date" id="checkOutDate" class="form-control" style="min-height: auto; padding: 10px;" required>
+    </div>
+    
+    <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0 mb-3">
+      <label class="form-check-label small text-secondary fw-semibold" for="isSplitBooking">
+        <i class="bi bi-people-fill text-danger me-1"></i> Split Bill with Friends?
+      </label>
+      <input class="form-check-input text-danger" type="checkbox" id="isSplitBooking" style="cursor: pointer; margin-left: 0;">
+    </div>
+
+    <div id="splitEmailsContainer" class="mt-2 mb-3 p-3 rounded-3" style="display: none; background-color: #f7f7f7; border: 1px dashed #dddddd;">
+      <p class="text-muted mb-2 fw-bold" style="font-size: 10px; letter-spacing: 0.5px;">CO-TRAVELERS VERIFICATION MATRIX</p>
+      
+      <div id="emailInputsList">
+        <div class="input-group input-group-sm mb-2">
+          <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control border-start-0 shadow-none split-friend-email" placeholder="friend1@gmail.com" disabled>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-2">
+        <button type="button" id="addEmailBtn" class="btn btn-sm btn-outline-dark px-2 py-0" style="font-size: 11px;"><i class="bi bi-plus"></i> Add Friend</button>
+        <small class="text-secondary font-monospace" style="font-size: 10px;">Max 5 Friends</small>
+      </div>
+    </div>
+  </form>
+
+  <p class="text-secondary small">This is a rare find. Prices are competitive for these dates.</p>
+  <button class="btn-reserve mt-3">Reserve</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const splitSwitch = document.getElementById("isSplitBooking");
+    const emailsContainer = document.getElementById("splitEmailsContainer");
+    const emailInputsList = document.getElementById("emailInputsList");
+    const addEmailBtn = document.getElementById("addEmailBtn");
+
+    if(splitSwitch) {
+      splitSwitch.addEventListener("change", function() {
+        if (this.checked) {
+          emailsContainer.style.display = "block";
+          emailInputsList.querySelectorAll("input").forEach(input => input.disabled = false);
+        } else {
+          emailsContainer.style.display = "none";
+          emailInputsList.querySelectorAll("input").forEach(input => input.disabled = true);
+        }
+      });
+    }
+
+    if(addEmailBtn) {
+      addEmailBtn.addEventListener("click", () => {
+        const currentInputs = emailInputsList.querySelectorAll("input").length;
+        if (currentInputs >= 5) return alert("Maximum 5 friends allowed.");
+
+        const inputGroup = document.createElement("div");
+        inputGroup.className = "input-group input-group-sm mb-2";
+        inputGroup.innerHTML = `
+          <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control border-start-0 shadow-none split-friend-email" placeholder="friend@gmail.com" required>
+          <button type="button" class="btn btn-sm btn-outline-danger border-start-0" onclick="this.parentElement.remove()"><i class="bi bi-trash"></i></button>
+        `;
+        emailInputsList.appendChild(inputGroup);
+      });
+    }
+  });
+</script>

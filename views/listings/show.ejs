@@ -238,30 +238,9 @@ const reviewCount = data.reviews.length;
     </div>
 
     <div class="col-lg-5">
-      <div class="booking-card">
-        <p class="booking-price">₹ <%= data.price.toLocaleString("en-IN") %> <span>/ night</span></p>
-        <hr class="my-3">
-        
-        <form id="booking-dates-form" novalidate class="needs-validation">
-          <div class="mb-3">
-            <label for="checkInDate" class="form-label small fw-bold text-secondary">Check-in Date</label>
-            <input type="date" id="checkInDate" class="form-control" style="min-height: auto; padding: 10px;" required>
-          </div>
-          <div class="mb-3">
-            <label for="checkOutDate" class="form-label small fw-bold text-secondary">Check-out Date</label>
-            <input type="date" id="checkOutDate" class="form-control" style="min-height: auto; padding: 10px;" required>
-          </div>
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="isSplitBooking">
-            <label class="form-check-label small text-secondary" for="isSplitBooking">
-              Split Bill with Friends?
-            </label>
-          </div>
-        </form>
-
-        <p class="text-secondary small">This is a rare find. Prices are competitive for these dates.</p>
-        <button class="btn-reserve mt-3">Reserve</button>
-      </div>
+      <%- include("../includes/weather.ejs") %>
+      
+      <%- include("../includes/bookingCard.ejs") %>
     </div>
   </div>
 
@@ -326,7 +305,7 @@ const reviewCount = data.reviews.length;
             <div class="star-rating-form">
               <input type="radio" id="star5" name="review[rating]" value="5" required><label for="star5" title="5 stars">★</label>
               <input type="radio" id="star4" name="review[rating]" value="4"><label for="star4" title="4 stars">★</label>
-              <input type="radio" id="star3" name="review[rating]" value="3"><label for="star3" title="3 stars">★</label>
+              <input type="radio" id="star3" name="review[rating]" value="3"><label for="star3" title="4 stars">★</label>
               <input type="radio" id="star2" name="review[rating]" value="2"><label for="star2" title="2 stars">★</label>
               <input type="radio" id="star1" name="review[rating]" value="1"><label for="star1" title="1 star">★</label>
             </div>
@@ -360,7 +339,6 @@ const reviewCount = data.reviews.length;
       const coordinates = JSON.parse(coordinatesString);
       const listingTitle = "<%= data.title %>";
       
-      // Create custom marker icon
       const homeIcon = L.divIcon({
         html: '<i class="bi bi-house-heart-fill"></i>',
         className: 'custom-map-marker',
@@ -369,15 +347,12 @@ const reviewCount = data.reviews.length;
         popupAnchor: [0, -42]
       });
       
-      // Initialize map
       const map = L.map('map', { scrollWheelZoom: false }).setView(coordinates, 13);
       
-      // Add tile layer
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       }).addTo(map);
       
-      // Add marker
       L.marker(coordinates, { icon: homeIcon })
         .addTo(map)
         .bindPopup(`<b style="font-size: 1rem;">${listingTitle}</b><br><%= data.location %>`)
@@ -389,7 +364,6 @@ const reviewCount = data.reviews.length;
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Review comment expand/collapse functionality
     const reviewComments = document.querySelectorAll('.review-comment');
     reviewComments.forEach(comment => {
         if(comment.scrollHeight > comment.clientHeight){
@@ -403,14 +377,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Star rating form enhancement
     const starLabels = document.querySelectorAll('.star-rating-form label');
     starLabels.forEach(label => {
         label.addEventListener('click', function() {
             const inputId = this.getAttribute('for');
             const input = document.getElementById(inputId);
             if (input) {
-                // Update all stars to reflect selection
                 starLabels.forEach(l => {
                     const lInputId = l.getAttribute('for');
                     const lInput = document.getElementById(lInputId);
@@ -434,7 +406,6 @@ document.addEventListener('DOMContentLoaded', function() {
         reserveBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
-            // Check if dates are entered
             const checkInInput = document.getElementById("checkInDate");
             const checkOutInput = document.getElementById("checkOutDate");
             
@@ -444,6 +415,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const isSplitBooking = document.getElementById("isSplitBooking").checked;
+            
+            // Loop array to parse all custom dynamically added email inputs on desktop screen
+            const emailNodes = document.querySelectorAll(".split-friend-email");
+            const splitEmails = [];
+            emailNodes.forEach(node => {
+                if(!node.disabled && node.value.trim() !== "") {
+                    splitEmails.push(node.value.trim());
+                }
+            });
+
             const listingId = <%- JSON.stringify(data._id) %>;
             const keyId = <%- JSON.stringify(razorpayKeyId) %>;
             const listingTitle = <%- JSON.stringify(data.title) %>;
@@ -451,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const userEmail = <%- JSON.stringify(currUser ? currUser.email : "") %>;
 
             try {
-                // 1. Call updated backend route to save booking draft and create razorpay order
+                // 1. Send checkout transaction streams array structure to listing router
                 const response = await fetch(`/listings/${listingId}/book`, {
                     method: 'POST',
                     headers: {
@@ -460,7 +441,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify({
                         checkInDate: checkInInput.value,
                         checkOutDate: checkOutInput.value,
-                        isSplitBooking: isSplitBooking
+                        isSplitBooking: isSplitBooking,
+                        splitEmails: splitEmails // Array securely injected to backend pipeline
                     })
                 });
                 
@@ -486,7 +468,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     "image": "/images/logo.png",
                     "order_id": dataRes.rzpOrder.id,
                     "handler": async function (rzpResponse){
-                        // 3. HIT VERIFICATION ENDPOINT TO FIX THE REDIRECTION TRACK AT FRONTEND
                         const verifyResponse = await fetch('/bookings/verify-payment', {
                             method: 'POST',
                             headers: {
@@ -503,7 +484,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         const verifyData = await verifyResponse.json();
 
                         if (verifyData.success) {
-                            // REDIRECT TO ADVANCED USER BOOKING DASHBOARD
                             window.location.href = `/bookings/my-bookings`;
                         } else {
                             alert("Payment signature authentication failed at server!");
@@ -518,14 +498,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 };
 
-                // 4. Open Razorpay Interface Modal safely
                 const rzp1 = new Razorpay(options);
-
                 rzp1.on('payment.failed', function (failResponse){
-                    alert("Payment failed. Please try again or use a different payment method.");
-                    console.error("Payment Failure Meta Log:", failResponse.error);
+                    alert("Payment failed. Please try again.");
                 });
-                
                 rzp1.open();
 
             } catch (err) {

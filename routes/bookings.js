@@ -3,11 +3,18 @@ const router = express.Router({ mergeParams: true });
 const bookingController = require("../controllers/bookings");
 const { isLoggedIn } = require("../middleware"); 
 
-// Route: Initiate Booking
+// Route: Initiate Booking (Main Booker)
 router.post("/listings/:id/book", isLoggedIn, bookingController.initiateBooking);
 
-// Route: Verify Payment
+// Route: Verify Payment (Main Booker)
 router.post("/bookings/verify-payment", isLoggedIn, bookingController.verifyPayment);
+
+// === NEW FEATURE: INDIVIDUAL CO-TRAVELER SHARE SETTLEMENTS ===
+// Route: Initiate Share Payment for a specific friend node from Dashboard
+router.post("/bookings/initiate-share-payment", isLoggedIn, bookingController.initiateSharePayment);
+
+// Route: Verify Share Payment for friends or sick-friend bypass authorization
+router.post("/bookings/verify-share-payment", isLoggedIn, bookingController.verifySharePayment);
 
 // === ADVANCED DASHBOARD ROUTES ===
 // Route: User Travel Matrix Dashboard

@@ -34,11 +34,6 @@ module.exports.showListing = async(req,res)=>{
     
     let coordinates;
     try {
-        // const response = await axios.get(geocodingUrl, {
-        //     headers: {
-        //         'User-Agent': 'Wanderlust/1.0 (dev.wanderlust@example.com)' // This header is required by the API
-        //     }
-        // });
         const response = await axios.get(geocodingUrl, {
             headers: {
                 'User-Agent': 'AkshatTest/1.0',  // Jo abhi terminal mein success hua
@@ -62,7 +57,45 @@ module.exports.showListing = async(req,res)=>{
     }
     // --- FORWARD GEOCODING END ---
 
-    res.render("listings/show.ejs", { data, coordinates });
+    // === ADVANCED 5-DAY WEATHER FORECAST PIPELINE ===
+    let forecastArray = null;
+    try {
+        const apiKey = process.env.WEATHER_API_KEY;
+        if (apiKey) {
+            // Location text ko clean karke pehla word nikalna (e.g., "Leh, Ladakh" -> "Leh")
+            const cleanCity = data.location.split(',')[0].trim();
+            
+            // Forecast Endpoint Call (Free Tier - 5 Days / 3 Hours data slots)
+            const forecastResponse = await axios.get(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(cleanCity)}&units=metric&appid=${apiKey}`
+            );
+            
+            if (forecastResponse.data && forecastResponse.data.list) {
+                forecastArray = [];
+                // Har 24 ghante ke baad ka forecast filter karne ke liye (8 slots * 3 hours = 24 hours)
+                for (let i = 0; i < forecastResponse.data.list.length; i += 8) {
+                    const dayData = forecastResponse.data.list[i];
+                    const dateObj = new Date(dayData.dt_txt);
+                    
+                    forecastArray.push({
+                        dayName: dateObj.toLocaleDateString("en-US", { weekday: 'short' }),
+                        dateStr: dateObj.toLocaleDateString("en-US", { month: 'short', day: 'numeric' }),
+                        temp: Math.round(dayData.main.temp),
+                        humidity: dayData.main.humidity,
+                        description: dayData.weather[0].description,
+                        icon: dayData.weather[0].icon
+                    });
+                }
+            }
+        }
+    } catch (weatherErr) {
+        // Safe Catch: API pipeline block hone par code crash nahi hoga
+        console.error("Weather forecast pipeline bypassed:", weatherErr.message);
+    }
+    // === WEATHER INTEGRATION END ===
+
+    // Weather data pass ho raha hai weatherForecast array ke roop me
+    res.render("listings/show.ejs", { data, coordinates, weatherForecast: forecastArray });
 };
 
 module.exports.createListing = async(req,res,next)=>{

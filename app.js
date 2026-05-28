@@ -1,5 +1,5 @@
-if(process.env.NODE_ENV != "production"){
-   require('dotenv').config();
+if (process.env.NODE_ENV != "production") {
+    require('dotenv').config();
 }
 console.log(process.env.SECRET)
 
@@ -11,13 +11,15 @@ const methodOverride = require("method-override");
 const Listing = require('./models/listing.js');
 const app = express();
 const ejsMate = require('ejs-mate');
-// const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
-// const { listingSchema, reviewSchema } = require('./schema.js');
-// const Review = require('./models/review.js');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
+
+// === AUTOMATION CHROMIUM ENGINES ===
+// This activates your 24-hour expiration matrix right on system boot
+require("./controllers/bookingCron"); 
+
 //routes
 const listings = require('./routes/listing.js');
 const bookingRouter = require("./routes/bookings");
@@ -25,13 +27,16 @@ const reviews = require('./routes/review.js');
 const userRouter = require('./routes/user.js');
 const { date } = require('joi');
 let port = 3000;
+
 //authentication
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user.js');
+
 // Add this at the top of app.js with other require statements
 const Razorpay = require('razorpay');
 const dbUrl = process.env.ATLAS_DB;
+
 main()
    .then(()=>{
     console.log("Connected To Database");
@@ -105,8 +110,6 @@ app.get("/",(req,res)=>{
     res.send("Root is Working");
 })
 
-// ... your other app setup code ...
-
 // Initialize Razorpay client
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -163,7 +166,6 @@ app.use((err, req, res, next) => {
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}...`);
 })
-
 
 
 //cd "C:\Users\aksha\OneDrive\Desktop\AKSHAT ENTIRE WORK\SIGMA_8.0\Air_Bnb_Project"

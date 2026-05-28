@@ -1,11 +1,47 @@
 <% layout("/layouts/boiler_plate.ejs") %>
+
 <style>
   .metric-card { transition: transform 0.2s; border-radius: 16px; }
   .metric-card:hover { transform: translateY(-4px); }
   .premium-badge { background: linear-gradient(135deg, #ff385c 0%, #bd1e59 100%); color: #fff; border: none; }
   .card-img-gradient { position: relative; }
   .card-img-gradient::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); }
+
+  /* === SPLIT LEDGER CONTROL CENTER DESIGN === */
+  .split-ledger-box {
+    background-color: #f9f9f9;
+    border: 1px dashed #dddddd;
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .participant-node {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .participant-node:last-child {
+    border-bottom: none;
+  }
+  .badge-settled {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+  .badge-waiting {
+    background-color: #fff3cd;
+    color: #664d03;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
 </style>
+
 <div class="container mt-5 mb-5">
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
     <div>
@@ -58,24 +94,65 @@
               <div class="card-img-gradient">
                 <img src="<%= booking.listing.image.url %>" class="card-img-top" alt="property" style="height: 220px; object-fit: cover;">
               </div>
-              <div class="card-body p-4">
-                <h5 class="fw-bold text-truncate mb-2"><%= booking.listing.title %></h5>
-                <p class="text-muted mb-3 small"><i class="bi bi-geo-alt-fill me-2 text-danger"></i><%= booking.listing.location %>, <%= booking.listing.country %></p>
-                
-                <div class="bg-light p-3 rounded-3 mb-3">
-                  <div class="d-flex justify-content-between mb-1 small text-muted">
-                    <span>Check-in:</span>
-                    <span class="text-dark fw-bold"><%= new Date(booking.checkInDate).toLocaleDateString("en-US", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
+              <div class="card-body p-4 d-flex flex-column justify-content-between">
+                <div>
+                  <h5 class="fw-bold text-truncate mb-2"><%= booking.listing.title %></h5>
+                  <p class="text-muted mb-3 small"><i class="bi bi-geo-alt-fill me-2 text-danger"></i><%= booking.listing.location %>, <%= booking.listing.country %></p>
+                  
+                  <div class="bg-light p-3 rounded-3 mb-3">
+                    <div class="d-flex justify-content-between mb-1 small text-muted">
+                      <span>Check-in:</span>
+                      <span class="text-dark fw-bold"><%= new Date(booking.checkInDate).toLocaleDateString("en-US", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
+                    </div>
+                    <div class="d-flex justify-content-between small text-muted">
+                      <span>Check-out:</span>
+                      <span class="text-dark fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-US", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
+                    </div>
                   </div>
-                  <div class="d-flex justify-content-between small text-muted">
-                    <span>Check-out:</span>
-                    <span class="text-dark fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-US", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
-                  </div>
+
+                  <% if(booking.isSplitBooking) { %>
+                    <div class="split-ledger-box mb-3">
+                      <p class="text-muted small fw-bold mb-2 font-monospace text-uppercase" style="font-size: 10px;"><i class="bi bi-people-fill text-danger me-1"></i> Co-Travelers Ledger</p>
+                      
+                      <div class="participant-node">
+                        <span class="small text-dark fw-semibold text-truncate" style="max-width: 150px;">
+                          <%= booking.user ? booking.user.username : "Host" %> (Host)
+                        </span>
+                        <span class="badge-settled">Paid</span>
+                      </div>
+
+                      <% for(let friend of booking.splitParticipants) { %>
+                        <div class="participant-node">
+                          <span class="small text-muted text-truncate" style="max-width: 140px;" title="<%= friend.email %>">
+                            <%= friend.email %>
+                          </span>
+                          <div class="d-flex align-items-center gap-1">
+                            <span class="small fw-bold text-dark me-1" style="font-size: 11px;">₹<%= friend.shareAmount %></span>
+                            <% if(friend.hasPaid) { %>
+                              <span class="badge-settled"><i class="bi bi-check"></i> Paid</span>
+                            <% } else { %>
+                              <span class="badge-waiting me-1">Pending</span>
+                              <button class="btn btn-sm btn-danger py-0 px-2 btn-clear-share" 
+                                      style="font-size: 9px; border-radius: 4px;"
+                                      data-booking-id="<%= booking._id %>"
+                                      data-friend-email="<%= friend.email %>">
+                                Pay
+                              </button>
+                            <% } %>
+                          </div>
+                        </div>
+                      <% } %>
+                    </div>
+                  <% } %>
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <span class="badge bg-light text-success border border-success px-3 py-2" style="border-radius: 12px;"><i class="bi bi-check-circle-fill me-1"></i><%= booking.paymentStatus %></span>
+
+                <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                  <span class="badge bg-light <%= booking.paymentStatus === 'Paid' ? 'text-success border-success' : 'text-warning border-warning' %> border px-3 py-2" style="border-radius: 12px;">
+                    <i class="bi <%= booking.paymentStatus === 'Paid' ? 'bi-check-circle-fill' : 'bi-clock-history' %> me-1"></i><%= booking.paymentStatus %>
+                  </span>
                   <h5 class="fw-bold text-danger mb-0">&#8377;<%= booking.totalPrice.toLocaleString("en-IN") %></h5>
                 </div>
+
               </div>
             </div>
           </div>
@@ -84,3 +161,74 @@
     </div>
   <% } %>
 </div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const clearShareBtns = document.querySelectorAll(".btn-clear-share");
+    
+    clearShareBtns.forEach(btn => {
+      btn.addEventListener("click", async function(e) {
+        e.preventDefault();
+        
+        const bookingId = this.dataset.bookingId;
+        const participantEmail = this.dataset.friendEmail;
+        
+        this.innerHTML = `<span class="spinner-border spinner-border-sm" style="width:10px; height:10px;"></span>`;
+        this.disabled = true;
+
+        // 1. Generate split order data stack via endpoint
+        const response = await fetch("/bookings/initiate-share-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bookingId, participantEmail })
+        });
+
+        const dataRes = await response.json();
+        if (!dataRes.success) {
+          alert("Error: " + dataRes.message);
+          window.location.reload();
+          return;
+        }
+
+        // 2. Map dynamic checkout window options configuration
+        const options = {
+          "key": dataRes.key_id,
+          "amount": dataRes.rzpOrder.amount,
+          "currency": dataRes.rzpOrder.currency,
+          "name": "Co-Traveler Settlement",
+          "description": `Clearing share segment for ${participantEmail}`,
+          "order_id": dataRes.rzpOrder.id,
+          "handler": async function (rzpResponse) {
+            const verifyRes = await fetch("/bookings/verify-share-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: rzpResponse.razorpay_order_id,
+                razorpay_payment_id: rzpResponse.razorpay_payment_id,
+                razorpay_signature: rzpResponse.razorpay_signature,
+                bookingId: bookingId
+              })
+            });
+
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              window.location.reload();
+            } else {
+              alert("Verification failed at transaction endpoint.");
+              window.location.reload();
+            }
+          },
+          "theme": { "color": "#ff385c" }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+        
+        // Reset states gracefully
+        this.innerHTML = "Pay";
+        this.disabled = false;
+      });
+    });
+  });
+</script>

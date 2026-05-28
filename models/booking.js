@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const bookingSchema = new Schema({
     listing: {
         type: Schema.Types.ObjectId,
-        ref: "Listing", // Jo tumhara existing property model hai
+        ref: "Listing", 
         required: true
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: "User", // Jo tumhara authentication/user model hai
+        ref: "User", 
         required: true
     },
     checkInDate: {
@@ -34,18 +34,38 @@ const bookingSchema = new Schema({
     },
     paymentStatus: {
         type: String,
-        enum: ["Pending", "Paid", "Failed", "Pending Split"],
+        enum: ["Pending", "Paid", "Failed", "Partially Paid", "Pending Split"],
         default: "Pending"
     },
-    // New Feature: Bill Splitting
+    // New Feature: Bill Splitting (Enhanced as per Akshat's System Design)
     isSplitBooking: { 
         type: Boolean, 
         default: false 
     },
     splitParticipants: [{
-        email: String,
-        shareAmount: Number,
-        hasPaid: { type: Boolean, default: false }
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: "User" // Validation matrix integration ke liye registered user linkage
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        shareAmount: {
+            type: Number,
+            required: true
+        },
+        hasPaid: { 
+            type: Boolean, 
+            default: false 
+        },
+        razorpayOrderId: {
+            type: String // Har bande ke dynamic checkout session tracking ke liye
+        },
+        paidBy: {
+            type: Schema.Types.ObjectId,
+            ref: "User" // System design twist: Agar dost bimar hai toh real-time me track hoga kisne backup kiya!
+        }
     }],
     // New Feature: Room Verification Video
     checkInVideo: {
@@ -57,5 +77,5 @@ const bookingSchema = new Schema({
         default: Date.now
     }
 });
-
+  
 module.exports = mongoose.model("Booking", bookingSchema);
