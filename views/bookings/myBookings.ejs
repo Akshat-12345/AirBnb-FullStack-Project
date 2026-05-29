@@ -144,9 +144,12 @@
                       <% } %>
                     </div>
                   <% } %>
+
+                  <%- include("includes/checkInForm.ejs", { booking: booking }) %>
+
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                   <span class="badge bg-light <%= booking.paymentStatus === 'Paid' ? 'text-success border-success' : 'text-warning border-warning' %> border px-3 py-2" style="border-radius: 12px;">
                     <i class="bi <%= booking.paymentStatus === 'Paid' ? 'bi-check-circle-fill' : 'bi-clock-history' %> me-1"></i><%= booking.paymentStatus %>
                   </span>
@@ -177,7 +180,6 @@
         this.innerHTML = `<span class="spinner-border spinner-border-sm" style="width:10px; height:10px;"></span>`;
         this.disabled = true;
 
-        // 1. Generate split order data stack via endpoint
         const response = await fetch("/bookings/initiate-share-payment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -191,7 +193,6 @@
           return;
         }
 
-        // 2. Map dynamic checkout window options configuration
         const options = {
           "key": dataRes.key_id,
           "amount": dataRes.rzpOrder.amount,
@@ -224,8 +225,7 @@
 
         const rzp = new Razorpay(options);
         rzp.open();
-        
-        // Reset states gracefully
+         
         this.innerHTML = "Pay";
         this.disabled = false;
       });

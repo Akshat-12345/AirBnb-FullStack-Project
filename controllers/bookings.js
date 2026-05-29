@@ -8,7 +8,7 @@ const Listing = require("../models/listing");
 const User = require("../models/user"); 
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer"); // Securely injected for Step 4
+const nodemailer = require("nodemailer");
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -183,7 +183,6 @@ module.exports.initiateSharePayment = async (req, res) => {
         const participant = booking.splitParticipants.find(p => p.email === participantEmail);
         if (!participant) return res.status(404).json({ success: false, message: "Participant scope matrix mismatch" });
 
-        // Generate Razorpay session for this specific fraction share
         const options = {
             amount: participant.shareAmount * 100,
             currency: "INR",
@@ -192,7 +191,6 @@ module.exports.initiateSharePayment = async (req, res) => {
 
         const rzpOrder = await razorpay.orders.create(options);
         
-        // Save the dynamic order ID to that friend's instance inside schema array array
         participant.razorpayOrderId = rzpOrder.id;
         await booking.save();
 
@@ -223,10 +221,9 @@ module.exports.verifySharePayment = async (req, res) => {
 
         if (participant) {
             participant.hasPaid = true;
-            participant.paidBy = req.user._id; // System Design Logic: Logs user context who actually cleared this bill!
+            participant.paidBy = req.user._id; 
         }
 
-        // Automatic Status Check Layer: If ALL tracking cells return true, flip overall state to "Paid"
         const allPaid = booking.splitParticipants.every(p => p.hasPaid === true);
         if (allPaid) {
             booking.paymentStatus = "Paid";
@@ -237,6 +234,78 @@ module.exports.verifySharePayment = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Internal server validation failure" });
+    }
+};
+
+// =========================================================================
+// 📸 NEW CORE FEATURE: SUBMIT CHECK-IN MULTI-MEDIA VERIFICATION
+// =========================================================================
+module.exports.submitCheckInVerification = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const booking = await Booking.findById(id);
+
+        if (!booking) {
+            req.flash("error", "Booking transaction record not found!");
+            return res.redirect("/bookings/my-bookings");
+        }
+
+        // Authorization Guard: Only the main booker can upload the validation matrix
+        if (!booking.user.equals(req.user._id)) {
+            req.flash("error", "Unauthorized: Only the primary traveler can commit check-in assets.");
+            return res.redirect("/bookings/my-bookings");
+        }
+
+        // Protection Guard: Enforce strict payment validation block
+        if (booking.paymentStatus !== "Paid") {
+            req.flash("error", "Access Denied: Verification locked until full split balances are completely settled!");
+            return res.redirect("/bookings/my-bookings");
+        }
+
+        // Date-Match Guard: Enforce that uploads happen exactly on the official Check-In date
+        const todayStr = new Date().toISOString().split("T")[0];
+        const checkInStr = new Date(booking.checkInDate).toISOString().split("T")[0];
+        
+        if (todayStr !== checkInStr) {
+            req.flash("error", `Access Denied: Check-in media portal opens strictly on your booking date (${checkInStr})!`);
+            return res.redirect("/bookings/my-bookings");
+        }
+
+        // File Validation: Ensure files were actually extracted by Multer
+        if (!req.files || !req.files["checkInPhotos"] || !req.files["checkInVideo"]) {
+            req.flash("error", "Validation Error: Please record and attach 2 Photos and 1 Video completely.");
+            return res.redirect("/bookings/my-bookings");
+        }
+
+        // Extracting Photos Data Matrix (Max 2)
+        const photoFiles = req.files["checkInPhotos"];
+        let structuredPhotos = photoFiles.map(file => ({
+            url: file.path,
+            filename: file.filename
+        }));
+
+        // Extracting Video Data Matrix (Max 1)
+        const videoFile = req.files["checkInVideo"][0];
+        let structuredVideo = {
+            url: videoFile.path,
+            filename: videoFile.filename
+        };
+
+        // Inject and commit assets cleanly to the schema layer tree
+        booking.checkInMedia = {
+            photos: structuredPhotos,
+            video: structuredVideo,
+            uploadedAt: new Date()
+        };
+
+        await booking.save();
+        req.flash("success", "🎉 Check-in verification assets secured successfully! Welcome to your stay.");
+        res.redirect("/bookings/my-bookings");
+
+    } catch (error) {
+        console.error("🚨 Critical failure in check-in verification parser:", error);
+        req.flash("error", "System Error occurred while processing video upload arrays.");
+        res.redirect("/bookings/my-bookings");
     }
 };
 
@@ -269,7 +338,6 @@ module.exports.myBookings = async (req, res) => {
                 if(b.user._id.equals(req.user._id)) {
                     totalSpent += b.totalPrice;
                 } else {
-                    // If split co-traveler logged in, only calculate their customized segment value load
                     const shareNode = b.splitParticipants.find(p => p.user.equals(req.user._id));
                     if(shareNode) totalSpent += shareNode.shareAmount;
                 }
@@ -337,5 +405,40 @@ module.exports.ownerDashboard = async (req, res) => {
         console.error(err);
         req.flash("error", "Failed to compile host analytics reporting stack!");
         res.redirect("/listings");
+    }
+};
+
+
+// =========================================================================
+// 🔒 HOST AUTHORIZATION: APPROVE OR REMOVE GUEST MEDIA FROM PUBLIC VIEW
+// =========================================================================
+module.exports.approveGuestMedia = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { approve } = req.body; // Expecting boolean true/false from frontend button trigger
+        
+        // Find booking and populate listing to verify owner context
+        const booking = await Booking.findById(id).populate("listing");
+
+        if (!booking) {
+            return res.status(404).json({ success: false, message: "Booking log matrix not found" });
+        }
+
+        // Authorization Guard: Strict check that only the listing owner can toggle approval state
+        if (!booking.listing.owner.equals(req.user._id)) {
+            return res.status(403).json({ success: false, message: "Unauthorized execution block." });
+        }
+
+        // Set flag according to host selection
+        booking.isApprovedByOwner = (approve === "true" || approve === true);
+        await booking.save();
+
+        req.flash("success", booking.isApprovedByOwner ? "📸 Media successfully pinned to your public property gallery!" : "🔒 Media removed from your public property gallery.");
+        res.redirect("/bookings/owner-dashboard");
+
+    } catch (error) {
+        console.error("🚨 Host media approval error:", error);
+        req.flash("error", "Internal network breakdown while updating host assets privileges.");
+        res.redirect("/bookings/owner-dashboard");
     }
 };

@@ -67,11 +67,60 @@ const bookingSchema = new Schema({
             ref: "User" // System design twist: Agar dost bimar hai toh real-time me track hoga kisne backup kiya!
         }
     }],
-    // New Feature: Room Verification Video
-    checkInVideo: {
-        url: String,
-        filename: String
+
+    // =========================================================================
+    // 📸 NEW CORE INTEGRATION: CHECK-IN VERIFICATION & GUEST GALLERY MATRIX
+    // =========================================================================
+    checkInMedia: {
+        photos: [
+            {
+                url: String,
+                filename: String
+            }
+        ], // Max 2 snapshots allocation bounds
+        video: {
+            url: String,
+            filename: String
+        }, // Max 1 dynamic MP4/MOV stream
+        uploadedAt: {
+            type: Date
+        }
     },
+    isApprovedByOwner: {
+        type: Boolean,
+        default: false // Host jab tak dashboard se clear toggle 'true' nahi karega, public show.ejs par lock rahega
+    },
+
+    // =========================================================================
+    // 📄 FUTURE MODULE PREPARATION: CHECK-OUT INTEGRITY VALIDATION MATRIX
+    // =========================================================================
+    checkOutMedia: {
+        photos: [
+            {
+                url: String,
+                filename: String
+            }
+        ], // Max 2 damage validation snapshots
+        video: {
+            url: String,
+            filename: String
+        }, // Max 1 final safety clip
+        uploadedAt: {
+            type: Date
+        }
+    },
+
+    // =========================================================================
+    // 🛡️ FUTURE MODULE PREPARATION: DAMAGE CLAIMS & FINANCIAL DISPUTE MANAGEMENT
+    // =========================================================================
+    dispute: {
+        isDamaged: { type: Boolean, default: false },
+        fineAmount: { type: Number, default: 0 },
+        fineReason: { type: String },
+        isFinePaid: { type: Boolean, default: false },
+        fineRazorpayOrderId: { type: String }
+    },
+
     createdAt: {
         type: Date,
         default: Date.now

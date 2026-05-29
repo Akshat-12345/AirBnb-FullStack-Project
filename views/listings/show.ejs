@@ -244,6 +244,9 @@ const reviewCount = data.reviews.length;
     </div>
   </div>
 
+ <!-- === ARCHITECTURE REFACTOR: SAFE FALLBACK GUARD FOR GUEST GALLERY === -->
+ <%- include("includes/guestGallery.ejs", { approvedMedia: (typeof approvedMedia !== 'undefined' ? approvedMedia : []) }) %>
+
   <div class="reviews-section" id="reviews">
     <h3 class="reviews-header">
       <% if (reviewCount > 0) { %>
@@ -416,7 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const isSplitBooking = document.getElementById("isSplitBooking").checked;
             
-            // Loop array to parse all custom dynamically added email inputs on desktop screen
             const emailNodes = document.querySelectorAll(".split-friend-email");
             const splitEmails = [];
             emailNodes.forEach(node => {
@@ -432,7 +434,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const userEmail = <%- JSON.stringify(currUser ? currUser.email : "") %>;
 
             try {
-                // 1. Send checkout transaction streams array structure to listing router
                 const response = await fetch(`/listings/${listingId}/book`, {
                     method: 'POST',
                     headers: {
@@ -442,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         checkInDate: checkInInput.value,
                         checkOutDate: checkOutInput.value,
                         isSplitBooking: isSplitBooking,
-                        splitEmails: splitEmails // Array securely injected to backend pipeline
+                        splitEmails: splitEmails
                     })
                 });
                 
@@ -458,7 +459,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // 2. Configure Razorpay options using server responses
                 const options = {
                     "key": keyId,
                     "amount": dataRes.rzpOrder.amount,

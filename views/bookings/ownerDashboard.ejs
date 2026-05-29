@@ -6,7 +6,12 @@
     /* Elegant Custom Badges for Split Flows */
     .badge-split-partial { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; }
     .badge-split-full { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
+
+    /* Verification Sub-Panel Elements */
+    .verification-media-container { background-color: #f8f9fa; border-left: 4px solid #ff385c; border-radius: 0 12px 12px 0; }
+    .preview-img, .preview-video { border-radius: 8px; object-fit: cover; border: 1px solid #dee2e6; background-color: #000; }
 </style>
+
 <div class="container mt-5 mb-5">
     <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap">
         <div>
@@ -15,7 +20,6 @@
         </div>
     </div>
 
-    <!-- === METRICS OVERVIEW PANELS === -->
     <div class="row mb-5">
         <div class="col-md-4 mb-3">
             <div class="card host-metric border-0 shadow-sm p-4 bg-dark text-white shadow">
@@ -61,7 +65,16 @@
                     <tbody>
                         <% for(let r of incomingBookings) { %>
                             <tr>
-                                <td class="ps-4"><strong><%= r.listing ? r.listing.title : "Index Deleted" %></strong></td>
+                                <td class="ps-4">
+                                    <strong><%= r.listing ? r.listing.title : "Index Deleted" %></strong>
+                                    <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
+                                        <div class="mt-1">
+                                            <button class="btn btn-sm p-0 text-danger fw-bold small text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#verifyPanel-<%= r._id %>" aria-expanded="false">
+                                                <i class="bi bi-camera-video-fill me-1"></i> Review Verification Media ⚡
+                                            </button>
+                                        </div>
+                                    <% } %>
+                                </td>
                                 <td>
                                     <div class="fw-bold">@<%= r.user ? r.user.username : "N/A" %></div>
                                     <div class="small text-muted font-monospace"><%= r.user ? r.user.email : "N/A" %></div>
@@ -69,7 +82,6 @@
                                 <td><%= new Date(r.checkInDate).toLocaleDateString("en-IN") %></td>
                                 <td><%= new Date(r.checkOutDate).toLocaleDateString("en-IN") %></td>
                                 
-                                <!-- === NEW: TRACKING STATUS MATRIX FOR HOST EXPERIENCE === -->
                                 <td>
                                     <% if(r.isSplitBooking) { %>
                                         <span class="badge <%= r.paymentStatus === 'Paid' ? 'badge-split-full' : 'badge-split-partial' %> px-2 py-1 rounded">
@@ -87,6 +99,54 @@
                                     <%= r.razorpayPaymentId ? r.razorpayPaymentId : "Split Ledger Open" %>
                                 </td>
                             </tr>
+
+                            <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
+                                <tr class="collapse" id="verifyPanel-<%= r._id %>">
+                                    <td colspan="7" class="p-0 border-0">
+                                        <div class="p-4 mx-4 mb-3 verification-media-container shadow-sm">
+                                            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3 border-bottom pb-2">
+                                                <div>
+                                                    <h6 class="fw-bold text-dark mb-1"><i class="bi bi-shield-lock-fill text-danger me-2"></i>Guest Room Authenticity Assets</h6>
+                                                    <p class="text-muted small mb-0">Uploaded At: <%= new Date(r.checkInMedia.uploadedAt).toLocaleString("en-IN") %></p>
+                                                </div>
+                                                
+                                                <form action="/bookings/<%= r._id %>/approve-media?_method=PATCH" method="POST" class="d-flex align-items-center gap-2">
+                                                    <% if(!r.isApprovedByOwner) { %>
+                                                        <input type="hidden" name="approve" value="true">
+                                                        <button type="submit" class="btn btn-sm btn-success px-3 rounded-pill fw-bold">
+                                                            <i class="bi bi-pin-angle-fill me-1"></i> Approve to Public Gallery
+                                                        </button>
+                                                    <% } else { %>
+                                                        <input type="hidden" name="approve" value="false">
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-bold">
+                                                            <i class="bi bi-trash3-fill me-1"></i> Remove from Public Gallery
+                                                        </button>
+                                                    <% } %>
+                                                </form>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-7 mb-3">
+                                                    <p class="small text-secondary fw-bold mb-2">📸 Verification Snapshots:</p>
+                                                    <div class="d-flex gap-2 flex-wrap">
+                                                        <% r.checkInMedia.photos.forEach((img, idx) => { %>
+                                                            <a href="<%= img.url %>" target="_blank" title="Click to enlarge">
+                                                                <img src="<%= img.url %>" class="preview-img" style="width: 160px; height: 110px;" alt="Check-in Photo <%= idx+1 %>">
+                                                            </a>
+                                                        <% }) %>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-5 mb-3">
+                                                    <p class="small text-secondary fw-bold mb-2">🎥 Recorded Structural Sequence:</p>
+                                                    <video src="<%= r.checkInMedia.video.url %>" class="preview-video w-100" style="max-height: 140px;" controls preload="metadata"></video>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } %>
+
                         <% } %>
                     </tbody>
                 </table>
