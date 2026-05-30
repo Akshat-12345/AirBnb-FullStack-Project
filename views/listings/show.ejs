@@ -239,12 +239,10 @@ const reviewCount = data.reviews.length;
 
     <div class="col-lg-5">
       <%- include("../includes/weather.ejs") %>
-      
       <%- include("../includes/bookingCard.ejs") %>
     </div>
   </div>
 
- <!-- === ARCHITECTURE REFACTOR: SAFE FALLBACK GUARD FOR GUEST GALLERY === -->
  <%- include("includes/guestGallery.ejs", { approvedMedia: (typeof approvedMedia !== 'undefined' ? approvedMedia : []) }) %>
 
   <div class="reviews-section" id="reviews">
@@ -468,6 +466,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "image": "/images/logo.png",
                     "order_id": dataRes.rzpOrder.id,
                     "handler": async function (rzpResponse){
+                        // 💥 DISPATCH SYNC MATRIX FIX:
+                        // Passes full required metadata body context because backend controller logic creates document inside verifyPayment
                         const verifyResponse = await fetch('/bookings/verify-payment', {
                             method: 'POST',
                             headers: {
@@ -477,7 +477,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 razorpay_order_id: rzpResponse.razorpay_order_id,
                                 razorpay_payment_id: rzpResponse.razorpay_payment_id,
                                 razorpay_signature: rzpResponse.razorpay_signature,
-                                bookingId: dataRes.bookingId
+                                
+                                // Payload components injected to satisfy schema validations explicitly
+                                listingId: dataRes.listingId,
+                                checkInDate: dataRes.checkInDate,
+                                checkOutDate: dataRes.checkOutDate,
+                                totalPrice: dataRes.totalPrice,
+                                isSplitBooking: dataRes.isSplitBooking,
+                                structuredParticipants: dataRes.structuredParticipants
                             })
                         });
 
@@ -500,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const rzp1 = new Razorpay(options);
                 rzp1.on('payment.failed', function (failResponse){
-                    alert("Payment failed. Please try again.");
+                    alert("Payment failed or cancelled. No entries generated inside dashboards.");
                 });
                 rzp1.open();
 

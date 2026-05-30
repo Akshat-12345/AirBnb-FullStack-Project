@@ -1,11 +1,15 @@
+// routes/bookings.js
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const bookingController = require("../controllers/bookings");
 const { isLoggedIn } = require("../middleware"); 
+
+// === TWIN INTEGRATED BIFURCATED CONTROLLER RE-ROUTES ===
+const bookingController = require("../controllers/bookings");
+const verificationController = require("../controllers/bookingVerification");
 
 // === MULTER & CLOUDINARY CONFIG INTERFACE ===
 const multer = require("multer");
-const { storage } = require("../cloudConfig"); // Kal jo humne upgrade kiya tha multi-format framework wala storage
+const { storage } = require("../cloudConfig"); 
 const upload = multer({ storage });
 
 // Route: Initiate Booking (Main Booker)
@@ -14,15 +18,13 @@ router.post("/listings/:id/book", isLoggedIn, bookingController.initiateBooking)
 // Route: Verify Payment (Main Booker)
 router.post("/bookings/verify-payment", isLoggedIn, bookingController.verifyPayment);
 
-// === NEW FEATURE: INDIVIDUAL CO-TRAVELER SHARE SETTLEMENTS ===
+// === INDIVIDUAL CO-TRAVELER SHARE SETTLEMENTS ===
 router.post("/bookings/initiate-share-payment", isLoggedIn, bookingController.initiateSharePayment);
 router.post("/bookings/verify-share-payment", isLoggedIn, bookingController.verifySharePayment);
 
-
 // =========================================================================
-// 📸 CORE MATRIX UPDATE: CHECK-IN VERIFICATION ENGINE ROUTE
+// 📸 CHECK-IN VERIFICATION ENGINE PIPELINE
 // =========================================================================
-// strictly parse: Max 2 images from "checkInPhotos" and Max 1 video from "checkInVideo"
 router.post(
     "/bookings/:id/checkin-verify", 
     isLoggedIn, 
@@ -30,14 +32,12 @@ router.post(
         { name: "checkInPhotos", maxCount: 2 },
         { name: "checkInVideo", maxCount: 1 }
     ]), 
-    bookingController.submitCheckInVerification
+    verificationController.submitCheckInVerification // Routed securely to verificationController
 );
 
-
 // =========================================================================
-// 📸 NEW CORE FEATURE: CHECK-OUT VERIFICATION ENGINE ROUTE (PHASE 6)
+// 📸 CHECK-OUT VERIFICATION ENGINE PIPELINE (PHASE 6)
 // =========================================================================
-// strictly parse: Max 2 images from "checkOutPhotos" and Max 1 video from "checkOutVideo"
 router.post(
     "/bookings/:id/checkout-verify", 
     isLoggedIn, 
@@ -45,52 +45,42 @@ router.post(
         { name: "checkOutPhotos", maxCount: 2 },
         { name: "checkOutVideo", maxCount: 1 }
     ]), 
-    bookingController.submitCheckOutVerification
+    verificationController.submitCheckOutVerification // Routed securely to verificationController
 );
 
-
-// === ADVANCED DASHBOARD ROUTES ===
-// Route: Host Approves Guest Media to be displayed publicly on Listing Page
-router.patch("/bookings/:id/approve-media", isLoggedIn, bookingController.approveGuestMedia);
+// === ADVANCED DASHBOARD STREAMS ===
+router.patch("/bookings/:id/approve-media", isLoggedIn, verificationController.approveGuestMedia);
 router.get("/bookings/my-bookings", isLoggedIn, bookingController.myBookings);
 router.get("/bookings/owner-dashboard", isLoggedIn, bookingController.ownerDashboard);
 
-
 // =========================================================================
-// 🚨 NEW CORE FEATURE: HOST DAMAGE CLAIM & SINGLE BOOKER FINE ENGINE ROUTE (PHASE 8)
+// 🚨 HOST DAMAGE CLAIM & SINGLE BOOKER FINE ENGINE (PHASE 8)
 // =========================================================================
-// This accepts host damage calculations and updates the dispute schema branch
 router.post(
     "/bookings/:id/claim-fine", 
     isLoggedIn, 
-    bookingController.claimDamageFine
+    verificationController.claimDamageFine
 );
 
-// Route: Verify Fine Payment Signature Matrix 
 router.post(
     "/bookings/verify-fine-payment", 
     isLoggedIn, 
-    bookingController.verifyFinePayment
+    verificationController.verifyFinePayment
 );
 
-// Inside routes/booking.js (Insert right before module.exports = router;)
-
 // =========================================================================
-// 🔒 HOST CONTROL ENDPOINT: CLOSE STAY AS 'ALL CLEAN' (NO FINE REQUIRED)
+// 🔒 HOST CONTROL ENDPOINTS: SETTLE CLEAN VS CANCEL DISPUTE
 // =========================================================================
 router.post(
     "/bookings/:id/settle-clean", 
     isLoggedIn, 
-    bookingController.settleBookingClean
+    verificationController.settleBookingClean
 );
 
-// =========================================================================
-// 🔒 HOST CONTROL ENDPOINT: CANCEL / REVOKE ACTIVE UNPAID DISPUTE FINE
-// =========================================================================
 router.post(
     "/bookings/:id/cancel-fine", 
     isLoggedIn, 
-    bookingController.cancelDamageFine
+    verificationController.cancelDamageFine
 );
 
 module.exports = router;
