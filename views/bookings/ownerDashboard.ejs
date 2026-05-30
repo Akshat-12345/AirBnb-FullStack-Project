@@ -1,152 +1,328 @@
 <%= layout("/layouts/boiler_plate.ejs") %>
-<style>
-    .host-metric { border-radius: 16px; position: relative; overflow: hidden; transition: transform 0.2s; }
-    .host-metric:hover { transform: translateY(-3px); }
-    
-    /* Elegant Custom Badges for Split Flows */
-    .badge-split-partial { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; }
-    .badge-split-full { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
 
-    /* Verification Sub-Panel Elements */
-    .verification-media-container { background-color: #f8f9fa; border-left: 4px solid #ff385c; border-radius: 0 12px 12px 0; }
-    .preview-img, .preview-video { border-radius: 8px; object-fit: cover; border: 1px solid #dee2e6; background-color: #000; }
+<style>
+    .host-metric { border-radius: 20px; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border: none; }
+    .host-metric:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.08) !important; }
+    
+    /* Modern Dashboard Badges */
+    .badge-split-partial { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; font-size: 11px; font-weight: 600; }
+    .badge-split-full { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; font-size: 11px; font-weight: 600; }
+    .badge-phase { font-size: 11px; font-weight: bold; border-radius: 6px; padding: 4px 10px; font-family: monospace; }
+    .badge-archive-status { font-size: 10px; font-weight: bold; border-radius: 6px; padding: 4px 10px; font-family: monospace; letter-spacing: 0.5px; }
+
+    /* Media Inspection Grid Panels */
+    .inspection-panel { background-color: #fdfdfd; border-radius: 16px; border: 1px solid #eef0f2; }
+    .checkin-sidebar { border-left: 4px solid #ff385c; }
+    .checkout-sidebar { border-left: 4px solid #38a169; }
+    
+    .preview-media-node { border-radius: 12px; object-fit: cover; border: 1px solid #e2e8f0; transition: transform 0.2s; background: #000; }
+    .preview-media-node:hover { transform: scale(1.02); }
+
+    /* Dispute Options Layout Components */
+    .fine-assessment-box { background: #fff5f5; border: 1px dashed #feb2b2; border-radius: 14px; padding: 16px; }
+    .clean-closure-box { background: #f0fff4; border: 1px dashed #98fb98; border-radius: 14px; padding: 16px; }
+
+    /* Past Archive Row Card Styling */
+    .archive-history-row { opacity: 0.85; background-color: #fafafa; border-radius: 14px; transition: all 0.2s; }
+    .archive-history-row:hover { opacity: 1; background-color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
 </style>
 
 <div class="container mt-5 mb-5">
     <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap">
         <div>
-            <h2 class="fw-bold"><i class="bi bi-graph-up-arrow text-danger me-2"></i>Host Command Analytics Center</h2>
-            <p class="text-muted mb-0">Real-time occupancy evaluation, revenue optimization engines, and asset status updates.</p>
+            <h2 class="fw-bold tracking-tight text-dark"><i class="bi bi-shield-shaded text-danger me-2"></i>Host Command Analytics Center</h2>
+            <p class="text-muted mb-0">Real-time occupancy evaluation, asset validation streams, and dispute control hubs.</p>
         </div>
     </div>
 
     <div class="row mb-5">
         <div class="col-md-4 mb-3">
             <div class="card host-metric border-0 shadow-sm p-4 bg-dark text-white shadow">
-                <span class="text-white-50 text-uppercase small fw-bold"><i class="bi bi-cash-coin me-2"></i>Gross Capital Revenue</span>
+                <span class="text-white-50 text-uppercase small fw-bold font-monospace"><i class="bi bi-cash-coin me-2"></i>Gross Capital Revenue</span>
                 <h2 class="display-6 fw-bold mt-2 mb-0 text-success">&#8377;<%= metrics.totalRevenue.toLocaleString("en-IN") %></h2>
             </div>
         </div>
         <div class="col-md-4 mb-3">
             <div class="card host-metric border-0 shadow-sm p-4 bg-white text-dark border">
-                <span class="text-muted text-uppercase small fw-bold"><i class="bi bi-building me-2"></i>Listed Accommodations</span>
-                <h2 class="display-6 fw-bold mt-2 mb-0"><%= myListings.length %> <span class="fs-5 text-muted">Properties</span></h2>
+                <span class="text-muted text-uppercase small fw-bold font-monospace"><i class="bi bi-building me-2"></i>Listed Accommodations</span>
+                <h2 class="display-6 fw-bold mt-2 mb-0 text-dark"><%= myListings.length %> <span class="fs-5 text-muted">Properties</span></h2>
             </div>
         </div>
         <div class="col-md-4 mb-3">
             <div class="card host-metric border-0 shadow-sm p-4 bg-white text-dark border">
-                <span class="text-muted text-uppercase small fw-bold"><i class="bi bi-calendar-check me-2"></i>Reservations Received</span>
-                <h2 class="display-6 fw-bold mt-2 mb-0"><%= metrics.totalBookings %> <span class="badge bg-danger fs-6 ms-2 font-monospace" style="vertical-align: middle;"><%= metrics.activeReservations %> Live</span></h2>
+                <span class="text-muted text-uppercase small fw-bold font-monospace"><i class="bi bi-calendar-check me-2"></i>Reservations Received</span>
+                <h2 class="display-6 fw-bold mt-2 mb-0 text-dark"><%= metrics.totalBookings %> <span class="badge bg-danger fs-6 ms-2 font-monospace" style="vertical-align: middle;"><%= metrics.activeReservations %> Live</span></h2>
             </div>
         </div>
     </div>
 
-    <h3 class="fw-bold mb-3">Active Customer Reservations Logs</h3>
+    <div class="border-bottom pb-2 mb-4 d-flex align-items-center justify-content-between">
+        <h4 class="fw-bold text-dark mb-0"><i class="bi bi-play-circle-fill text-danger me-2"></i>Active Customer Reservations Logs</h4>
+        <span class="badge bg-danger font-monospace rounded-pill"><%= incomingBookings.length %> Live Channels</span>
+    </div>
+
     <% if(incomingBookings.length === 0) { %>
-        <div class="alert alert-light text-center border p-5 rounded-4 bg-white shadow-sm">
+        <div class="alert alert-light text-center border p-5 rounded-4 bg-white shadow-sm mb-5">
             <i class="bi bi-folder-x display-4 text-muted mb-3"></i>
-            <h5 class="text-muted">No reservations booked under your property index yet.</h5>
+            <h5 class="text-muted fw-bold">No active reservations streaming right now.</h5>
+            <p class="text-muted small mb-0">Stays that have completely checked out or elapsed are safely archived in the ledger below.</p>
         </div>
     <% } else { %>
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white border">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white border mb-5">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0 text-nowrap">
-                    <thead class="table-dark">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark text-uppercase small font-monospace">
                         <tr>
-                            <th class="ps-4">Targeted Asset Property</th>
-                            <th>Guest Designation</th>
-                            <th>Check-in Schedule</th>
-                            <th>Check-out Schedule</th>
-                            <th>Booking Type / Status</th>
-                            <th>Net Payment Flow</th>
-                            <th class="pe-4">Primary Transactional ID</th>
+                            <th class="ps-4 py-3">Targeted Asset Property</th>
+                            <th class="py-3">Guest Designation</th>
+                            <th class="py-3">Timeline Schedule</th>
+                            <th class="py-3">Current Phase State</th>
+                            <th class="py-3">Net Payment Flow</th>
+                            <th class="pe-4 py-3 text-end">Action Panel Links</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% for(let r of incomingBookings) { %>
-                            <tr>
+                            <tr class="align-middle">
                                 <td class="ps-4">
-                                    <strong><%= r.listing ? r.listing.title : "Index Deleted" %></strong>
-                                    <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
+                                    <span class="fw-bold text-dark d-block fs-6"><%= r.listing ? r.listing.title : "Index Deleted" %></span>
+                                    <span class="text-muted small"><i class="bi bi-geo-alt-fill text-danger me-1"></i><%= r.listing ? r.listing.location : "N/A" %></span>
+                                    <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
                                         <div class="mt-1">
-                                            <button class="btn btn-sm p-0 text-danger fw-bold small text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#verifyPanel-<%= r._id %>" aria-expanded="false">
+                                            <button class="btn btn-sm p-0 text-danger fw-bold small text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#inspectMatrix-<%= r._id %>">
                                                 <i class="bi bi-camera-video-fill me-1"></i> Review Verification Media ⚡
                                             </button>
                                         </div>
                                     <% } %>
                                 </td>
-                                <td>
-                                    <div class="fw-bold">@<%= r.user ? r.user.username : "N/A" %></div>
-                                    <div class="small text-muted font-monospace"><%= r.user ? r.user.email : "N/A" %></div>
-                                </td>
-                                <td><%= new Date(r.checkInDate).toLocaleDateString("en-IN") %></td>
-                                <td><%= new Date(r.checkOutDate).toLocaleDateString("en-IN") %></td>
                                 
                                 <td>
-                                    <% if(r.isSplitBooking) { %>
-                                        <span class="badge <%= r.paymentStatus === 'Paid' ? 'badge-split-full' : 'badge-split-partial' %> px-2 py-1 rounded">
-                                            <i class="bi bi-people-fill me-1"></i><%= r.paymentStatus %>
-                                        </span>
-                                    <% } else { %>
-                                        <span class="badge bg-light text-success border border-success px-2 py-1 rounded">
-                                            <i class="bi bi-person-fill me-1"></i>Standard / Paid
-                                        </span>
+                                    <div class="fw-bold text-secondary">@<%= r.user ? r.user.username : "N/A" %></div>
+                                    <div class="small text-muted font-monospace"><%= r.user ? r.user.email : "N/A" %></div>
+                                </td>
+                                
+                                <td class="small">
+                                    <div class="text-dark"><b>In:</b> <%= new Date(r.checkInDate).toLocaleDateString("en-IN", {day: '2-digit', month: 'short'}) %></div>
+                                    <div class="text-muted"><b>Out:</b> <%= new Date(r.checkOutDate).toLocaleDateString("en-IN", {day: '2-digit', month: 'short'}) %></div>
+                                </td>
+                                
+                                <td>
+                                    <% if (r.bookingPhase === "Booked") { %>
+                                        <span class="badge badge-phase bg-light text-primary border border-primary">RESERVED</span>
+                                    <% } else if (r.bookingPhase === "CheckedIn") { %>
+                                        <span class="badge badge-phase bg-light text-danger border border-danger">STAY ACTIVE</span>
+                                    <% } else if (r.bookingPhase === "CheckedOut") { %>
+                                        <span class="badge badge-phase bg-light text-warning border border-warning">FINE PENDING</span>
                                     <% } %>
                                 </td>
 
-                                <td class="text-success fw-bold">&#8377;<%= r.totalPrice.toLocaleString("en-IN") %></td>
-                                <td class="pe-4 font-monospace text-muted small">
-                                    <%= r.razorpayPaymentId ? r.razorpayPaymentId : "Split Ledger Open" %>
+                                <td>
+                                    <span class="text-dark fw-bold d-block">&#8377;<%= r.totalPrice.toLocaleString("en-IN") %></span>
+                                    <span class="badge <%= r.paymentStatus === 'Paid' ? 'badge-split-full' : 'badge-split-partial' %> px-2 py-0">
+                                        <%= r.paymentStatus %>
+                                    </span>
+                                </td>
+
+                                <td class="pe-4 text-end">
+                                    <div class="d-inline-flex gap-2">
+                                        <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
+                                            <button class="btn btn-sm btn-dark font-monospace px-3 rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#inspectMatrix-<%= r._id %>">
+                                                <i class="bi bi-eye-fill me-1"></i> Inspect Assets
+                                            </button>
+                                        <% } else { %>
+                                            <button class="btn btn-sm btn-light font-monospace px-3 rounded-pill text-muted" disabled>
+                                                <i class="bi bi-hourglass-split"></i> No Media Yet
+                                            </button>
+                                        <% } %>
+                                    </div>
                                 </td>
                             </tr>
 
-                            <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
-                                <tr class="collapse" id="verifyPanel-<%= r._id %>">
-                                    <td colspan="7" class="p-0 border-0">
-                                        <div class="p-4 mx-4 mb-3 verification-media-container shadow-sm">
-                                            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3 border-bottom pb-2">
-                                                <div>
-                                                    <h6 class="fw-bold text-dark mb-1"><i class="bi bi-shield-lock-fill text-danger me-2"></i>Guest Room Authenticity Assets</h6>
-                                                    <p class="text-muted small mb-0">Uploaded At: <%= new Date(r.checkInMedia.uploadedAt).toLocaleString("en-IN") %></p>
-                                                </div>
-                                                
-                                                <form action="/bookings/<%= r._id %>/approve-media?_method=PATCH" method="POST" class="d-flex align-items-center gap-2">
-                                                    <% if(!r.isApprovedByOwner) { %>
-                                                        <input type="hidden" name="approve" value="true">
-                                                        <button type="submit" class="btn btn-sm btn-success px-3 rounded-pill fw-bold">
-                                                            <i class="bi bi-pin-angle-fill me-1"></i> Approve to Public Gallery
-                                                        </button>
-                                                    <% } else { %>
-                                                        <input type="hidden" name="approve" value="false">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-bold">
-                                                            <i class="bi bi-trash3-fill me-1"></i> Remove from Public Gallery
-                                                        </button>
-                                                    <% } %>
-                                                </form>
-                                            </div>
-
+                            <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
+                                <tr class="collapse" id="inspectMatrix-<%= r._id %>">
+                                    <td colspan="6" class="p-0 border-0 bg-light">
+                                        <div class="p-4 border-bottom bg-white mx-3 my-3 shadow-sm rounded-4">
                                             <div class="row">
-                                                <div class="col-md-7 mb-3">
-                                                    <p class="small text-secondary fw-bold mb-2">📸 Verification Snapshots:</p>
-                                                    <div class="d-flex gap-2 flex-wrap">
-                                                        <% r.checkInMedia.photos.forEach((img, idx) => { %>
-                                                            <a href="<%= img.url %>" target="_blank" title="Click to enlarge">
-                                                                <img src="<%= img.url %>" class="preview-img" style="width: 160px; height: 110px;" alt="Check-in Photo <%= idx+1 %>">
-                                                            </a>
-                                                        <% }) %>
-                                                    </div>
+                                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                                    <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
+                                                        <div class="p-3 h-100 inspection-panel checkin-sidebar">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                                                <div>
+                                                                    <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-arrow-in-right text-danger me-2"></i>1. Check-In Security Snapshots</h6>
+                                                                    <small class="text-muted">Logged: <%= new Date(r.checkInMedia.uploadedAt).toLocaleString("en-IN") %></small>
+                                                                </div>
+                                                                <form action="/bookings/<%= r._id %>/approve-media?_method=PATCH" method="POST">
+                                                                    <% if(!r.isApprovedByOwner) { %>
+                                                                        <input type="hidden" name="approve" value="true">
+                                                                        <button type="submit" class="btn btn-xs btn-outline-success rounded-pill font-weight-bold p-1 px-3 small" style="font-size: 11px;">Pin to Public Gallery</button>
+                                                                    <% } else { %>
+                                                                        <input type="hidden" name="approve" value="false">
+                                                                        <button type="submit" class="btn btn-xs btn-danger text-white rounded-pill font-weight-bold p-1 px-3 small" style="font-size: 11px;">Remove Public Gallery</button>
+                                                                    <% } %>
+                                                                </form>
+                                                            </div>
+                                                            <div class="row g-2 mb-2">
+                                                                <% r.checkInMedia.photos.forEach((img) => { %>
+                                                                    <div class="col-6">
+                                                                        <a href="<%= img.url %>" target="_blank">
+                                                                            <img src="<%= img.url %>" class="preview-media-node w-100" style="height: 100px;" alt="Checkin Snapshot">
+                                                                        </a>
+                                                                    </div>
+                                                                <% }) %>
+                                                            </div>
+                                                            <video src="<%= r.checkInMedia.video.url %>" class="preview-media-node w-100" style="max-height: 120px;" controls></video>
+                                                        </div>
+                                                    <% } %>
                                                 </div>
-                                                
-                                                <div class="col-md-5 mb-3">
-                                                    <p class="small text-secondary fw-bold mb-2">🎥 Recorded Structural Sequence:</p>
-                                                    <video src="<%= r.checkInMedia.video.url %>" class="preview-video w-100" style="max-height: 140px;" controls preload="metadata"></video>
+
+                                                <div class="col-lg-6">
+                                                    <% if (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0) { %>
+                                                        <div class="p-3 h-100 inspection-panel checkout-sidebar">
+                                                            <div class="mb-3 pb-2 border-bottom">
+                                                                <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-arrow-left text-success me-2"></i>2. Check-Out Structural Condition</h6>
+                                                                <small class="text-muted">Logged: <%= new Date(r.checkOutMedia.uploadedAt).toLocaleString("en-IN") %></small>
+                                                            </div>
+                                                            <div class="row g-2 mb-2">
+                                                                <% r.checkOutMedia.photos.forEach((img) => { %>
+                                                                    <div class="col-6">
+                                                                        <a href="<%= img.url %>" target="_blank">
+                                                                            <img src="<%= img.url %>" class="preview-media-node w-100" style="height: 100px;" alt="Checkout Snapshot">
+                                                                        </a>
+                                                                    </div>
+                                                                <% }) %>
+                                                            </div>
+                                                            <video src="<%= r.checkOutMedia.video.url %>" class="preview-media-node w-100 mb-3" style="max-height: 120px;" controls></video>
+
+                                                            <% if (!r.dispute || (!r.dispute.isDamaged && !r.dispute.fineRazorpayOrderId)) { %>
+                                                                <div class="row g-2">
+                                                                    <div class="col-md-6">
+                                                                        <div class="clean-closure-box border text-center h-100 d-flex flex-column justify-content-between">
+                                                                            <p class="text-success small fw-bold mb-1"><i class="bi bi-check-circle-fill"></i> Asset Clean Slate</p>
+                                                                            <form action="/bookings/<%= r._id %>/settle-clean" method="POST">
+                                                                                <button type="submit" class="btn btn-sm btn-success w-100 font-monospace small py-2 text-uppercase" style="font-size: 10px;">Mark Stay As Clean</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="fine-assessment-box border text-center h-100 d-flex flex-column justify-content-between">
+                                                                            <p class="text-danger small fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill"></i> Damages Found</p>
+                                                                            <button class="btn btn-sm btn-danger w-100 font-monospace small py-2 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#fineFormBox-<%= r._id %>" style="font-size: 10px;">File Assessment Fine</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="collapse mt-2" id="fineFormBox-<%= r._id %>">
+                                                                    <div class="fine-assessment-box border">
+                                                                        <form action="/bookings/<%= r._id %>/claim-fine" method="POST" class="needs-validation" novalidate>
+                                                                            <div class="row g-2">
+                                                                                <div class="col-md-5">
+                                                                                    <input type="number" name="fineAmount" class="form-control form-control-sm" placeholder="Fine (₹)" required min="1">
+                                                                                </div>
+                                                                                <div class="col-md-7">
+                                                                                    <input type="text" name="fineReason" class="form-control form-control-sm" placeholder="Reason for dispute..." required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-sm btn-danger w-100 font-weight-bold mt-2 text-uppercase font-monospace" style="font-size: 11px;">🚨 Issue Fine Invoice Link</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            <% } else { %>
+                                                                <div class="alert alert-warning border border-warning rounded-3 p-3 mb-0 mt-2">
+                                                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                                                        <div class="small text-dark">
+                                                                            <i class="bi bi-file-earmark-medical-fill me-1"></i> Fine Issued: <b>₹<%= r.dispute.fineAmount %></b>
+                                                                        </div>
+                                                                        <span class="badge bg-danger font-monospace text-uppercase" style="font-size: 9px;">UNPAID HOLD</span>
+                                                                    </div>
+                                                                    <div class="small text-muted mb-2 font-monospace"><b>Reason:</b> <%= r.dispute.fineReason %></div>
+                                                                    <form action="/bookings/<%= r._id %>/cancel-fine" method="POST">
+                                                                        <button type="submit" class="btn btn-xs btn-outline-danger w-100 py-1 font-weight-bold text-uppercase" style="font-size: 10px; border-radius: 6px;"><i class="bi bi-x-circle-fill me-1"></i> Cancel Damage Dispute Fine (Recheck Correction)</button>
+                                                                    </form>
+                                                                </div>
+                                                            <% } %>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <div class="p-3 text-center text-muted small bg-light rounded-3 border h-100 d-flex flex-column justify-content-center">
+                                                            <i class="bi bi-clock-history fs-4 mb-2"></i> Waiting for guest checkout validation logs.
+                                                        </div>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% } %>
 
+
+    <div class="border-bottom pb-2 mb-4 mt-5 d-flex align-items-center justify-content-between">
+        <h4 class="fw-bold text-secondary mb-0"><i class="bi bi-archive-fill text-muted me-2"></i>Past Archives & Ledger History</h4>
+        <span class="badge bg-secondary font-monospace rounded-pill"><%= pastArchiveHistory.length %> Closed Ledgers</span>
+    </div>
+
+    <% if(pastArchiveHistory.length === 0) { %>
+        <div class="p-4 text-center text-muted small bg-light border" style="border-radius: 14px;">
+            <i class="bi bi-inbox fs-3 mb-1 d-block text-secondary"></i> No historically closed entries compiled inside your host profile archive yet.
+        </div>
+    <% } else { %>
+        <div class="card border shadow-sm rounded-4 overflow-hidden bg-white">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-uppercase small font-monospace text-secondary">
+                        <tr>
+                            <th class="ps-4 py-3">Archived Asset Title</th>
+                            <th class="py-3">Guest Reference</th>
+                            <th class="py-3">Timeline Interval</th>
+                            <th class="py-3">Platform Integrity State</th>
+                            <th class="pe-4 py-3 text-end">Total Capital Earned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let past of pastArchiveHistory) { %>
+                            <tr class="archive-history-row align-middle">
+                                <td class="ps-4">
+                                    <span class="fw-semibold text-dark d-block small"><%= past.listing ? past.listing.title : "Index Deleted" %></span>
+                                    <span class="text-muted text-capitalize" style="font-size: 11px;"><i class="bi bi-geo-alt me-1"></i><%= past.listing ? past.listing.location : "N/A" %></span>
+                                </td>
+                                
+                                <td class="small text-secondary">
+                                    <div class="fw-bold">@<%= past.user ? past.user.username : "N/A" %></div>
+                                    <div style="font-size: 11px;" class="font-monospace text-muted"><%= past.user ? past.user.email : "N/A" %></div>
+                                </td>
+                                
+                                <td class="small text-muted" style="font-size: 11px;">
+                                    <%= new Date(past.checkInDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit'}) %> to <%= new Date(past.checkOutDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit', year: '2-digit'}) %>
+                                </td>
+                                
+                                <td>
+                                    <% if (past.paymentStatus === 'Refunded') { %>
+                                        <span class="badge badge-archive-status bg-light text-primary border border-primary">REFUNDED</span>
+                                    <% } else if (past.paymentStatus === 'Cancelled') { %>
+                                        <span class="badge badge-archive-status bg-light text-secondary border border-secondary">CANCELLED</span>
+                                    <% } else if (past.bookingPhase !== 'CheckedOut') { %>
+                                        <span class="badge badge-archive-status bg-light text-warning border border-warning">ELAPSED / NO-SHOW</span>
+                                    <% } else { %>
+                                        <span class="badge badge-archive-status bg-light text-success border border-success">CLEARED & CLOSED</span>
+                                    <% } %>
+
+                                    <% if (past.dispute && past.dispute.isDamaged && past.dispute.isFinePaid) { %>
+                                        <span class="badge text-uppercase font-monospace bg-light text-danger border border-danger ms-1" style="font-size: 9px;"><i class="bi bi-patch-check"></i> Fine Settled</span>
+                                    <% } %>
+                                </td>
+
+                                <td class="pe-4 text-end font-monospace text-success fw-bold small">
+                                    <% if (past.paymentStatus === 'Refunded' || past.paymentStatus === 'Cancelled') { %>
+                                        &#8377;0
+                                    <% } else { %>
+                                        &#8377;<%= past.totalPrice.toLocaleString("en-IN") %>
+                                    <% } %>
+                                </td>
+                            </tr>
                         <% } %>
                     </tbody>
                 </table>

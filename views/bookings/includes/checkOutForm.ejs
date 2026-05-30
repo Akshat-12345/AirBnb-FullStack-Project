@@ -1,0 +1,88 @@
+<% 
+  let todayStr = new Date().toISOString().split("T")[0];
+  let checkOutStr = new Date(booking.checkOutDate).toISOString().split("T")[0];
+%>
+
+<% if (booking.paymentStatus === "Paid" && booking.bookingPhase === "CheckedIn") { %>
+    
+    <% if (todayStr === checkOutStr) { %>
+        <div class="card checkout-automation-box border-danger my-4 shadow-sm">
+            <div class="card-header bg-danger text-white font-weight-bold d-flex align-items-center">
+                <span class="mr-2">⚡</span> Required Action: Complete Structural Verification & Check-Out
+            </div>
+            <div class="card-body bg-light">
+                <p class="text-muted small">
+                    Dear Guest, your checkout window is officially open today. To avoid any fine matrix disputes, please record and attach 2 clear snapshots of the rooms and a 5-second panning safety clip.
+                </p>
+                
+                <form action="/bookings/<%= booking._id %>/checkout-verify" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold text-secondary small">Room Condition Photos (Strictly 2 Snapshots)</label>
+                            <input type="file" name="checkOutPhotos" class="form-control" accept="image/*" multiple required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold text-secondary small">Continuous Panning Video (Max 1 Safety Clip)</label>
+                            <input type="file" name="checkOutVideo" class="form-control" accept="video/*" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-block font-weight-bold mt-2 py-2 text-uppercase shadow-sm">
+                        📤 Authenticate Asset State & Check-Out
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    <% } else { %>
+        <div class="my-3">
+            <div class="alert alert-info border-info d-flex align-items-center shadow-sm mb-2" role="alert" style="border-radius: 12px;">
+                <span class="mr-2">🗓️</span> 
+                <span class="small font-weight-bold">
+                    Scheduled departure date: <span class="text-danger"><%= new Date(booking.checkOutDate).toLocaleDateString("en-IN", { month: 'short', day: 'numeric', year: 'numeric' }) %></span>.
+                </span>
+            </div>
+            
+            <button class="btn btn-sm btn-outline-danger btn-block font-weight-bold py-2 text-uppercase" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#earlyCheckoutBox-<%= booking._id %>" 
+                    style="border-radius: 10px; font-size: 11px; letter-spacing: 0.5px;">
+                <i class="bi bi-box-arrow-left me-1"></i> Trigger Early Check-Out Workflow ⚡
+            </button>
+
+            <div class="collapse mt-3" id="earlyCheckoutBox-<%= booking._id %>">
+                <div class="card border-danger shadow-sm">
+                    <div class="card-header bg-warning text-dark font-weight-bold small">
+                        ⚠️ Early Checkout Mode Active (Room Logs Validation Required)
+                    </div>
+                    <div class="card-body bg-light">
+                        <p class="text-muted text-start" style="font-size: 11px; line-height: 1.4;">
+                            Leaving early? No problem! Please secure 2 room snapshots and 1 short panning video sequence right now. Once uploaded, the platform will immediately release your access bounds and prompt for formal review.
+                        </p>
+                        
+                        <form action="/bookings/<%= booking._id %>/checkout-verify" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <div class="row text-start">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label font-weight-bold text-secondary text-start mb-1" style="font-size: 11px;">Photos (Max 2 Room Shots)</label>
+                                    <input type="file" name="checkOutPhotos" class="form-control form-control-sm" accept="image/*" multiple required>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label font-weight-bold text-secondary text-start mb-1" style="font-size: 11px;">Video (1 Safety Sequence)</label>
+                                    <input type="file" name="checkOutVideo" class="form-control form-control-sm" accept="video/*" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-danger btn-block font-weight-bold w-100 mt-2 py-2">
+                                📤 Finalize Early Departure Matrix
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+<% } else if (booking.bookingPhase === "CheckedOut") { %>
+    <div class="alert alert-success border-success my-3 text-center shadow-sm" role="alert" style="border-radius: 12px;">
+        <span class="font-weight-bold small">🎉 Check-out successfully verified! Room state captured & logs locked.</span>
+    </div>
+<% } %>

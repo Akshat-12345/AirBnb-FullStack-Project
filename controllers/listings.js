@@ -20,8 +20,13 @@ module.exports.renderNewForm = (req,res)=>{
     res.render('./listings/new.ejs');
 };
 
+// Inside controllers/listing.js
+const Booking = require("../models/booking"); // Ensure top par ya function ke andar required ho
+
 module.exports.showListing = async(req,res)=>{
     let { id } = req.params;
+    
+    // 1. Core Listing Data Fetch (Populating Reviews & Owner)
     let data = await Listing.findById(id).populate({ path : 'reviews', populate: {path : 'author'}}).populate('owner');
 
     if(!data){
@@ -29,50 +34,41 @@ module.exports.showListing = async(req,res)=>{
         return res.redirect('/listings');
     }
 
-    // --- FORWARD GEOCODING WITH USER-AGENT HEADER (THE FIX) ---
+    // --- FORWARD GEOCODING WITH USER-AGENT HEADER ---
     const geocodingUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(data.location)}&format=json&limit=1`;
-    
     let coordinates;
     try {
         const response = await axios.get(geocodingUrl, {
             headers: {
-                'User-Agent': 'AkshatTest/1.0',  // Jo abhi terminal mein success hua
+                'User-Agent': 'AkshatTest/1.0',
                 'Accept': 'application/json'
             },
-            timeout: 5000 // 5 seconds ka timeout taaki request latki na rahe
+            timeout: 5000 
         });
 
-        // Check if Nominatim found a location
         if (response.data && response.data.length > 0) {
             const locationData = response.data[0];
             coordinates = [parseFloat(locationData.lat), parseFloat(locationData.lon)]; 
         } else {
-            req.flash("error", "Location could not be found on the map.");
             coordinates = null; 
         }
     } catch (error) {
         console.error("Geocoding API error:", error.message);
-        req.flash("error", "Could not fetch map data. Please try again later.");
         coordinates = null;
     }
-    // --- FORWARD GEOCODING END ---
 
     // === ADVANCED 5-DAY WEATHER FORECAST PIPELINE ===
     let forecastArray = null;
     try {
         const apiKey = process.env.WEATHER_API_KEY;
         if (apiKey) {
-            // Location text ko clean karke pehla word nikalna (e.g., "Leh, Ladakh" -> "Leh")
             const cleanCity = data.location.split(',')[0].trim();
-            
-            // Forecast Endpoint Call (Free Tier - 5 Days / 3 Hours data slots)
             const forecastResponse = await axios.get(
                 `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(cleanCity)}&units=metric&appid=${apiKey}`
             );
             
             if (forecastResponse.data && forecastResponse.data.list) {
                 forecastArray = [];
-                // Har 24 ghante ke baad ka forecast filter karne ke liye (8 slots * 3 hours = 24 hours)
                 for (let i = 0; i < forecastResponse.data.list.length; i += 8) {
                     const dayData = forecastResponse.data.list[i];
                     const dateObj = new Date(dayData.dt_txt);
@@ -89,13 +85,32 @@ module.exports.showListing = async(req,res)=>{
             }
         }
     } catch (weatherErr) {
-        // Safe Catch: API pipeline block hone par code crash nahi hoga
         console.error("Weather forecast pipeline bypassed:", weatherErr.message);
     }
-    // === WEATHER INTEGRATION END ===
 
-    // Weather data pass ho raha hai weatherForecast array ke roop me
-    res.render("listings/show.ejs", { data, coordinates, weatherForecast: forecastArray });
+    // === 📸 NEW GUEST APPROVED GALLERY PIPELINE (THE FIX) ===
+    let approvedMedia = [];
+    try {
+        // Un bookings ko nikalna jiska media owner ne dashboard se approve kiya hai
+        const verifiedBookings = await Booking.find({
+            listing: id,
+            isApprovedByOwner: true
+        }).select("checkInMedia");
+
+        // Media objects ko extract karke flatten karna
+        approvedMedia = verifiedBookings.map(b => b.checkInMedia).filter(Boolean);
+    } catch (mediaErr) {
+        console.error("Error fetching approved guest media:", mediaErr.message);
+    }
+
+    // === ALL DATA STREAM INJECTED INTO RENDERING ENGINE ===
+    res.render("listings/show.ejs", { 
+        data, 
+        coordinates, 
+        weatherForecast: forecastArray, 
+        approvedMedia, // Ab show.ejs ko pic/video array mil jayega!
+        razorpayKeyId: process.env.RAZORPAY_KEY_ID 
+    });
 };
 
 module.exports.createListing = async(req,res,next)=>{

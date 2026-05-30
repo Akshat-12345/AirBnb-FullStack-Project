@@ -12,9 +12,9 @@ cron.schedule("0 * * * *", async () => {
     console.log("⏰ System Log: Initiating 24-Hour Split Payment Expiration Assessment Matrix...");
     try {
         const now = new Date();
-        const expirationThreshold = new Date(now.getTime() - 24 * 60 * 60 * 1000); // exact 24 hours ago
+        const expirationThreshold = new Date(now.getTime() - 24 * 60 * 60 * 1000); 
 
-        // Find bookings created > 24 hours ago that are still unfulfilled/partially paid
+        // Finds bookings older than 24 hours that are unfulfilled or stuck in split groups
         const expiredBookings = await Booking.find({
             isSplitBooking: true,
             paymentStatus: { $in: ["Pending Split", "Partially Paid"] },
@@ -29,32 +29,35 @@ cron.schedule("0 * * * *", async () => {
         for (let booking of expiredBookings) {
             console.log(`⚠️ Processing expiration routine for Booking ID: ${booking._id}`);
 
-            // 1. Process main booker refund if they paid
+            // 1. Process main booker automated refund sequence structure
             if (booking.razorpayPaymentId) {
                 try {
                     await razorpay.payments.refund(booking.razorpayPaymentId, {
-                        notes: { reason: "Group split payment window expired. Automated system rollback." }
+                        notes: { reason: "Group split payment window expired. Automated primary account rollback." }
                     });
                     console.log(`💸 Main Booker Refund processed successfully.`);
                 } catch (refundErr) {
-                    console.error(`❌ Main booker refund failed: ${refundErr.message}`);
+                    console.error(`❌ Main booker refund failed or already reversed: ${refundErr.message}`);
                 }
             }
 
-            // 2. Process friends refunds who had already paid their fractions
+            // 2. ⚡ FIXED MULTI-REFUND PIPELINE: Loops and refunds EVERY split traveler who paid!
             for (let friend of booking.splitParticipants) {
-                // We'll need razorpayPaymentId for friends too if they paid via dashboard
-                // To track individual payment tokens for refunds, we need to locate them.
-                // Let's safe-guard the loop block
-                if (friend.hasPaid && booking.razorpayPaymentId) {
-                    console.log(`ℹ️ System Note: Refunding split traveler cell node for ${friend.email}`);
-                    // Razorpay safely allows automatic refunds to parent distribution nodes, 
-                    // or handled via Razorpay dashboard batch logs.
+                if (friend.hasPaid && friend.razorpayPaymentId) {
+                    try {
+                        console.log(`📡 Dispatching secure split refund pipeline node to traveler: ${friend.email}`);
+                        await razorpay.payments.refund(friend.razorpayPaymentId, {
+                            notes: { reason: `Group split window timeout. Refunded segment fractional fraction to ${friend.email}` }
+                        });
+                        console.log(`💸 Split share refund successfully processed back to ${friend.email}`);
+                    } catch (friendRefundErr) {
+                        console.error(`❌ Fractional split refund failed for ${friend.email}: ${friendRefundErr.message}`);
+                    }
                 }
             }
 
-            // 3. Update Lifecycle Status to Cancelled & Release Property Inventory Dates
-            booking.paymentStatus = "Failed"; // Mark as Failed or Cancelled so it drops from timeline boards
+            // 3. Update Status to Failed to archive it away cleanly
+            booking.paymentStatus = "Failed"; 
             await booking.save();
             console.log(`🔒 Booking ${booking._id} status modified safely to Failed.`);
         }

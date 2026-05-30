@@ -24,7 +24,7 @@ const bookingSchema = new Schema({
         type: Number,
         required: true
     },
-    // Razorpay Integration Fields
+    // Razorpay Integration Fields for Main Booker
     razorpayOrderId: {
         type: String,
         required: true
@@ -34,10 +34,10 @@ const bookingSchema = new Schema({
     },
     paymentStatus: {
         type: String,
-        enum: ["Pending", "Paid", "Failed", "Partially Paid", "Pending Split"],
+        enum: ["Pending", "Paid", "Failed", "Partially Paid", "Pending Split", "Refunded", "Cancelled"],
         default: "Pending"
     },
-    // New Feature: Bill Splitting (Enhanced as per Akshat's System Design)
+    // Enhanced Bill Splitting Arrays
     isSplitBooking: { 
         type: Boolean, 
         default: false 
@@ -45,7 +45,7 @@ const bookingSchema = new Schema({
     splitParticipants: [{
         user: {
             type: Schema.Types.ObjectId,
-            ref: "User" // Validation matrix integration ke liye registered user linkage
+            ref: "User"
         },
         email: {
             type: String,
@@ -60,65 +60,70 @@ const bookingSchema = new Schema({
             default: false 
         },
         razorpayOrderId: {
-            type: String // Har bande ke dynamic checkout session tracking ke liye
+            type: String 
+        },
+        // 💥 FIXED: Individual friend payment token identifier
+        razorpayPaymentId: {
+            type: String
         },
         paidBy: {
             type: Schema.Types.ObjectId,
-            ref: "User" // System design twist: Agar dost bimar hai toh real-time me track hoga kisne backup kiya!
+            ref: "User"
         }
     }],
 
-    // =========================================================================
-    // 📸 NEW CORE INTEGRATION: CHECK-IN VERIFICATION & GUEST GALLERY MATRIX
-    // =========================================================================
+    // 📸 CHECK-IN VERIFICATION MATRIX
     checkInMedia: {
         photos: [
             {
                 url: String,
                 filename: String
             }
-        ], // Max 2 snapshots allocation bounds
+        ],
         video: {
             url: String,
             filename: String
-        }, // Max 1 dynamic MP4/MOV stream
+        },
         uploadedAt: {
             type: Date
         }
     },
     isApprovedByOwner: {
         type: Boolean,
-        default: false // Host jab tak dashboard se clear toggle 'true' nahi karega, public show.ejs par lock rahega
+        default: false
     },
 
-    // =========================================================================
-    // 📄 FUTURE MODULE PREPARATION: CHECK-OUT INTEGRITY VALIDATION MATRIX
-    // =========================================================================
+    // 📄 CHECK-OUT INTEGRITY VALIDATION MATRIX
     checkOutMedia: {
         photos: [
             {
                 url: String,
                 filename: String
             }
-        ], // Max 2 damage validation snapshots
+        ],
         video: {
             url: String,
             filename: String
-        }, // Max 1 final safety clip
+        },
         uploadedAt: {
             type: Date
         }
     },
 
-    // =========================================================================
-    // 🛡️ FUTURE MODULE PREPARATION: DAMAGE CLAIMS & FINANCIAL DISPUTE MANAGEMENT
-    // =========================================================================
+    // 🛡️ DAMAGE CLAIMS & FINANCIAL DISPUTE MANAGEMENT
     dispute: {
         isDamaged: { type: Boolean, default: false },
         fineAmount: { type: Number, default: 0 },
         fineReason: { type: String },
         isFinePaid: { type: Boolean, default: false },
         fineRazorpayOrderId: { type: String }
+    },
+
+    // ⏱️ STATE MACHINE PHASE TRACKING
+    bookingPhase: {
+        type: String,
+        enum: ["Booked", "CheckedIn", "CheckedOut"],
+        default: "Booked"
     },
 
     createdAt: {

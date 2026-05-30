@@ -1,143 +1,122 @@
 <% layout("/layouts/boiler_plate.ejs") %>
 
 <style>
-  .metric-card { transition: transform 0.2s; border-radius: 16px; }
-  .metric-card:hover { transform: translateY(-4px); }
+  .metric-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 20px; border: none; }
+  .metric-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.06) !important; }
   .premium-badge { background: linear-gradient(135deg, #ff385c 0%, #bd1e59 100%); color: #fff; border: none; }
-  .card-img-gradient { position: relative; }
-  .card-img-gradient::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); }
+  .card-img-gradient { position: relative; overflow: hidden; }
+  .card-img-gradient::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); }
+  
+  /* Status Phase Custom System Badges */
+  .badge-phase-custom { font-size: 10px; font-weight: bold; border-radius: 6px; padding: 4px 10px; font-family: monospace; letter-spacing: 0.5px; }
 
-  /* === SPLIT LEDGER CONTROL CENTER DESIGN === */
-  .split-ledger-box {
-    background-color: #f9f9f9;
-    border: 1px dashed #dddddd;
-    border-radius: 12px;
-    padding: 12px;
-  }
-  .participant-node {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-  }
-  .participant-node:last-child {
-    border-bottom: none;
-  }
-  .badge-settled {
-    background-color: #d1e7dd;
-    color: #0f5132;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
-  .badge-waiting {
-    background-color: #fff3cd;
-    color: #664d03;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
+  /* Split Ledger Node Layouts */
+  .split-ledger-box { background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 14px; padding: 14px; }
+  .participant-node { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e9ecef; }
+  .participant-node:last-child { border-bottom: none; }
+  
+  .badge-settled { background-color: #d1e7dd; color: #0f5132; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px; border: 1px solid #badbcc; }
+  .badge-waiting { background-color: #fff3cd; color: #664d03; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px; border: 1px solid #ffecb5; }
+  
+  /* Archive History Container Elements */
+  .history-card-wrapper { opacity: 0.88; filter: grayscale(15%); transition: all 0.2s; border-radius: 16px; background: #fafafa; }
+  .history-card-wrapper:hover { opacity: 1; filter: grayscale(0%); background: #fff; }
 </style>
 
 <div class="container mt-5 mb-5">
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
     <div>
-      <h2 class="fw-bold tracking-tight">Welcome Back, Voyager!</h2>
-      <p class="text-muted mb-0">Track your reservations, travel expenditure, and future destinations.</p>
+      <h2 class="fw-bold tracking-tight text-dark">Welcome Back, Voyager!</h2>
+      <p class="text-muted mb-0">Track your real-time reservations, platform travel expenditure, and history logs.</p>
     </div>
-    <a href="/listings" class="btn btn-outline-dark px-4 py-2 mt-2" style="border-radius: 20px;"><i class="bi bi-compass me-2"></i>Explore More</a>
+    <a href="/listings" class="btn btn-dark px-4 py-2 mt-2 rounded-pill shadow-sm"><i class="bi bi-compass me-2"></i>Explore New Destines</a>
   </div>
 
   <div class="row mb-5">
     <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border-0 shadow-sm p-3 bg-white text-dark">
-        <p class="text-muted text-uppercase small fw-bold mb-1">Total Trips</p>
-        <h3 class="fw-bold mb-0"><%= metrics.totalTrips %></h3>
+      <div class="card metric-card border shadow-sm p-3 bg-white text-dark">
+        <p class="text-muted text-uppercase small fw-bold mb-1 font-monospace">Total Index Trips</p>
+        <h3 class="fw-bold mb-0 text-dark"><%= metrics.totalTrips %></h3>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border-0 shadow-sm p-3 bg-white text-dark">
-        <p class="text-muted text-uppercase small fw-bold mb-1">Nights Camped</p>
-        <h3 class="fw-bold mb-0"><%= metrics.totalNights %> <span class="fs-6 text-muted font-monospace">Nights</span></h3>
+      <div class="card metric-card border shadow-sm p-3 bg-white text-dark">
+        <p class="text-muted text-uppercase small fw-bold mb-1 font-monospace">Nights Camped</p>
+        <h3 class="fw-bold mb-0 text-dark"><%= metrics.totalNights %> <span class="fs-6 text-muted">Nights</span></h3>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border-0 shadow-sm p-3 premium-badge shadow">
-        <p class="text-white-50 text-uppercase small fw-bold mb-1">Invested Value</p>
+      <div class="card metric-card border shadow-sm p-3 premium-badge shadow">
+        <p class="text-white-50 text-uppercase small fw-bold mb-1 font-monospace">Invested Value</p>
         <h3 class="fw-bold mb-0">&#8377;<%= metrics.totalSpent.toLocaleString("en-IN") %></h3>
       </div>
     </div>
     <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border-0 shadow-sm p-3 bg-dark text-white">
-        <p class="text-white-50 text-uppercase small fw-bold mb-1">Upcoming Trips</p>
-        <h3 class="fw-bold mb-0"><%= metrics.upcomingTripsCount %> <span class="badge bg-danger ms-2 font-monospace">Live</span></h3>
+      <div class="card metric-card border shadow-sm p-3 bg-dark text-white shadow">
+        <p class="text-white-50 text-uppercase small fw-bold mb-1 font-monospace">Upcoming Trips</p>
+        <h3 class="fw-bold mb-0 text-white"><%= metrics.upcomingTripsCount %> <span class="badge bg-danger ms-2 font-monospace">Live Queue</span></h3>
       </div>
     </div>
   </div>
 
-  <h3 class="fw-bold mb-4">Your Booking Catalog</h3>
+  <div class="border-bottom pb-2 mb-4 d-flex align-items-center">
+    <h3 class="fw-bold text-dark mb-0"><i class="bi bi-calendar2-range text-danger me-2"></i>Active Accommodations Queue</h3>
+    <span class="badge bg-danger rounded-pill ms-2 font-monospace"><%= bookings.length %> Stays</span>
+  </div>
+
   <% if(bookings.length === 0) { %>
-    <div class="p-5 text-center bg-white rounded shadow-sm border">
-      <i class="bi bi-suit-heart display-4 text-muted mb-3"></i>
-      <h4>No Accommodations Found!</h4>
-      <p class="text-muted">Looks like you haven't booked an active property yet.</p>
+    <div class="p-5 text-center bg-white rounded-4 border shadow-sm mb-5">
+      <i class="bi bi-bookmark-x display-4 text-muted mb-3"></i>
+      <h5 class="text-secondary fw-bold">No running reservations or active holds found.</h5>
+      <p class="text-muted small mb-0">Your current operations ledger is clean. Book a place to initiate verification engines.</p>
     </div>
   <% } else { %>
-    <div class="row">
+    <div class="row mb-5">
       <% for(let booking of bookings) { %>
         <% if(booking.listing) { %>
           <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100 shadow-sm border-0 metric-card" style="border-radius: 16px; overflow: hidden; background: #fff;">
+            <div class="card h-100 shadow-sm border metric-card overflow-hidden bg-white">
               <div class="card-img-gradient">
-                <img src="<%= booking.listing.image.url %>" class="card-img-top" alt="property" style="height: 220px; object-fit: cover;">
+                <img src="<%= booking.listing.image.url %>" class="card-img-top" alt="property" style="height: 200px; object-fit: cover;">
+                <span class="position-absolute top-0 end-0 m-3 badge bg-dark text-uppercase font-monospace small px-2 py-1" style="z-index: 5;">
+                  <%= booking.bookingPhase %>
+                </span>
               </div>
               <div class="card-body p-4 d-flex flex-column justify-content-between">
                 <div>
-                  <h5 class="fw-bold text-truncate mb-2"><%= booking.listing.title %></h5>
-                  <p class="text-muted mb-3 small"><i class="bi bi-geo-alt-fill me-2 text-danger"></i><%= booking.listing.location %>, <%= booking.listing.country %></p>
+                  <h5 class="fw-bold text-truncate text-dark mb-1"><%= booking.listing.title %></h5>
+                  <p class="text-muted mb-3 small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i><%= booking.listing.location %>, <%= booking.listing.country %></p>
                   
                   <div class="bg-light p-3 rounded-3 mb-3">
                     <div class="d-flex justify-content-between mb-1 small text-muted">
-                      <span>Check-in:</span>
-                      <span class="text-dark fw-bold"><%= new Date(booking.checkInDate).toLocaleDateString("en-US", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
+                      <span>Check-in Sched:</span>
+                      <span class="text-dark fw-bold"><%= new Date(booking.checkInDate).toLocaleDateString("en-IN", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
                     </div>
                     <div class="d-flex justify-content-between small text-muted">
-                      <span>Check-out:</span>
-                      <span class="text-dark fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-US", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
+                      <span>Check-out Sched:</span>
+                      <span class="text-dark fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-IN", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
                     </div>
                   </div>
 
                   <% if(booking.isSplitBooking) { %>
                     <div class="split-ledger-box mb-3">
-                      <p class="text-muted small fw-bold mb-2 font-monospace text-uppercase" style="font-size: 10px;"><i class="bi bi-people-fill text-danger me-1"></i> Co-Travelers Ledger</p>
-                      
+                      <p class="text-muted small fw-bold mb-2 font-monospace text-uppercase" style="font-size: 10px;"><i class="bi bi-people-fill text-danger me-1"></i> Co-Travelers Split Ledger</p>
                       <div class="participant-node">
-                        <span class="small text-dark fw-semibold text-truncate" style="max-width: 150px;">
-                          <%= booking.user ? booking.user.username : "Host" %> (Host)
+                        <span class="small text-dark fw-bold text-truncate" style="max-width: 150px;">
+                          <%= booking.user ? booking.user.username : "Main User" %> (Primary Booker)
                         </span>
                         <span class="badge-settled">Paid</span>
                       </div>
-
                       <% for(let friend of booking.splitParticipants) { %>
                         <div class="participant-node">
-                          <span class="small text-muted text-truncate" style="max-width: 140px;" title="<%= friend.email %>">
-                            <%= friend.email %>
-                          </span>
+                          <span class="small text-muted text-truncate" style="max-width: 130px;" title="<%= friend.email %>"><%= friend.email %></span>
                           <div class="d-flex align-items-center gap-1">
-                            <span class="small fw-bold text-dark me-1" style="font-size: 11px;">₹<%= friend.shareAmount %></span>
+                            <span class="small fw-bold text-dark me-1" style="font-size: 11px;">&#8377;<%= friend.shareAmount %></span>
                             <% if(friend.hasPaid) { %>
                               <span class="badge-settled"><i class="bi bi-check"></i> Paid</span>
                             <% } else { %>
                               <span class="badge-waiting me-1">Pending</span>
-                              <button class="btn btn-sm btn-danger py-0 px-2 btn-clear-share" 
-                                      style="font-size: 9px; border-radius: 4px;"
-                                      data-booking-id="<%= booking._id %>"
-                                      data-friend-email="<%= friend.email %>">
-                                Pay
-                              </button>
+                              <button class="btn btn-sm btn-danger py-0 px-2 btn-clear-share" style="font-size: 9px; border-radius: 4px;" data-booking-id="<%= booking._id %>" data-friend-email="<%= friend.email %>">Pay</button>
                             <% } %>
                           </div>
                         </div>
@@ -146,7 +125,29 @@
                   <% } %>
 
                   <%- include("includes/checkInForm.ejs", { booking: booking }) %>
+                  <%- include("includes/checkOutForm.ejs", { booking: booking }) %>
 
+                  <% if (booking.dispute && booking.dispute.isDamaged) { %>
+                    <div class="card border-danger mt-3 shadow-sm bg-white" style="border-radius: 14px; overflow: hidden;">
+                      <div class="card-header bg-danger text-white small font-weight-bold py-2"><i class="bi bi-exclamation-octagon me-1"></i> Action Required: Dispute Fine Outstanding</div>
+                      <div class="card-body p-3 text-start">
+                        <p class="mb-1 text-dark small"><b>Dispute Reason:</b> <%= booking.dispute.fineReason %></p>
+                        <p class="mb-2 text-secondary small"><b>Fine Amount Due:</b> <span class="text-danger fw-bold">₹<%= booking.dispute.fineAmount %></span></p>
+
+                        <% if (!booking.dispute.isFinePaid) { %>
+                          <% if (currUser._id.equals(booking.user._id || booking.user)) { %>
+                            <button class="btn btn-sm btn-danger w-100 font-weight-bold py-2 text-uppercase btn-settle-fine" data-booking-id="<%= booking._id %>" data-fine-order-id="<%= booking.dispute.fineRazorpayOrderId %>" data-fine-amount="<%= booking.dispute.fineAmount %>">
+                              <i class="bi bi-credit-card-2-back-fill me-1"></i> Pay Settle Fine Balance
+                            </button>
+                          <% } else { %>
+                            <div class="alert alert-secondary border-0 p-2 mb-0 text-center text-muted small" style="font-size: 11px; border-radius: 6px;">
+                              <i class="bi bi-info-circle-fill me-1"></i> Platform hold active. Awaiting settlement from primary traveler.
+                            </div>
+                          <% } %>
+                        <% } %>
+                      </div>
+                    </div>
+                  <% } %>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
@@ -155,7 +156,6 @@
                   </span>
                   <h5 class="fw-bold text-danger mb-0">&#8377;<%= booking.totalPrice.toLocaleString("en-IN") %></h5>
                 </div>
-
               </div>
             </div>
           </div>
@@ -163,20 +163,80 @@
       <% } %>
     </div>
   <% } %>
+
+
+  <div class="border-bottom pb-2 mb-4 mt-5 d-flex align-items-center">
+    <h3 class="fw-bold text-secondary mb-0"><i class="bi bi-archive-fill text-muted me-2"></i>Past Archives & Ledger History</h3>
+    <span class="badge bg-secondary rounded-pill ms-2 font-monospace"><%= pastBookings.length %> Records</span>
+  </div>
+
+  <% if(pastBookings.length === 0) { %>
+    <div class="p-4 text-center text-muted small bg-light rounded-4 border">
+      <i class="bi bi-folder-symlink fs-3 mb-2 d-block"></i> No historical archive ledgers compiled yet.
+    </div>
+  <% } else { %>
+    <div class="row">
+      <% for(let past of pastBookings) { %>
+        <% if(past.listing) { %>
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 border shadow-sm history-card-wrapper overflow-hidden">
+              <div class="card-body p-4 d-flex flex-column justify-content-between">
+                <div>
+                  <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
+                    <h6 class="fw-bold text-dark text-truncate mb-0"><%= past.listing.title %></h6>
+                    
+                    <% if (past.paymentStatus === 'Refunded') { %>
+                      <span class="badge badge-phase-custom bg-light text-primary border border-primary">REFUNDED</span>
+                    <% } else if (past.paymentStatus === 'Cancelled') { %>
+                      <span class="badge badge-phase-custom bg-light text-secondary border border-secondary">CANCELLED</span>
+                    <% } else if (past.bookingPhase !== 'CheckedOut') { %>
+                      <span class="badge badge-phase-custom bg-light text-warning border border-warning">ELAPSED / NO-SHOW</span>
+                    <% } else { %>
+                      <span class="badge badge-phase-custom bg-light text-success border border-success">COMPLETED STAY</span>
+                    <% } %>
+                  </div>
+                  
+                  <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i><%= past.listing.location %></p>
+                  
+                  <div class="bg-light p-2 rounded-3 small text-muted mb-2" style="font-size: 12px;">
+                    <div class="d-flex justify-content-between">
+                      <span>Duration:</span>
+                      <span class="text-dark fw-bold"><%= new Date(past.checkInDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit'}) %> to <%= new Date(past.checkOutDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit', year: '2-digit'}) %></span>
+                    </div>
+                  </div>
+
+                  <% if (past.dispute && past.dispute.isDamaged && past.dispute.isFinePaid) { %>
+                    <div class="alert alert-success border-0 py-1 px-2 mb-0 text-center text-success" style="font-size: 11px; border-radius: 6px;">
+                      <i class="bi bi-patch-check-fill me-1"></i> Structural Damage Indemnity Settled (₹<%= past.dispute.fineAmount %>)
+                    </div>
+                  <% } %>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top small font-monospace">
+                  <span class="text-muted">Total Ledger Clear:</span>
+                  <span class="text-dark fw-bold">&#8377;<%= past.totalPrice.toLocaleString("en-IN") %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  <% } %>
+
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const clearShareBtns = document.querySelectorAll(".btn-clear-share");
     
+    // 1. Split Co-Traveler payment engine binder
+    const clearShareBtns = document.querySelectorAll(".btn-clear-share");
     clearShareBtns.forEach(btn => {
       btn.addEventListener("click", async function(e) {
         e.preventDefault();
-        
         const bookingId = this.dataset.bookingId;
         const participantEmail = this.dataset.friendEmail;
-        
         this.innerHTML = `<span class="spinner-border spinner-border-sm" style="width:10px; height:10px;"></span>`;
         this.disabled = true;
 
@@ -222,13 +282,55 @@
           },
           "theme": { "color": "#ff385c" }
         };
-
         const rzp = new Razorpay(options);
         rzp.open();
-         
         this.innerHTML = "Pay";
         this.disabled = false;
       });
     });
+
+    // 2. Primary Booker Dispute Fine payment engine binder
+    const clearFineBtns = document.querySelectorAll(".btn-settle-fine");
+    clearFineBtns.forEach(btn => {
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        const bookingId = this.dataset.bookingId;
+        const fineOrderId = this.dataset.fineOrderId;
+        const fineAmount = this.dataset.fineAmount;
+
+        const options = {
+          "key": "<%= razorpayKeyId %>", 
+          "amount": fineAmount * 100,
+          "currency": "INR",
+          "name": "Property Damage Fine Settlement",
+          "description": "Compensatory damage asset liability closure",
+          "order_id": fineOrderId,
+          "handler": async function (rzpResponse) {
+            const verifyRes = await fetch("/bookings/verify-fine-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: rzpResponse.razorpay_order_id,
+                razorpay_payment_id: rzpResponse.razorpay_payment_id,
+                razorpay_signature: rzpResponse.razorpay_signature,
+                bookingId: bookingId
+              })
+            });
+
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              window.location.reload();
+            } else {
+              alert("Fine transaction signature authentication verification failed.");
+              window.location.reload();
+            }
+          },
+          "theme": { "color": "#d9534f" }
+        };
+        const rzp = new Razorpay(options);
+        rzp.open();
+      });
+    });
+
   });
 </script>

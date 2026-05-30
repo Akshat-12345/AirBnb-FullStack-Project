@@ -33,8 +33,11 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user.js');
 
-// Add this at the top of app.js with other require statements
-const Razorpay = require('razorpay');
+// Import Middleware Guard (PHASE 7 INTEGRATION)
+const { isReviewEnforced } = require("./middleware.js");
+
+// Fixed razorpay package requirement typo
+const Razorpay = require('razorpay'); 
 const dbUrl = process.env.ATLAS_DB;
 
 main()
@@ -98,6 +101,7 @@ app.get('/demo',async(req,res)=>{
     let registeredUser = await User.register(fakeUser,'helloworld');
     res.send(registeredUser);
 })
+
 app.use((req,res,next)=>{
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -105,6 +109,9 @@ app.use((req,res,next)=>{
     res.locals.razorpayKeyId = process.env.RAZORPAY_KEY_ID; 
     next();
 })
+
+// === 🛡️ GLOBAL ROUTE ENFORCEMENT INTERCEPTOR MIDDLEWARE (PHASE 7 LOCK) ===
+app.use(isReviewEnforced);
 
 app.get("/",(req,res)=>{
     res.send("Root is Working");
@@ -166,7 +173,6 @@ app.use((err, req, res, next) => {
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}...`);
 })
-
 
 //cd "C:\Users\aksha\OneDrive\Desktop\AKSHAT ENTIRE WORK\SIGMA_8.0\Air_Bnb_Project"
 // ssh -i "my-airbnb-key.pem" ubuntu@13.60.169.79
