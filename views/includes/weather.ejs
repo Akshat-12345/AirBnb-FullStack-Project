@@ -1,95 +1,145 @@
 <% if (typeof weatherForecast !== 'undefined' && weatherForecast && weatherForecast.length > 0) { %>
   <style>
-    .airbnb-weather-wrapper {
-      background-color: #ffffff;
-      border: 1px solid #dddddd;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    /* === 🌤️ ATITHI ULTRA-CLEAN WEATHER HUB === */
+    .atithi-weather-suite {
+      width: 100%;
+      background: transparent;
+      margin-bottom: 28px;
+      box-sizing: border-box;
     }
-    .weather-meta-title {
+
+    /* Clean typography header matching the new map architecture */
+    .weather-suite-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #222222;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .weather-suite-title i {
+      color: #222222;
+      font-size: 18px;
+    }
+
+    /* === 🌌 SMOOTH SLIDER TRACK MATRIX === */
+    .atithi-weather-timeline-track {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scrollbar-width: thin; /* Firefox subtle scroll integration */
+    }
+
+    /* 🌟 WEBKIT CUSTOM SCROLLBAR INTEGRATED WITH ATITHI SPECTRUM GRADIENT */
+    .atithi-weather-timeline-track::-webkit-scrollbar {
+      height: 4px; /* Thin aesthetic horizontal bar */
+    }
+    .atithi-weather-timeline-track::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    .atithi-weather-timeline-track::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #FF9432 0%, #67B636 50%, #00A3E0 100%);
+      border-radius: 10px;
+    }
+
+    /* === 🎛️ BORDERLESS DYNAMIC CARD NODES === */
+    .atithi-weather-node {
+      text-align: center;
+      padding: 14px 10px;
+      background-color: #ffffff;
+      border: 1px solid #ebebeb; /* Crisp faint framework bounds */
+      border-radius: 14px;
+      min-width: 82px;
+      flex: 1;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.015);
+      transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .atithi-weather-node:hover {
+      transform: translateY(-3px);
+      border-color: #ff385c; /* Core active accent indicator */
+      box-shadow: 0 10px 25px rgba(255, 56, 92, 0.06);
+    }
+
+    .weather-node-day {
+      font-size: 13px;
+      font-weight: 600;
+      color: #222222;
+      line-height: 1.2;
+    }
+
+    .weather-node-date-sub {
+      font-size: 10px;
+      color: #717171;
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    .atithi-weather-icon-engine {
+      width: 36px;
+      height: 36px;
+      margin: 6px auto;
+      display: block;
+      filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.06));
+      transition: transform 0.3s ease;
+    }
+    .atithi-weather-node:hover .atithi-weather-icon-engine {
+      transform: scale(1.1) rotate(5deg); /* Playful internal scale bounce */
+    }
+
+    .weather-node-temp {
       font-size: 15px;
       font-weight: 600;
       color: #222222;
       letter-spacing: -0.2px;
     }
-    .airbnb-timeline-track {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      overflow-x: auto;
-      scrollbar-width: none; /* Firefox */
-      padding-top: 12px;
-    }
-    .airbnb-timeline-track::-webkit-scrollbar {
-      display: none; /* Chrome/Safari */
-    }
-    .airbnb-weather-node {
-      text-align: center;
-      padding: 12px 8px;
-      background-color: #f7f7f7;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      min-width: 78px;
-      transition: all 0.2s ease-in-out;
-    }
-    .airbnb-weather-node:hover {
-      background-color: #ffffff;
-      border-color: #ff385c;
-      box-shadow: 0 6px 16px rgba(255, 56, 92, 0.08);
-      transform: translateY(-2px);
-    }
-    .node-day-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #222222;
-    }
-    .node-date-sub {
-      font-size: 10px;
-      color: #717171;
-    }
-    .airbnb-weather-icon {
-      width: 38px;
-      height: 38px;
-      margin: 2px 0;
-      filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.05));
-    }
-    .node-temp-display {
-      font-size: 15px;
-      font-weight: 600;
-      color: #222222;
-    }
-    .node-humidity-display {
-      font-size: 10px;
+
+    .weather-node-humidity {
+      font-size: 11px;
       color: #717171;
       font-weight: 500;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+    .weather-node-humidity i {
+      color: #00A3E0; /* Clean brand blue droplet indicator */
+      font-size: 10px;
     }
   </style>
 
-  <div class="airbnb-weather-wrapper">
-    <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
-      <div class="weather-meta-title">
-        <i class="bi bi-cloud-sun text-danger me-1"></i> Destination Weather Forecast
-      </div>
-      <span class="badge bg-light text-secondary border font-monospace" style="font-size: 10px; font-weight: 500;">5-Day Plan</span>
+  <div class="atithi-weather-suite animate__animated animate__fadeIn">
+    
+    <!-- Step 1: Clean Borderless Headline Framework -->
+    <div class="weather-suite-title">
+      <i class="bi bi-cloud-sun-fill"></i>
+      <span>Destination Weather Forecast</span>
     </div>
     
-    <div class="airbnb-timeline-track">
+    <!-- Step 2: Immersive Horizontal Timeline Track Slider -->
+    <div class="atithi-weather-timeline-track">
       <% for(let day of weatherForecast) { %>
-        <div class="airbnb-weather-node flex-fill">
-          <div class="node-day-title"><%= day.dayName %></div>
-          <div class="node-date-sub"><%= day.dateStr %></div>
+        <div class="atithi-weather-node">
+          <div class="weather-node-day"><%= day.dayName %></div>
+          <div class="weather-node-date-sub"><%= day.dateStr %></div>
           
-          <img src="https://openweathermap.org/img/wn/<%= day.icon %>.png" alt="icon" class="airbnb-weather-icon">
+          <!-- Optimized drop-shadow icon engine placeholder -->
+          <img src="https://openweathermap.org/img/wn/<%= day.icon %>.png" alt="weather status" class="atithi-weather-icon-engine">
           
-          <div class="node-temp-display"><%= day.temp %>&deg;C</div>
-          <div class="node-humidity-display">
-            <i class="bi bi-droplet text-info" style="font-size: 9px;"></i> <%= day.humidity %>%
+          <div class="weather-node-temp"><%= day.temp %>°C</div>
+          <div class="weather-node-humidity">
+            <i class="bi bi-droplet-fill"></i><%= day.humidity %>%
           </div>
         </div>
       <% } %>
     </div>
+
   </div>
 <% } %>

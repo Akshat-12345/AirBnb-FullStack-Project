@@ -1,332 +1,566 @@
 <%= layout("/layouts/boiler_plate.ejs") %>
 
 <style>
-    .host-metric { border-radius: 20px; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border: none; }
-    .host-metric:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.08) !important; }
-    
-    /* Modern Dashboard Badges */
-    .badge-split-partial { background-color: #fff3cd; color: #664d03; border: 1px solid #ffecb5; font-size: 11px; font-weight: 600; }
-    .badge-split-full { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; font-size: 11px; font-weight: 600; }
-    .badge-phase { font-size: 11px; font-weight: bold; border-radius: 6px; padding: 4px 10px; font-family: monospace; }
-    .badge-archive-status { font-size: 10px; font-weight: bold; border-radius: 6px; padding: 4px 10px; font-family: monospace; letter-spacing: 0.5px; }
+  :root {
+    /* Atithi Immersive Executive Brand Color Palette Spectrum */
+    --atithi-orange: #FF9432;
+    --atithi-green: #67B636;
+    --atithi-blue: #00A3E0;
+    --airbnb-red: #FF385C;
+    --text-slate-dark: #222222;
+    --text-slate-muted: #717171;
+    --font-premium-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
 
-    /* Media Inspection Grid Panels */
-    .inspection-panel { background-color: #fdfdfd; border-radius: 16px; border: 1px solid #eef0f2; }
-    .checkin-sidebar { border-left: 4px solid #ff385c; }
-    .checkout-sidebar { border-left: 4px solid #38a169; }
-    
-    .preview-media-node { border-radius: 12px; object-fit: cover; border: 1px solid #e2e8f0; transition: transform 0.2s; background: #000; }
-    .preview-media-node:hover { transform: scale(1.02); }
+  body, html {
+    font-family: var(--font-premium-stack);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.1px;
+    background-color: #ffffff !important;
+  }
 
-    /* Dispute Options Layout Components */
-    .fine-assessment-box { background: #fff5f5; border: 1px dashed #feb2b2; border-radius: 14px; padding: 16px; }
-    .clean-closure-box { background: #f0fff4; border: 1px dashed #98fb98; border-radius: 14px; padding: 16px; }
+  /* === 🚀 GLOBAL SPECTRUM SCROLLBAR INTERACTION === */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.01);
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
+    border-radius: 100px;
+  }
 
-    /* Past Archive Row Card Styling */
-    .archive-history-row { opacity: 0.85; background-color: #fafafa; border-radius: 14px; transition: all 0.2s; }
-    .archive-history-row:hover { opacity: 1; background-color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  /* === 🌌 1. INTERACTIVE HERO HEADER WITH DYNAMIC ROTATOR ENGINE === */
+  .dashboard-top-hero-banner {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 90px 4% 110px 4%;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+    overflow: hidden;
+    background-color: #1a1a1a; 
+  }
+
+  /* Dynamic Slide Track Matrix Channels */
+  .banner-slide-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 1.2s ease-in-out; 
+  }
+  
+  .banner-slide-bg.slide-active {
+    opacity: 1;
+  }
+
+  /* Dark Tint Filter Layer Matrix Protection */
+  .banner-mask-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.55) 100%);
+    z-index: 2;
+  }
+
+  .banner-content-cluster {
+    position: relative;
+    z-index: 3; 
+  }
+
+  .banner-suite-title {
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: -0.8px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  
+  .banner-suite-desc {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 15px;
+    font-weight: 500;
+    max-width: 850px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  }
+
+  /* === 🌟 2. TRANSLUCENT BENTO ANALYTICS CARDS === */
+  .host-metric { 
+    border-radius: 20px; 
+    position: relative; 
+    overflow: hidden; 
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    padding: 30px 24px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1); 
+  }
+  .host-metric:hover { 
+    transform: translateY(-4px); 
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28) !important; 
+  }
+
+  .revenue-glow-card {
+    background: rgba(20, 26, 38, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+  .revenue-glow-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
+  }
+
+  .metric-badge-label {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px !important;
+  }
+  
+  .metric-sub-context-text {
+    font-size: 12.5px;
+    color: var(--text-slate-muted);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+  .revenue-glow-card .metric-sub-context-text {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* === 🌟 3. OUTSIDE LOWER CONTAINER MODULE WORKSPACE === */
+  .dashboard-lower-workspace {
+    width: 100%;
+    padding: 10px 0 50px 0;
+  }
+
+  .atithi-table-card {
+    background: #ffffff !important;
+    border: 1px solid #ebebeb !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+  }
+
+  .inspection-panel { 
+    background-color: #ffffff; 
+    border-radius: 16px; 
+    border: 1px solid #ebebeb; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  }
+  .checkin-sidebar { border-left: 3px solid var(--atithi-orange) !important; }
+  .checkout-sidebar { border-left: 3px solid var(--atithi-green) !important; }
+  
+  .preview-media-node { 
+    border-radius: 10px; 
+    object-fit: cover; 
+    border: 1px solid #ebebeb; 
+    transition: all 0.2s ease; 
+    background: #222222; 
+  }
+  .preview-media-node:hover { transform: scale(1.02); }
+
+  .fine-assessment-box { 
+    background: #fff8f8; 
+    border: 1px dashed rgba(255, 56, 92, 0.4); 
+    border-radius: 14px; 
+    padding: 16px; 
+  }
+  .clean-closure-box { 
+    background: #f8fff8; 
+    border: 1px dashed rgba(103, 182, 54, 0.4); 
+    border-radius: 14px; 
+    padding: 16px; 
+  }
+
+  .archive-history-row { 
+    background-color: #ffffff; 
+    border-bottom: 1px solid #f2f2f2 !important;
+    transition: background-color 0.2s ease; 
+  }
+  .archive-history-row:hover { 
+    background-color: #fafafa; 
+  }
+
+  .form-control-sm {
+    border-radius: 8px;
+    border: 1px solid #dddddd;
+    font-weight: 600;
+    padding: 8px 12px;
+  }
+  .form-control-sm:focus {
+    border-color: var(--atithi-orange);
+    box-shadow: 0 0 0 3px rgba(255, 148, 50, 0.1);
+  }
+
+  .btn-danger-atithi {
+    background: #222222;
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background 0.2s ease;
+  }
+  .btn-danger-atithi:hover {
+    background: #000000;
+    color: white;
+  }
+
+  .badge-split-partial { background: rgba(255, 148, 50, 0.08); color: var(--atithi-orange); border: 1px solid rgba(255, 148, 50, 0.2); font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 8px; }
+  .badge-split-full { background: rgba(103, 182, 54, 0.08); color: var(--atithi-green); border: 1px solid rgba(103, 182, 54, 0.2); font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 8px; }
+  .badge-phase { font-size: 11px; font-weight: 700; border-radius: 6px; padding: 4px 10px; letter-spacing: 0.2px; }
+  .badge-archive-status { font-size: 11px; font-weight: 700; border-radius: 6px; padding: 4px 10px; }
 </style>
 
-<div class="container mt-5 mb-5">
-    <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap">
-        <div>
-            <h2 class="fw-bold tracking-tight text-dark"><i class="bi bi-shield-shaded text-danger me-2"></i>Host Command Analytics Center</h2>
-            <p class="text-muted mb-0">Real-time occupancy evaluation, asset validation streams, and dispute control hubs.</p>
-        </div>
+<!-- 🌟 IMMERSIVE FULL-WIDTH BANNER HOUSING WITH AUTOMATED MULTI-IMAGE ROTATOR SLIDESHOW -->
+<div class="dashboard-top-hero-banner">
+  
+  <!-- Image Slides Arrays Matrix (Luxury Architectural Concept Nodes) -->
+  <div class="banner-slide-bg slide-active" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2000&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2000&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2000&auto=format&fit=crop');"></div>
+
+  <!-- Ambient Safety Dark Filter Overlay Mask -->
+  <div class="banner-mask-overlay"></div>
+
+  <!-- Content Packets Cluster Inside Slideshow Node -->
+  <div class="banner-content-cluster">
+    <div class="mb-4">
+      <h2 class="banner-suite-title mb-2">
+        <i class="bi bi-shield-shaded text-white me-2"></i>Atithi Elite Host Suite
+      </h2>
+      <p class="banner-suite-desc mb-0">Monitor financial yields, process algorithmic check-in safety matrices, and resolve asset condition logs instantly.</p>
     </div>
 
-    <div class="row mb-5">
-        <div class="col-md-4 mb-3">
-            <div class="card host-metric border-0 shadow-sm p-4 bg-dark text-white shadow">
-                <span class="text-white-50 text-uppercase small fw-bold font-monospace"><i class="bi bi-cash-coin me-2"></i>Gross Capital Revenue</span>
-                <h2 class="display-6 fw-bold mt-2 mb-0 text-success">&#8377;<%= metrics.totalRevenue.toLocaleString("en-IN") %></h2>
-            </div>
+    <!-- Bento Modular Metrics Matrix Array -->
+    <div class="row g-4 mt-2">
+      <div class="col-md-4">
+        <div class="card host-metric revenue-glow-card border-0 shadow h-100">
+          <span class="text-white-50 text-uppercase small metric-badge-label font-monospace"><i class="bi bi-cash-coin me-2" style="color: var(--atithi-orange);"></i>Net Revenue Generation</span>
+          <h2 class="display-6 fw-bold mt-2 mb-2 text-white" style="letter-spacing: -1px;">&#8377;<%= metrics.totalRevenue.toLocaleString("en-IN") %></h2>
+          <p class="metric-sub-context-text">Gross earnings captured from completed checkout timelines after systemic tax payouts.</p>
         </div>
-        <div class="col-md-4 mb-3">
-            <div class="card host-metric border-0 shadow-sm p-4 bg-white text-dark border">
-                <span class="text-muted text-uppercase small fw-bold font-monospace"><i class="bi bi-building me-2"></i>Listed Accommodations</span>
-                <h2 class="display-6 fw-bold mt-2 mb-0 text-dark"><%= myListings.length %> <span class="fs-5 text-muted">Properties</span></h2>
-            </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card host-metric border-0 h-100">
+          <span class="text-slate-muted text-uppercase small metric-badge-label font-monospace"><i class="bi bi-building me-2" style="color: var(--atithi-green);"></i>Operational Accommodations</span>
+          <h2 class="display-6 fw-bold mt-2 mb-2 text-dark" style="letter-spacing: -1px;"><%= myListings.length %> <span class="fs-5 text-muted fw-semibold">Properties</span></h2>
+          <p class="metric-sub-context-text">Active spaces mapped onto the geographical matrix layout nodes ready for group reservations.</p>
         </div>
-        <div class="col-md-4 mb-3">
-            <div class="card host-metric border-0 shadow-sm p-4 bg-white text-dark border">
-                <span class="text-muted text-uppercase small fw-bold font-monospace"><i class="bi bi-calendar-check me-2"></i>Reservations Received</span>
-                <h2 class="display-6 fw-bold mt-2 mb-0 text-dark"><%= metrics.totalBookings %> <span class="badge bg-danger fs-6 ms-2 font-monospace" style="vertical-align: middle;"><%= metrics.activeReservations %> Live</span></h2>
-            </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card host-metric border-0 h-100">
+          <span class="text-slate-muted text-uppercase small metric-badge-label font-monospace"><i class="bi bi-calendar-check me-2" style="color: var(--atithi-blue);"></i>Reservations Lifecycle</span>
+          <h2 class="display-6 fw-bold mt-2 mb-2 text-dark" style="letter-spacing: -1px;"><%= metrics.totalBookings %> <span class="badge bg-dark fs-6 ms-2 font-monospace px-3 py-1 rounded-pill" style="vertical-align: middle; font-size: 12px !important; font-weight: 600; color: white;"><%= metrics.activeReservations %> Streaming</span></h2>
+          <p class="metric-sub-context-text">Accumulated client channels routed through the algorithmic security checkout matrix pipeline.</p>
         </div>
+      </div>
     </div>
-
-    <div class="border-bottom pb-2 mb-4 d-flex align-items-center justify-content-between">
-        <h4 class="fw-bold text-dark mb-0"><i class="bi bi-play-circle-fill text-danger me-2"></i>Active Customer Reservations Logs</h4>
-        <span class="badge bg-danger font-monospace rounded-pill"><%= incomingBookings.length %> Live Channels</span>
-    </div>
-
-    <% if(incomingBookings.length === 0) { %>
-        <div class="alert alert-light text-center border p-5 rounded-4 bg-white shadow-sm mb-5">
-            <i class="bi bi-folder-x display-4 text-muted mb-3"></i>
-            <h5 class="text-muted fw-bold">No active reservations streaming right now.</h5>
-            <p class="text-muted small mb-0">Stays that have completely checked out or elapsed are safely archived in the ledger below.</p>
-        </div>
-    <% } else { %>
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white border mb-5">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-dark text-uppercase small font-monospace">
-                        <tr>
-                            <th class="ps-4 py-3">Targeted Asset Property</th>
-                            <th class="py-3">Guest Designation</th>
-                            <th class="py-3">Timeline Schedule</th>
-                            <th class="py-3">Current Phase State</th>
-                            <th class="py-3">Net Payment Flow</th>
-                            <th class="pe-4 py-3 text-end">Action Panel Links</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(let r of incomingBookings) { %>
-                            <tr class="align-middle">
-                                <td class="ps-4">
-                                    <span class="fw-bold text-dark d-block fs-6"><%= r.listing ? r.listing.title : "Index Deleted" %></span>
-                                    <span class="text-muted small"><i class="bi bi-geo-alt-fill text-danger me-1"></i><%= r.listing ? r.listing.location : "N/A" %></span>
-                                    <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
-                                        <div class="mt-1">
-                                            <button class="btn btn-sm p-0 text-danger fw-bold small text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#inspectMatrix-<%= r._id %>">
-                                                <i class="bi bi-camera-video-fill me-1"></i> Review Verification Media ⚡
-                                            </button>
-                                        </div>
-                                    <% } %>
-                                </td>
-                                
-                                <td>
-                                    <div class="fw-bold text-secondary">@<%= r.user ? r.user.username : "N/A" %></div>
-                                    <div class="small text-muted font-monospace"><%= r.user ? r.user.email : "N/A" %></div>
-                                </td>
-                                
-                                <td class="small">
-                                    <div class="text-dark"><b>In:</b> <%= new Date(r.checkInDate).toLocaleDateString("en-IN", {day: '2-digit', month: 'short'}) %></div>
-                                    <div class="text-muted"><b>Out:</b> <%= new Date(r.checkOutDate).toLocaleDateString("en-IN", {day: '2-digit', month: 'short'}) %></div>
-                                </td>
-                                
-                                <td>
-                                    <% if (r.bookingPhase === "Booked") { %>
-                                        <span class="badge badge-phase bg-light text-primary border border-primary">RESERVED</span>
-                                    <% } else if (r.bookingPhase === "CheckedIn") { %>
-                                        <span class="badge badge-phase bg-light text-danger border border-danger">STAY ACTIVE</span>
-                                    <% } else if (r.bookingPhase === "CheckedOut") { %>
-                                        <span class="badge badge-phase bg-light text-warning border border-warning">FINE PENDING</span>
-                                    <% } %>
-                                </td>
-
-                                <td>
-                                    <span class="text-dark fw-bold d-block">&#8377;<%= r.totalPrice.toLocaleString("en-IN") %></span>
-                                    <span class="badge <%= r.paymentStatus === 'Paid' ? 'badge-split-full' : 'badge-split-partial' %> px-2 py-0">
-                                        <%= r.paymentStatus %>
-                                    </span>
-                                </td>
-
-                                <td class="pe-4 text-end">
-                                    <div class="d-inline-flex gap-2">
-                                        <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
-                                            <button class="btn btn-sm btn-dark font-monospace px-3 rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#inspectMatrix-<%= r._id %>">
-                                                <i class="bi bi-eye-fill me-1"></i> Inspect Assets
-                                            </button>
-                                        <% } else { %>
-                                            <button class="btn btn-sm btn-light font-monospace px-3 rounded-pill text-muted" disabled>
-                                                <i class="bi bi-hourglass-split"></i> No Media Yet
-                                            </button>
-                                        <% } %>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
-                                <tr class="collapse" id="inspectMatrix-<%= r._id %>">
-                                    <td colspan="6" class="p-0 border-0 bg-light">
-                                        <div class="p-4 border-bottom bg-white mx-3 my-3 shadow-sm rounded-4">
-                                            <div class="row">
-                                                <div class="col-lg-6 mb-4 mb-lg-0">
-                                                    <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
-                                                        <div class="p-3 h-100 inspection-panel checkin-sidebar">
-                                                            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
-                                                                <div>
-                                                                    <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-arrow-in-right text-danger me-2"></i>1. Check-In Security Snapshots</h6>
-                                                                    <small class="text-muted">Logged: <%= new Date(r.checkInMedia.uploadedAt).toLocaleString("en-IN") %></small>
-                                                                </div>
-                                                                <form action="/bookings/<%= r._id %>/approve-media?_method=PATCH" method="POST">
-                                                                    <% if(!r.isApprovedByOwner) { %>
-                                                                        <input type="hidden" name="approve" value="true">
-                                                                        <button type="submit" class="btn btn-xs btn-outline-success rounded-pill font-weight-bold p-1 px-3 small" style="font-size: 11px;">Pin to Public Gallery</button>
-                                                                    <% } else { %>
-                                                                        <input type="hidden" name="approve" value="false">
-                                                                        <button type="submit" class="btn btn-xs btn-danger text-white rounded-pill font-weight-bold p-1 px-3 small" style="font-size: 11px;">Remove Public Gallery</button>
-                                                                    <% } %>
-                                                                </form>
-                                                            </div>
-                                                            <div class="row g-2 mb-2">
-                                                                <% r.checkInMedia.photos.forEach((img) => { %>
-                                                                    <div class="col-6">
-                                                                        <a href="<%= img.url %>" target="_blank">
-                                                                            <img src="<%= img.url %>" class="preview-media-node w-100" style="height: 100px;" alt="Checkin Snapshot">
-                                                                        </a>
-                                                                    </div>
-                                                                <% }) %>
-                                                            </div>
-                                                            <video src="<%= r.checkInMedia.video.url %>" class="preview-media-node w-100" style="max-height: 120px;" controls></video>
-                                                        </div>
-                                                    <% } %>
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                    <% if (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0) { %>
-                                                        <div class="p-3 h-100 inspection-panel checkout-sidebar">
-                                                            <div class="mb-3 pb-2 border-bottom">
-                                                                <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-arrow-left text-success me-2"></i>2. Check-Out Structural Condition</h6>
-                                                                <small class="text-muted">Logged: <%= new Date(r.checkOutMedia.uploadedAt).toLocaleString("en-IN") %></small>
-                                                            </div>
-                                                            <div class="row g-2 mb-2">
-                                                                <% r.checkOutMedia.photos.forEach((img) => { %>
-                                                                    <div class="col-6">
-                                                                        <a href="<%= img.url %>" target="_blank">
-                                                                            <img src="<%= img.url %>" class="preview-media-node w-100" style="height: 100px;" alt="Checkout Snapshot">
-                                                                        </a>
-                                                                    </div>
-                                                                <% }) %>
-                                                            </div>
-                                                            <video src="<%= r.checkOutMedia.video.url %>" class="preview-media-node w-100 mb-3" style="max-height: 120px;" controls></video>
-
-                                                            <% if (!r.dispute || (!r.dispute.isDamaged && !r.dispute.fineRazorpayOrderId)) { %>
-                                                                <div class="row g-2">
-                                                                    <div class="col-md-6">
-                                                                        <div class="clean-closure-box border text-center h-100 d-flex flex-column justify-content-between">
-                                                                            <p class="text-success small fw-bold mb-1"><i class="bi bi-check-circle-fill"></i> Asset Clean Slate</p>
-                                                                            <form action="/bookings/<%= r._id %>/settle-clean" method="POST">
-                                                                                <button type="submit" class="btn btn-sm btn-success w-100 font-monospace small py-2 text-uppercase" style="font-size: 10px;">Mark Stay As Clean</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="fine-assessment-box border text-center h-100 d-flex flex-column justify-content-between">
-                                                                            <p class="text-danger small fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill"></i> Damages Found</p>
-                                                                            <button class="btn btn-sm btn-danger w-100 font-monospace small py-2 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#fineFormBox-<%= r._id %>" style="font-size: 10px;">File Assessment Fine</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="collapse mt-2" id="fineFormBox-<%= r._id %>">
-                                                                    <div class="fine-assessment-box border">
-                                                                        <form action="/bookings/<%= r._id %>/claim-fine" method="POST" class="needs-validation" novalidate>
-                                                                            <div class="row g-2">
-                                                                                <div class="col-md-5">
-                                                                                    <input type="number" name="fineAmount" class="form-control form-control-sm" placeholder="Fine (₹)" required min="1">
-                                                                                </div>
-                                                                                <div class="col-md-7">
-                                                                                    <input type="text" name="fineReason" class="form-control form-control-sm" placeholder="Reason for dispute..." required>
-                                                                                </div>
-                                                                            </div>
-                                                                            <button type="submit" class="btn btn-sm btn-danger w-100 font-weight-bold mt-2 text-uppercase font-monospace" style="font-size: 11px;">🚨 Issue Fine Invoice Link</button>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            <% } else { %>
-                                                                <div class="alert alert-warning border border-warning rounded-3 p-3 mb-0 mt-2">
-                                                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                                                        <div class="small text-dark">
-                                                                            <i class="bi bi-file-earmark-medical-fill me-1"></i> Fine Issued: <b>₹<%= r.dispute.fineAmount %></b>
-                                                                        </div>
-                                                                        <span class="badge bg-danger font-monospace text-uppercase" style="font-size: 9px;">UNPAID HOLD</span>
-                                                                    </div>
-                                                                    <div class="small text-muted mb-2 font-monospace"><b>Reason:</b> <%= r.dispute.fineReason %></div>
-                                                                    <form action="/bookings/<%= r._id %>/cancel-fine" method="POST">
-                                                                        <button type="submit" class="btn btn-xs btn-outline-danger w-100 py-1 font-weight-bold text-uppercase" style="font-size: 10px; border-radius: 6px;"><i class="bi bi-x-circle-fill me-1"></i> Cancel Damage Dispute Fine (Recheck Correction)</button>
-                                                                    </form>
-                                                                </div>
-                                                            <% } %>
-                                                        </div>
-                                                    <% } else { %>
-                                                        <div class="p-3 text-center text-muted small bg-light rounded-3 border h-100 d-flex flex-column justify-content-center">
-                                                            <i class="bi bi-clock-history fs-4 mb-2"></i> Waiting for guest checkout validation logs.
-                                                        </div>
-                                                    <% } %>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <% } %>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    <% } %>
-
-
-    <div class="border-bottom pb-2 mb-4 mt-5 d-flex align-items-center justify-content-between">
-        <h4 class="fw-bold text-secondary mb-0"><i class="bi bi-archive-fill text-muted me-2"></i>Past Archives & Ledger History</h4>
-        <span class="badge bg-secondary font-monospace rounded-pill"><%= pastArchiveHistory.length %> Closed Ledgers</span>
-    </div>
-
-    <% if(pastArchiveHistory.length === 0) { %>
-        <div class="p-4 text-center text-muted small bg-light border" style="border-radius: 14px;">
-            <i class="bi bi-inbox fs-3 mb-1 d-block text-secondary"></i> No historically closed entries compiled inside your host profile archive yet.
-        </div>
-    <% } else { %>
-        <div class="card border shadow-sm rounded-4 overflow-hidden bg-white">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light text-uppercase small font-monospace text-secondary">
-                        <tr>
-                            <th class="ps-4 py-3">Archived Asset Title</th>
-                            <th class="py-3">Guest Reference</th>
-                            <th class="py-3">Timeline Interval</th>
-                            <th class="py-3">Platform Integrity State</th>
-                            <th class="pe-4 py-3 text-end">Total Capital Earned</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(let past of pastArchiveHistory) { %>
-                            <tr class="archive-history-row align-middle">
-                                <td class="ps-4">
-                                    <span class="fw-semibold text-dark d-block small"><%= past.listing ? past.listing.title : "Index Deleted" %></span>
-                                    <span class="text-muted text-capitalize" style="font-size: 11px;"><i class="bi bi-geo-alt me-1"></i><%= past.listing ? past.listing.location : "N/A" %></span>
-                                </td>
-                                
-                                <td class="small text-secondary">
-                                    <div class="fw-bold">@<%= past.user ? past.user.username : "N/A" %></div>
-                                    <div style="font-size: 11px;" class="font-monospace text-muted"><%= past.user ? past.user.email : "N/A" %></div>
-                                </td>
-                                
-                                <td class="small text-muted" style="font-size: 11px;">
-                                    <%= new Date(past.checkInDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit'}) %> to <%= new Date(past.checkOutDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit', year: '2-digit'}) %>
-                                </td>
-                                
-                                <td>
-                                    <% if (past.paymentStatus === 'Refunded') { %>
-                                        <span class="badge badge-archive-status bg-light text-primary border border-primary">REFUNDED</span>
-                                    <% } else if (past.paymentStatus === 'Cancelled') { %>
-                                        <span class="badge badge-archive-status bg-light text-secondary border border-secondary">CANCELLED</span>
-                                    <% } else if (past.bookingPhase !== 'CheckedOut') { %>
-                                        <span class="badge badge-archive-status bg-light text-warning border border-warning">ELAPSED / NO-SHOW</span>
-                                    <% } else { %>
-                                        <span class="badge badge-archive-status bg-light text-success border border-success">CLEARED & CLOSED</span>
-                                    <% } %>
-
-                                    <% if (past.dispute && past.dispute.isDamaged && past.dispute.isFinePaid) { %>
-                                        <span class="badge text-uppercase font-monospace bg-light text-danger border border-danger ms-1" style="font-size: 9px;"><i class="bi bi-patch-check"></i> Fine Settled</span>
-                                    <% } %>
-                                </td>
-
-                                <td class="pe-4 text-end font-monospace text-success fw-bold small">
-                                    <% if (past.paymentStatus === 'Refunded' || past.paymentStatus === 'Cancelled') { %>
-                                        &#8377;0
-                                    <% } else { %>
-                                        &#8377;<%= past.totalPrice.toLocaleString("en-IN") %>
-                                    <% } %>
-                                </td>
-                            </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    <% } %>
+  </div>
 </div>
+
+<!-- 🌟 FIXED: OUTSIDE STABLE CANVAS GRID PACKAGE -->
+<div class="container-fluid px-md-5 dashboard-lower-workspace">
+
+  <!-- Active Pipelines Section Divider -->
+  <div class="pb-2 mb-4 d-flex align-items-center justify-content-between" style="border-bottom: 1px solid #ebebeb;">
+    <h5 class="fw-bold text-dark mb-0" style="letter-spacing: -0.3px;"><i class="bi bi-play-circle-fill text-danger me-2"></i>Active Operational Stays Matrix</h5>
+    <span class="badge bg-white text-dark border font-monospace rounded-pill px-3 py-2 shadow-sm" style="font-size: 11px; font-weight: 600;"><%= incomingBookings.length %> Live Pipelines</span>
+  </div>
+
+  <% if(incomingBookings.length === 0) { %>
+    <div class="alert alert-light text-center border p-5 rounded-4 bg-white mb-5" style="border-color: #ebebeb !important;">
+      <i class="bi bi-folder-x display-5 text-muted d-block mb-2"></i>
+      <h6 class="text-dark fw-bold">No active occupancy channels executing.</h6>
+      <p class="text-muted small mb-0 fw-medium">All historical data packets have successfully cleared and populated the permanent archive ledger below.</p>
+    </div>
+  <% } else { %>
+    <div class="card atithi-table-card border-0 mb-5">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="text-uppercase small font-monospace" style="background-color: #ffffff; border-bottom: 2px solid #ebebeb;">
+            <tr>
+              <th class="ps-4 py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Property Infrastructure</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Guest Profile</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Timeline Slot</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Phase Status</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Yield Capital</th>
+              <th class="pe-4 py-3 text-end" style="font-weight: 700; font-size: 11px; color: #717171;">Operational Panel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let r of incomingBookings) { %>
+              <tr class="archive-history-row align-middle">
+                <td class="ps-4 py-3">
+                  <span class="fw-bold text-dark d-block fs-6" style="letter-spacing: -0.2px;"><%= r.listing ? r.listing.title : "Index Deleted" %></span>
+                  <span class="text-muted small fw-medium"><i class="bi bi-geo-alt-fill text-danger me-1"></i><%= r.listing ? r.listing.location : "N/A" %></span>
+                  <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
+                    <div class="mt-1">
+                      <button class="btn btn-sm p-0 text-primary fw-bold small text-decoration-none" style="font-size: 12px;" type="button" data-bs-toggle="collapse" data-bs-target="#inspectMatrix-<%= r._id %>">
+                        <i class="bi bi-camera-video-fill me-1" style="color: var(--atithi-blue);"></i> Verify Inspection Media ⚡
+                      </button>
+                    </div>
+                  <% } %>
+                </td>
+                
+                <td>
+                  <div class="fw-bold text-dark">@<%= r.user ? r.user.username : "N/A" %></div>
+                  <div class="small text-muted font-monospace"><%= r.user ? r.user.email : "N/A" %></div>
+                </td>
+                
+                <td class="small fw-semibold text-dark">
+                  <div><b>Check-In:</b> <%= new Date(r.checkInDate).toLocaleDateString("en-IN", {day: '2-digit', month: 'short'}) %></div>
+                  <div class="text-muted fw-normal"><b>Check-Out:</b> <%= new Date(r.checkOutDate).toLocaleDateString("en-IN", {day: '2-digit', month: 'short'}) %></div>
+                </td>
+                
+                <td>
+                  <% if (r.bookingPhase === "Booked") { %>
+                    <span class="badge badge-phase bg-light text-primary border border-primary">RESERVED</span>
+                  <% } else if (r.bookingPhase === "CheckedIn") { %>
+                    <span class="badge badge-phase bg-light text-danger border border-danger">STAY ACTIVE</span>
+                  <% } else if (r.bookingPhase === "CheckedOut") { %>
+                    <span class="badge badge-phase bg-light text-warning border border-warning">FINE PENDING</span>
+                  <% } %>
+                </td>
+
+                <td>
+                  <span class="text-dark fw-bold d-block">₹<%= r.totalPrice.toLocaleString("en-IN") %></span>
+                  <span class="badge <%= r.paymentStatus === 'Paid' ? 'badge-split-full' : 'badge-split-partial' %> mt-1"><%= r.paymentStatus %></span>
+                </td>
+
+                <td class="pe-4 text-end">
+                  <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
+                    <button class="btn btn-sm btn-outline-dark font-monospace px-3 rounded-pill fw-bold" style="font-size: 11.5px;" type="button" data-bs-toggle="collapse" data-bs-target="#inspectMatrix-<%= r._id %>">
+                      <i class="bi bi-eye-fill me-1"></i> Inspect Assets
+                    </button>
+                  <% } else { %>
+                    <button class="btn btn-sm btn-light font-monospace px-3 rounded-pill text-muted fw-semibold border" style="font-size: 11.5px;" disabled>
+                      <i class="bi bi-hourglass-split"></i> Awaiting Data
+                    </button>
+                  <% } %>
+                </td>
+              </tr>
+
+              <!-- EXPANDABLE MEDIA DRAWER LAYER -->
+              <% if ((r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) || (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0)) { %>
+                <tr class="collapse" id="inspectMatrix-<%= r._id %>" style="background-color: #fafafa !important;">
+                  <td colspan="6" class="p-0 border-0">
+                    <div class="p-4 bg-white mx-3 my-3 rounded-4" style="border: 1px solid #ebebeb !important;">
+                      <div class="row">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                          <% if (r.checkInMedia && r.checkInMedia.photos && r.checkInMedia.photos.length > 0) { %>
+                            <div class="p-4 h-100 inspection-panel checkin-sidebar">
+                              <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                                <div>
+                                  <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-arrow-in-right text-warning me-2"></i>1. Arrival Verification Vault</h6>
+                                  <small class="text-muted fw-semibold font-monospace">Logged: <%= new Date(r.checkInMedia.uploadedAt).toLocaleString("en-IN") %></small>
+                                </div>
+                                <form action="/bookings/<%= r._id %>/approve-media?_method=PATCH" method="POST">
+                                  <% if(!r.isApprovedByOwner) { %>
+                                    <input type="hidden" name="approve" value="true">
+                                    <button type="submit" class="btn btn-sm btn-outline-success rounded-pill fw-bold px-3" style="font-size: 11px;">Pin to Public Gallery</button>
+                                  <% } else { %>
+                                    <input type="hidden" name="approve" value="false">
+                                    <button type="submit" class="btn btn-sm btn-danger text-white rounded-pill fw-bold px-3" style="font-size: 11px;">Remove Public Gallery</button>
+                                  <% } %>
+                                </form>
+                              </div>
+                              <div class="row g-2 mb-3">
+                                <% r.checkInMedia.photos.forEach((img) => { %>
+                                  <div class="col-4">
+                                    <a href="<%= img.url %>" target="_blank"><img src="<%= img.url %>" class="preview-media-node w-100" style="height: 90px;"></a>
+                                  </div>
+                                <% }) %>
+                              </div>
+                              <video src="<%= r.checkInMedia.video.url %>" class="preview-media-node w-100" style="max-height: 140px;" controls></video>
+                            </div>
+                          <% } %>
+                        </div>
+
+                        <div class="col-lg-6">
+                          <% if (r.checkOutMedia && r.checkOutMedia.photos && r.checkOutMedia.photos.length > 0) { %>
+                            <div class="p-4 h-100 inspection-panel checkout-sidebar">
+                              <div class="mb-3 pb-2 border-bottom">
+                                <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-arrow-left text-success me-2"></i>2. Departure Assessment Matrix</h6>
+                                <small class="text-muted fw-semibold font-monospace">Logged: <%= new Date(r.checkOutMedia.uploadedAt).toLocaleString("en-IN") %></small>
+                              </div>
+                              <div class="row g-2 mb-3">
+                                <% r.checkOutMedia.photos.forEach((img) => { %>
+                                  <div class="col-4">
+                                    <a href="<%= img.url %>" target="_blank"><img src="<%= img.url %>" class="preview-media-node w-100" style="height: 90px;"></a>
+                                  </div>
+                                <% }) %>
+                              </div>
+                              <video src="<%= r.checkOutMedia.video.url %>" class="preview-media-node w-100 mb-3" style="max-height: 140px;" controls></video>
+
+                              <% if (!r.dispute || (!r.dispute.isDamaged && !r.dispute.fineRazorpayOrderId)) { %>
+                                <div class="row g-2">
+                                  <div class="col-md-6">
+                                    <div class="clean-closure-box border-0 text-center h-100 d-flex flex-column justify-content-between">
+                                      <p class="text-success small fw-bold mb-2"><i class="bi bi-check-circle-fill"></i> Structure Unaffected</p>
+                                      <form action="/bookings/<%= r._id %>/settle-clean" method="POST">
+                                        <button type="submit" class="btn btn-sm btn-success w-100 font-monospace fw-bold py-2 text-uppercase" style="font-size: 11px; border-radius: 8px;">Settle Clean Slate</button>
+                                      </form>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="fine-assessment-box border-0 text-center h-100 d-flex flex-column justify-content-between">
+                                      <p class="text-danger small fw-bold mb-2"><i class="bi bi-exclamation-triangle-fill"></i> Discovered Damage</p>
+                                      <button class="btn btn-sm btn-danger w-100 font-monospace fw-bold py-2 text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#fineFormBox-<%= r._id %>" style="font-size: 11px; border-radius: 8px;">Claim Damage Fine</button>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="collapse mt-3" id="fineFormBox-<%= r._id %>">
+                                  <div class="fine-assessment-box border-0 bg-white p-3" style="border: 1px solid #ebebeb !important;">
+                                    <form action="/bookings/<%= r._id %>/claim-fine" method="POST" class="needs-validation" novalidate>
+                                      <div class="row g-2">
+                                        <div class="col-md-4">
+                                          <input type="number" name="fineAmount" class="form-control form-control-sm py-2" placeholder="Amount (₹)" required min="1">
+                                        </div>
+                                        <div class="col-md-8">
+                                          <input type="text" name="fineReason" class="form-control form-control-sm py-2" placeholder="Specify infrastructure damage..." required>
+                                        </div>
+                                      </div>
+                                      <button type="submit" class="btn btn-sm btn-danger-atithi w-100 font-weight-bold mt-2 py-2 text-uppercase font-monospace" style="font-size: 11px;">🚨 Issue Fine Invoice Link</button>
+                                    </form>
+                                  </div>
+                                </div>
+                              <% } else { %>
+                                <div class="alert alert-warning border-0 rounded-4 p-3 mb-0 mt-2" style="background-color: #fff9f0; border: 1px solid rgba(255,148,50,0.25) !important;">
+                                  <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="small text-dark fw-bold"><i class="bi bi-file-earmark-medical-fill text-warning me-1"></i> Active Dispute Invoice: <span class="text-danger">₹<%= r.dispute.fineAmount %></span></div>
+                                    <span class="badge bg-danger font-monospace text-uppercase" style="font-size: 9px; padding: 4px 8px;">UNPAID HOLD</span>
+                                  </div>
+                                  <div class="small text-muted mb-3 font-monospace fw-semibold"><b>Reason Node:</b> <%= r.dispute.fineReason %></div>
+                                  <form action="/bookings/<%= r._id %>/cancel-fine" method="POST"><button type="submit" class="btn btn-sm btn-outline-danger w-100 py-2 font-weight-bold text-uppercase" style="font-size: 11px; border-radius: 8px;"><i class="bi bi-x-circle-fill me-1"></i> Cancel Fine Invoice Assessment</button></form>
+                                </div>
+                              <% } %>
+                            </div>
+                          <% } else { %>
+                            <div class="p-4 text-center text-muted small bg-light rounded-4 border-0 h-100 d-flex flex-column justify-content-center" style="border: 1px dashed #dddddd !important;"><i class="bi bi-clock-history fs-3 mb-2 text-muted"></i> Awaiting client checkout data.</div>
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% } %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Historical Ledger Division -->
+  <div class="pb-2 mb-3 d-flex align-items-center justify-content-between mt-5" style="border-top: 1px solid #ebebeb !important; padding-top: 20px;">
+    <h5 class="fw-bold text-secondary mb-0" style="font-size: 20px; letter-spacing: -0.4px;"><i class="bi bi-archive-fill text-muted me-2"></i>Past Archives & Ledger History</h5>
+    <span class="badge bg-light text-secondary border rounded-pill ms-2 font-monospace px-3 py-1 fw-bold" style="font-size: 11px;"><%= pastArchiveHistory.length %> Logs Recorded</span>
+  </div>
+
+  <% if(pastArchiveHistory.length === 0) { %>
+    <div class="p-5 text-center text-muted small bg-white rounded-4 atithi-table-card border-0">
+      <i class="bi bi-inbox display-6 d-block mb-2 text-muted"></i> No historically closed files compiled inside your host profile repository.
+    </div>
+  <% } else { %>
+    <div class="card atithi-table-card border-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="text-uppercase small font-monospace text-secondary" style="background-color: #ffffff; border-bottom: 2px solid #ebebeb;">
+            <tr>
+              <th class="ps-4 py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Archived Asset</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Guest Reference</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Timeline Slot</th>
+              <th class="py-3" style="font-weight: 700; font-size: 11px; color: #717171;">Integrity State</th>
+              <th class="pe-4 py-3 text-end" style="font-weight: 700; font-size: 11px; color: #717171;">Net Earnings Mapped</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let past of pastArchiveHistory) { %>
+              <tr class="archive-history-row align-middle">
+                <td class="ps-4 py-3">
+                  <span class="fw-bold text-dark d-block" style="font-size: 14.5px; letter-spacing: -0.1px;"><%= past.listing ? past.listing.title : "Index Deleted" %></span>
+                  <span class="text-muted fw-medium" style="font-size: 11.5px;"><i class="bi bi-geo-alt me-1"></i><%= past.listing ? past.listing.location : "N/A" %></span>
+                </td>
+                
+                <td>
+                  <div class="fw-bold text-dark">@<%= past.user ? past.user.username : "N/A" %></div>
+                  <div style="font-size: 11.5px;" class="font-monospace text-muted fw-medium"><%= past.user ? past.user.email : "N/A" %></div>
+                </td>
+                
+                <td class="small font-monospace text-muted fw-semibold">
+                  <%= new Date(past.checkInDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit'}) %> to <%= new Date(past.checkOutDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit', year: '2-digit'}) %>
+                </td>
+                
+                <td>
+                  <% if (past.paymentStatus === 'Refunded') { %>
+                    <span class="badge badge-archive-status bg-light text-primary border border-primary">REFUNDED</span>
+                  <% } else if (past.paymentStatus === 'Cancelled') { %>
+                    <span class="badge badge-archive-status bg-light text-secondary border border-secondary">CANCELLED</span>
+                  <% } else if (past.bookingPhase !== 'CheckedOut') { %>
+                    <span class="badge badge-archive-status bg-light text-warning border border-warning">ELAPSED / NO-SHOW</span>
+                  <% } else { %>
+                    <span class="badge badge-archive-status bg-light text-success border border-success">CLEARED & CLOSED</span>
+                  <% } %>
+                </td>
+
+                <td class="pe-4 text-end font-monospace text-success fw-bold fs-6">
+                  <% if (past.paymentStatus === 'Refunded' || past.paymentStatus === 'Cancelled') { %>
+                    &#8377;0
+                  <% } else { %>
+                    &#8377;<%= past.totalPrice.toLocaleString("en-IN") %>
+                  <% } %>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% } %>
+
+</div>
+
+<!-- === 🚀 AUTOMATED MULTI-IMAGE ROTATOR SLIDESHOW SCRIPTS === -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const slides = document.querySelectorAll('.banner-slide-bg');
+    let currentSlideIndex = 0;
+    
+    function rotateBannerSlides() {
+      if (slides.length > 0) {
+        slides[currentSlideIndex].classList.remove('slide-active');
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        slides[currentSlideIndex].classList.add('slide-active');
+      }
+    }
+    
+    // Auto-rotates image sets fluidly every 4500ms
+    setInterval(rotateBannerSlides, 4500);
+  });
+</script>

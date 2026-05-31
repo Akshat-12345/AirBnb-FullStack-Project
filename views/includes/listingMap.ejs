@@ -1,0 +1,55 @@
+<style>
+  /* === 🗺️ CLASSIC AIRBNB MINIMALIST MAP CHASSIS === */
+  .atithi-airbnb-map-wrapper {
+    width: 100%;
+    margin-top: 48px;
+    padding-top: 32px;
+    box-sizing: border-box;
+  }
+
+  /* Exact clean header hierarchy as per image_b44305.jpg */
+  .airbnb-map-headline {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    color: #222222;
+    margin-bottom: 4px;
+  }
+
+  .airbnb-map-location-subtext {
+    font-size: 16px;
+    color: #222222;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
+  /* Clean Edge-to-Edge Container Frame with No Heavy Shadow Overlays */
+  .atithi-clean-map-chassis {
+    position: relative;
+    width: 100%;
+    height: 480px; /* Elevated container aspect ratio matching Google layout standard */
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #ebebeb;
+    background-color: #f1f5f9;
+  }
+</style>
+
+<!-- AUTHENTIC CARTOGRAPHY ENGINE INTERFACE MODULE -->
+<div class="atithi-airbnb-map-wrapper" id="map-location">
+  <% if (typeof coordinates !== 'undefined' && coordinates) { %>
+    
+    <!-- Step 1: Text Headers Matching Your Reference Frame Verbatim -->
+    <h4 class="airbnb-map-headline">Where you’ll be</h4>
+    <div class="airbnb-map-location-subtext">
+      <%= data.location %>, <%= data.country %>
+    </div>
+    
+    <!-- Step 2: Clean Map Frame Integration Canvas Node -->
+    <div class="atithi-clean-map-chassis">
+      <!-- Leaflet map instance renders exactly inside this target block container -->
+      <div id="map" class="w-100 h-100" data-coordinates='<%- JSON.stringify(coordinates) %>'></div>
+    </div>
+
+  <% } %>
+</div>

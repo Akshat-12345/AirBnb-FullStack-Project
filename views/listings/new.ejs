@@ -1,84 +1,451 @@
 <%= layout("/layouts/boiler_plate.ejs") %>
 
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <div class="card shadow-lg border-0 rounded-4 p-4 form-card">
-        <h3 class="mb-4 text-center fw-bold text-danger">Create A New Listing</h3>
+<style>
+  :root {
+    --atithi-orange: #FF9432;
+    --atithi-green: #67B636;
+    --atithi-blue: #00A3E0;
+    
+    --text-slate-dark: #0f172a;
+    --text-slate-muted: #475569;
+    --font-premium-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  }
+
+  /* === 🚀 DYNAMIC MINIMALIST CUSTOM SCROLLBAR PIPELINE === */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(15, 23, 42, 0.05);
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.1);
+    backdrop-filter: blur(10px);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
+    border-radius: 100px;
+  }
+
+  body, html {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: var(--font-premium-stack);
+  }
+
+  /* === 1. TRUE FULL-WIDTH IMMERSIVE CONTAINER === */
+  .host-viewport-wrapper {
+    min-height: calc(100vh - 96px); 
+    width: 100vw; 
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    background-color: #0f172a; 
+  }
+
+  /* MULTI-IMAGE AUTOMATIC SLIDESHOW ENGINE TRACK */
+  .host-slideshow-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .host-scenery-pane {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    animation: hostCrossfadeEngine 25s infinite ease-in-out;
+  }
+
+  /* 🌟 FIXED: Removed dark overlays and added high-res query parameters (&w=1920&q=90) for full 4K output */
+  /* Slide 1: Premium White Interior Sofa Ambient */
+  .host-scenery-pane:nth-child(1) {
+    background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=90');
+    animation-delay: 0s;
+  }
+  /* Slide 2: Modern Glass Pane Front Architecture Stay */
+  .host-scenery-pane:nth-child(2) {
+    background-image: url('https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?auto=format&fit=crop&w=1920&q=90');
+    animation-delay: 5s;
+  }
+  /* Slide 3: Cozy Aesthetic Bed & Arch Glass Framing */
+  .host-scenery-pane:nth-child(3) {
+    background-image: url('https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?auto=format&fit=crop&w=1920&q=90');
+    animation-delay: 10s;
+  }
+  /* Slide 4: Bright Minimalist Wood-Paneled Modular Space */
+  .host-scenery-pane:nth-child(4) {
+    background-image: url('https://images.unsplash.com/photo-1686828751885-040f0a0fb77a?auto=format&fit=crop&w=1920&q=90');
+    animation-delay: 15s;
+  }
+  /* Slide 5: Sunlit Premium Organic Minimalist Apartment Entry */
+  .host-scenery-pane:nth-child(5) {
+    background-image: url('https://plus.unsplash.com/premium_photo-1681224438794-f63e754bf542?auto=format&fit=crop&w=1920&q=90');
+    animation-delay: 20s;
+  }
+
+  @keyframes hostCrossfadeEngine {
+    0% { opacity: 0; }
+    4% { opacity: 1; }
+    20% { opacity: 1; }
+    24% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  /* === 2. LEFT SIDE: INTEGRATED TYPOGRAPHY PRESENTATION === */
+  .image-overlay-pitch-side {
+    flex: 1 1 45%;
+    padding: 80px 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  .pitch-brand-headline {
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: -1.2px;
+    background: linear-gradient(135deg, var(--atithi-orange) 10%, var(--atithi-green) 60%, var(--atithi-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  /* Enhanced Text Shadow to keep it completely readable without dark overlay background gaps */
+  .pitch-hero-title {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #ffffff;
+    letter-spacing: -1px;
+    text-shadow: 0 4px 20px rgba(15, 23, 42, 0.7), 0 2px 5px rgba(15, 23, 42, 0.9);
+    margin-bottom: 45px;
+    max-width: 520px;
+  }
+
+  .pitch-bento-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 500px;
+  }
+
+  /* 🌟 FIXED: Increased container glass blur and added a subtle dark text shadow background inside the layout pills */
+  .pitch-bento-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    background: rgba(15, 23, 42, 0.25); /* Subtle dark glass overlay inside the specific card context for absolute clean visibility */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
+  }
+  .pitch-bento-card:hover {
+    transform: translateX(6px);
+    background: rgba(15, 23, 42, 0.35);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .pitch-badge-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .pitch-bento-card:nth-child(1) .pitch-badge-icon { background: var(--atithi-orange); }
+  .pitch-bento-card:nth-child(2) .pitch-badge-icon { background: var(--atithi-green); }
+  .pitch-bento-card:nth-child(3) .pitch-badge-icon { background: var(--atithi-blue); }
+
+  .pitch-card-meta h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  }
+  .pitch-card-meta p {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    line-height: 1.4;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* === 3. RIGHT SIDE: ADVANCED COMPRESSED EXTRA-WIDE FORM HUB === */
+  .host-form-side {
+    flex: 1 1 55%;
+    padding: 60px 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .auth-frosted-envelope {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(30px) saturate(210%);
+    -webkit-backdrop-filter: blur(30px) saturate(210%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 32px;
+    width: 100%;
+    max-width: 580px; 
+    padding: 50px 45px;
+    box-shadow: 0 40px 90px rgba(15, 23, 42, 0.15);
+    box-sizing: border-box;
+  }
+
+  .form-title-block h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-slate-dark);
+    letter-spacing: -0.7px;
+    margin-bottom: 4px;
+  }
+  .form-title-block p {
+    font-size: 14.5px;
+    color: var(--text-slate-muted);
+    font-weight: 600;
+  }
+
+  /* === ADVANCED INPUT INTERFACE BRACKETS === */
+  .advanced-input-bracket {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .advanced-input-bracket .bi {
+    position: absolute;
+    left: 16px;
+    color: #94a3b8;
+    font-size: 16px;
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+
+  .form-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #334155;
+    margin-bottom: 6px;
+  }
+
+  .form-control, .form-select {
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 13px 16px 13px 44px; 
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #0f172a;
+    transition: all 0.25s ease;
+  }
+  .form-control:focus, .form-select:focus {
+    background: #ffffff !important;
+    border-color: var(--atithi-orange);
+    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.15);
+  }
+  .form-control:focus + .bi, .form-select:focus + .bi {
+    color: var(--atithi-orange);
+  }
+  
+  textarea.form-control {
+    padding-left: 16px !important;
+  }
+
+  .btn-atithi-submit {
+    background: linear-gradient(135deg, var(--atithi-orange) 0%, #ff5e3a 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    border-radius: 14px;
+    padding: 15px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(255, 94, 58, 0.25);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .btn-atithi-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(255, 94, 58, 0.38);
+  }
+
+  @media (max-width: 991px) {
+    .image-overlay-pitch-side { display: none !important; }
+    .host-form-side { flex: 1 1 100%; padding: 30px 12px; }
+    .auth-frosted-envelope { padding: 40px 25px; background: rgba(255, 255, 255, 0.96); }
+  }
+</style>
+
+<!-- True 100VW Full Horizon Execution Frame -->
+<div class="host-viewport-wrapper">
+  
+  <!-- AUTOMATIC INFINITE SLIDESHOW ENGINE -->
+  <div class="host-slideshow-container">
+    <div class="host-scenery-pane"></div>
+    <div class="host-scenery-pane"></div>
+    <div class="host-scenery-pane"></div>
+    <div class="host-scenery-pane"></div>
+    <div class="host-scenery-pane"></div>
+  </div>
+  
+  <!-- LEFT SIDE HUB -->
+  <div class="image-overlay-pitch-side">
+    <div>
+      <span class="pitch-brand-headline">Host on Atithi</span>
+      <h3 class="pitch-hero-title">
+        Turn your empty space into a premium operational asset ecosystem.
+      </h3>
+      
+      <div class="pitch-bento-deck">
+        <div class="pitch-bento-card">
+          <div class="pitch-badge-icon"><i class="bi bi-cash-coin"></i></div>
+          <div class="pitch-card-meta">
+            <h4>Financial Sovereignty</h4>
+            <p>Generate high-yield passive returns mapped directly via automated billing modules.</p>
+          </div>
+        </div>
         
-        <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Title</label>
- 
-           <input type="text" class="form-control rounded-3" name="listing[title]" placeholder="Enter Title" required>
-            <div class="valid-feedback">Title Looks good!</div>
-            <div class="invalid-feedback">Incorrect Title</div>
+        <div class="pitch-bento-card">
+          <div class="pitch-badge-icon"><i class="bi bi-people-fill"></i></div>
+          <div class="pitch-card-meta">
+            <h4>Unified Group Sync</h4>
+            <p>Welcome coordinated group travelers using our fluid split reservation pathways.</p>
           </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Description</label>
-      
-      <textarea class="form-control rounded-3" name="listing[description]" rows="3" placeholder="Enter Description..." required></textarea>
-            <div class="valid-feedback">Great Description!</div>
-            <div class="invalid-feedback">Enter a Short Description</div>
+        </div>
+        
+        <div class="pitch-bento-card">
+          <div class="pitch-badge-icon"><i class="bi bi-globe-americas"></i></div>
+          <div class="pitch-card-meta">
+            <h4>Global Visibility Network</h4>
+            <p>Expose your stay parameters directly inside dynamic spatial maps globally.</p>
           </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Price</label>
-          
-  <input type="number" class="form-control rounded-3" name="listing[price]" placeholder="Enter Price" required>
-            <div class="invalid-feedback">Price Required</div>
-            <div class="valid-feedback">Great!</div>
-          </div>
-          
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Upload Image</label>
-      
-        <input type="file" class="form-control rounded-3" name="listing[image]" placeholder="Enter Image URL" required>
-            <div class="invalid-feedback">Enter Valid Image</div>
-            <div class="valid-feedback">Nice!</div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Location</label>
-         
-   <input type="text" class="form-control rounded-3" name="listing[location]" placeholder="Enter Location Here" required>
-            <div class="invalid-feedback">Enter Correct Location</div>
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label fw-semibold">Country</label>
-            <input 
-type="text" class="form-control rounded-3" name="listing[country]" placeholder="Enter Country Name" required>
-            <div class="invalid-feedback">Enter Correct Country Name</div>
-            <div class="valid-feedback">Looks good!</div>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label fw-semibold">Category</label>
-            <select class="form-select rounded-3" name="listing[category]" required>
-              <option selected disabled value="">Choose a category...</option>
-              <option value="Trending">Trending</option>
-              <option value="Rooms">Rooms</option>
-              <option value="Amazing views">Amazing views</option>
-              <option value="Mansions">Mansions</option>
-              <option value="Amazing pools">Amazing pools</option>
-              <option value="Beach">Beach</option>
-              <option value="Cabins">Cabins</option>
-              <option value="Camping">Camping</option>
-              <option value="Farms">Farms</option>
-            </select>
-            <div class="invalid-feedback">Please select a category.</div>
-          </div>
-          <div class="d-grid">
-            <button type="submit" class="btn btn-danger rounded-3 fw-semibold py-2">
-            
-  Add Listing
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
+    
+    <p style="font-size: 13px; color: #ffffff; font-weight: 600; margin-top: 40px; margin-bottom: 0; text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+      © 2026 Atithi Engine Frameworks Inc. All bounds secured.
+    </p>
   </div>
+
+  <!-- RIGHT SIDE HUB -->
+  <div class="host-form-side">
+    <div class="auth-frosted-envelope">
+      <div class="form-title-block mb-4">
+        <h2>Create A New Listing</h2>
+        <p>Deploy your asset parameters to the network grid.</p>
+      </div>
+
+      <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+        
+        <!-- Advanced Title Input -->
+        <div class="mb-3">
+          <label class="form-label">Stay Title</label>
+          <div class="advanced-input-bracket">
+            <input type="text" class="form-control" name="listing[title]" placeholder="e.g., Luxury Glass Villa Overlooking Lake" required>
+            <i class="bi bi-building"></i>
+          </div>
+          <div class="valid-feedback">Title index allocation verified.</div>
+        </div>
+
+        <!-- Spatial Description -->
+        <div class="mb-3">
+          <label class="form-label">Spatial Description</label>
+          <textarea class="form-control" name="listing[description]" rows="3" placeholder="Describe the ambient layout, architecture, amenities..." required></textarea>
+          <div class="valid-feedback">Structural specification mapped.</div>
+        </div>
+
+        <!-- Price & Category Grid Split -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Price Node (INR / Night)</label>
+            <div class="advanced-input-bracket">
+              <input type="number" class="form-control" name="listing[price]" placeholder="e.g., 12000" required>
+              <i class="bi bi-currency-rupee"></i>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Categorical Index</label>
+            <div class="advanced-input-bracket">
+              <select class="form-select" name="listing[category]" required>
+                <option selected disabled value="">Choose class...</option>
+                <option value="Trending">Trending</option>
+                <option value="Rooms">Rooms</option>
+                <option value="Amazing views">Amazing views</option>
+                <option value="Mansions">Mansions</option>
+                <option value="Amazing pools">Amazing pools</option>
+                <option value="Beach">Beach</option>
+                <option value="Cabins">Cabins</option>
+                <option value="Camping">Camping</option>
+                <option value="Farms">Farms</option>
+              </select>
+              <i class="bi bi-tags"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Advanced Image Upload Node -->
+        <div class="mb-3">
+          <label class="form-label">Upload Asset Scenery Graphic</label>
+          <div class="advanced-input-bracket">
+            <input type="file" class="form-control" name="listing[image]" required>
+            <i class="bi bi-image"></i>
+          </div>
+        </div>
+
+        <!-- Location & Country Grid Split -->
+        <div class="row mb-4">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label">Location Coordinate Hub</label>
+            <div class="advanced-input-bracket">
+              <input type="text" class="form-control" name="listing[location]" placeholder="e.g., Manali, Himachal Pradesh" required>
+              <i class="bi bi-geo-alt"></i>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Country Index Zone</label>
+            <div class="advanced-input-bracket">
+              <input type="text" class="form-control" name="listing[country]" placeholder="e.g., India" required>
+              <i class="bi bi-globe"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Submit Action Deploy Lever -->
+        <button type="submit" class="btn btn-atithi-submit">Deploy Asset to Matrix</button>
+      </form>
+    </div>
+  </div>
+
 </div>

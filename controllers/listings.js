@@ -10,7 +10,7 @@ module.exports.index = async(req,res)=>{
         filter.category = category;
     }
 
-    let datas = await Listing.find(filter);
+    let datas = await Listing.find(filter).populate("reviews");
 
     res.render('./listings/index.ejs', { datas, selectedCategory: category || 'Trending' });
 };

@@ -1,0 +1,410 @@
+<style>
+  /* === 💬 AIRBNB CLEAN TYPOGRAPHY LAYOUT === */
+  .atithi-review-hub {
+    width: 100%;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid #ebebeb;
+  }
+
+  .review-master-headline {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    color: #222222;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Wide Spacing Preview Grid Matrix */
+  .airbnb-review-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 80px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 768px) {
+    .airbnb-review-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  .clean-review-node {
+    background: transparent;
+    border: none !important;
+  }
+
+  .reviewer-avatar-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #222222;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
+  .reviewer-name-meta {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222222;
+    line-height: 1.2;
+  }
+
+  .reviewer-timeline-sub {
+    font-size: 14px;
+    color: #717171;
+    font-weight: 400;
+  }
+
+  /* === 🎨 DYNAMIC ATITHI SPECTRUM COLORS MAP === */
+  .star-spectrum-1 { color: #ff385c !important; } /* Core Brand Red */
+  .star-spectrum-2 { color: #FF9432 !important; } /* Atithi Orange */
+  .star-spectrum-3 { color: #00A3E0 !important; } /* Atithi Blue */
+  .star-spectrum-4, .star-spectrum-5 { color: #67B636 !important; } /* Atithi Green */
+  .star-spectrum-null { color: #e2e8f0 !important; }
+
+  .review-stars-row-flat {
+    font-size: 13px;
+    letter-spacing: -0.2px;
+  }
+
+  .review-narrative-text {
+    font-size: 15px;
+    color: #222222;
+    line-height: 1.6;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* === 🎛️ AIRBNB INTERACTIVE ACTION BUTTONS === */
+  .btn-airbnb-hollow {
+    background: #ffffff;
+    color: #222222;
+    border: 1px solid #222222;
+    font-weight: 600;
+    font-size: 14.5px;
+    padding: 11px 22px;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+    cursor: pointer;
+  }
+  .btn-airbnb-hollow:hover {
+    background: #f7f7f7;
+  }
+
+  /* === 🎭 ULTRA MODERN OVERLAY MODALS === */
+  .atithi-luxe-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2050;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .atithi-luxe-modal-overlay.active-modal {
+    display: flex;
+    opacity: 1;
+  }
+
+  .modal-vault-chassis {
+    background: #ffffff;
+    width: 100%;
+    max-width: 780px;
+    max-height: 80vh;
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .atithi-luxe-modal-overlay.active-modal .modal-vault-chassis {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-vault-header {
+    padding: 24px 36px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* 🌟 ENHANCED MODAL BODY WORKSPACE CONTAINER */
+  .modal-vault-body {
+    padding: 36px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* 🌟 CUSTOM SCROLLBAR WITH ATITHI GRADIENT SYSTEM */
+  .modal-vault-body::-webkit-scrollbar {
+    width: 8px;
+  }
+  .modal-vault-body::-webkit-scrollbar-track {
+    background: #f8fafc;
+    border-radius: 10px;
+  }
+  .modal-vault-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #FF9432 0%, #67B636 50%, #00A3E0 100%);
+    border-radius: 10px;
+  }
+
+  .close-vault-trigger {
+    background: #f1f5f9;
+    border: none;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #0f172a;
+    transition: all 0.2s ease;
+  }
+  .close-vault-trigger:hover { 
+    background: #ff385c; 
+    color: #ffffff; 
+    transform: rotate(90deg);
+  }
+
+  /* === 🌟 STAR FORM ENGINE INPUT CONFIGURATOR === */
+  .star-rating-form-spectrum {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  .star-rating-form-spectrum input[type="radio"] { display: none; }
+  .star-rating-form-spectrum label {
+    font-size: 2.8rem;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  /* Hover scale animation physics inside matrix forms */
+  .star-rating-form-spectrum label:hover {
+    transform: scale(1.15);
+  }
+</style>
+
+<div class="atithi-review-hub">
+  
+  <!-- Aggregate Indicator Header Segment -->
+  <h4 class="review-master-headline">
+    <% if (reviewCount > 0) { %>
+      <i class="bi bi-star-fill text-dark me-1" style="font-size: 19px;"></i> <%= avgRating %> &middot; <%= reviewCount %> reviews
+    <% } else { %>
+      No reviews yet
+    <% } %>
+  </h4>
+
+  <!-- Main Showcase Grid Pipeline (Forced Bounds: Max 4 Previews) -->
+  <div class="airbnb-review-grid">
+    <% let previewList = data.reviews.slice(0, 4); %>
+    <% for(let review of previewList) { %>
+      <div class="clean-review-node">
+        <div class="d-flex align-items-center gap-3 mb-2">
+          <div class="reviewer-avatar-circle">
+            <%= review.author.username.charAt(0).toUpperCase() %>
+          </div>
+          <div>
+            <div class="reviewer-name-meta"><%= review.author.username %></div>
+            <div class="reviewer-timeline-sub">August 2025</div>
+          </div>
+        </div>
+
+        <!-- 🌟 ATITHI ACCENT SPECTRUM LOG LAYER PREVIEW -->
+        <div class="review-stars-row-flat mb-1">
+          <% for(let i=1; i<=5; i++) { %>
+            <span class="<%= i <= review.rating ? 'star-spectrum-' + review.rating : 'star-spectrum-null' %>">★</span>
+          <% } %>
+          <span class="text-muted small fw-medium ms-1">&middot; August 2025</span>
+        </div>
+
+        <p class="review-narrative-text"><%= review.comment %></p>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Dual Modal Activation Dashboard -->
+  <div class="d-flex gap-3 flex-wrap mt-4">
+    <% if (reviewCount > 4) { %>
+      <button class="btn-airbnb-hollow" onclick="toggleReviewModal('allReviewsModal', true)">
+        Show all <%= reviewCount %> reviews
+      </button>
+    <% } else if (reviewCount > 0) { %>
+      <button class="btn-airbnb-hollow" onclick="toggleReviewModal('allReviewsModal', true)">
+        Show all reviews
+      </button>
+    <% } %>
+    
+    <% if(currUser) { %>
+      <button class="btn-airbnb-hollow" style="background: #222222; color: #ffffff; border: none;" onclick="toggleReviewModal('writeReviewModal', true)">
+        Write a verified review
+      </button>
+    <% } %>
+  </div>
+
+</div>
+
+<!-- ========================================================
+     🎭 COMPONENT A: ALL REVIEWS DYNAMIC CAROUSEL OVERLAY MODAL
+     ======================================================== -->
+<div id="allReviewsModal" class="atithi-luxe-modal-overlay" onclick="toggleReviewModal('allReviewsModal', false)">
+  <div class="modal-vault-chassis" onclick="event.stopPropagation()">
+    <div class="modal-vault-header">
+      <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-chat-square-heart me-2 text-primary"></i>All Verified Reviews (<%= reviewCount %>)</h5>
+      <button class="close-vault-trigger" onclick="toggleReviewModal('allReviewsModal', false)">&times;</button>
+    </div>
+    
+    <!-- 🌟 HIGH CONTRATED OVERFLOW SHEET WITH ATITHI GRADIENT TRACK SCROLLBAR -->
+    <div class="modal-vault-body">
+      <div class="d-flex flex-column gap-4">
+        <% for(let review of data.reviews) { %>
+          <div class="pb-4 border-bottom" style="border-color: #f1f5f9 !important;">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center gap-3">
+                <div class="reviewer-avatar-circle"><%= review.author.username.charAt(0).toUpperCase() %></div>
+                <div>
+                  <div class="reviewer-name-meta"><%= review.author.username %></div>
+                  <div class="reviewer-timeline-sub">August 2025</div>
+                </div>
+              </div>
+              
+              <% if (currUser && currUser._id.equals(review.author._id)){ %>
+                <form action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="m-0">
+                  <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-bold font-monospace" style="font-size: 10px; border-color: rgba(225,29,72,0.2);">Purge</button>
+                </form>
+              <% } %>
+            </div>
+            
+            <!-- Dynamic Star Shifting Framework inside scroll engine -->
+            <div class="review-stars-row-flat mb-2">
+              <% for(let i=1; i<=5; i++) { %>
+                <span class="<%= i <= review.rating ? 'star-spectrum-' + review.rating : 'star-spectrum-null' %>">★</span>
+              <% } %>
+            </div>
+            <p class="text-dark small mb-0" style="line-height: 1.62; font-weight: 450;"><%= review.comment %></p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================
+     🎭 COMPONENT B: LEAVE A REVIEW VERIFIED TRANSACTIONS MODAL
+     ======================================================== -->
+<% if(currUser) { %>
+<div id="writeReviewModal" class="atithi-luxe-modal-overlay" onclick="toggleReviewModal('writeReviewModal', false)">
+  <div class="modal-vault-chassis" onclick="event.stopPropagation()">
+    <div class="modal-vault-header">
+      <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-pencil-square me-2 text-success"></i>Compile Verified Review Log</h5>
+      <button class="close-vault-trigger" onclick="toggleReviewModal('writeReviewModal', false)">&times;</button>
+    </div>
+    
+    <div class="modal-vault-body">
+      <form action="/listings/<%= data._id %>/reviews" method="POST" novalidate class="needs-validation">
+        
+        <div class="mb-4">
+          <label class="form-label small fw-bold text-dark text-uppercase font-monospace">Your Experience Scale</label>
+          <!-- 🌟 LIVE SPECTRUM COLOR CAPTURING RATING ENGINE STARS -->
+          <div class="star-rating-form-spectrum">
+            <input type="radio" id="mStar5" name="review[rating]" value="5" required><label for="mStar5" class="star-label-node" data-val="5">★</label>
+            <input type="radio" id="mStar4" name="review[rating]" value="4"><label for="mStar4" class="star-label-node" data-val="4">★</label>
+            <input type="radio" id="mStar3" name="review[rating]" value="3"><label for="mStar3" class="star-label-node" data-val="3">★</label>
+            <input type="radio" id="mStar2" name="review[rating]" value="2"><label for="mStar2" class="star-label-node" data-val="2">★</label>
+            <input type="radio" id="mStar1" name="review[rating]" value="1"><label for="mStar1" class="star-label-node" data-val="1">★</label>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label for="modalComment" class="form-label small fw-bold text-dark text-uppercase font-monospace">Constructive Commentary</label>
+          <textarea name="review[comment]" id="modalComment" rows="5" class="form-control rounded-3" placeholder="Provide objective configurations feedback on how your experience map resolved..." required style="font-size: 15px; padding: 14px; border-color: #cbd5e1;"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-dark w-100 py-3 rounded-3 fw-bold text-uppercase font-monospace" style="font-size: 13px; letter-spacing: 0.5px; background: #222222; border: none;">
+          Commit Review Node Data
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<!-- === 🚀 TRIGGER JAVASCRIPT ANIMATION ROUTINES === -->
+<script>
+  function toggleReviewModal(modalId, flag) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    
+    if (flag) {
+      modal.classList.add("active-modal");
+      document.body.style.overflow = "hidden";
+    } else {
+      modal.classList.remove("active-modal");
+      document.body.style.overflow = "auto";
+    }
+  }
+
+  // Live Dynamic Script for Capturing Star Color Mapping Fields Real-time
+  document.addEventListener('DOMContentLoaded', function() {
+    const colorMatrix = {
+      '1': '#ff385c', // Red
+      '2': '#FF9432', // Orange
+      '3': '#00A3E0', // Blue
+      '4': '#67B636', // Green
+      '5': '#67B636'  // Green
+    };
+
+    const targetLabels = document.querySelectorAll('.star-rating-form-spectrum label');
+    
+    targetLabels.forEach(label => {
+      label.addEventListener('click', function() {
+        const activeVal = this.dataset.val;
+        const chosenColor = colorMatrix[activeVal];
+        
+        targetLabels.forEach(l => {
+          if (parseInt(l.dataset.val) <= parseInt(activeVal)) {
+            l.style.setProperty('color', chosenColor, 'important');
+          } else {
+            l.style.setProperty('color', '#e2e8f0', 'important');
+          }
+        });
+      });
+    });
+  });
+
+  // Escape bound tracking trigger closing overlays maps
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      toggleReviewModal('allReviewsModal', false);
+      toggleReviewModal('writeReviewModal', false);
+    }
+  });
+</script>

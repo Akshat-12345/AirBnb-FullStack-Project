@@ -15,9 +15,9 @@
 
   body { font-family: var(--font-main); color: var(--text-dark); }
 
-  /* === 1. ULTRA-MODERN FIXED GLASSMORPHISM CONTAINER (OPTIMIZED HEIGHT) === */
+  /* === 1. ULTRA-MODERN FIXED GLASSMORPHISM CONTAINER === */
   .navbar-custom {
-    height: 96px; /* Halka sa height push kiya perfect balance ke liye */
+    height: 96px; 
     background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
@@ -45,30 +45,34 @@
     z-index: 1001;
   }
 
-  /* === 2. BRAND BRANDING LOGO & TEXT ANIMATION === */
+  /* === 2. FIXED: BRAND BRANDING LOGO & HIGH-END DYNAMIC TEXT === */
   .navbar-brand-custom {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px; /* Increased slightly for elite proportions alignment */
     text-decoration: none;
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .navbar-brand-custom:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
+  
   .brand-logo-img {
-    height: 38px; /* Perfectly scales with the new height */
+    height: 40px; /* Perfectly balances with your expanded textual layout */
     object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(255, 148, 50, 0.15));
+    filter: drop-shadow(0 4px 12px rgba(255, 148, 50, 0.12));
   }
+
+  /* 🌟 FIXED SPECIFICATION: Letter spacing expanded to prevent the squeezed look */
   .brand-logo-text {
     font-weight: 800;
-    font-size: 30px;
-    letter-spacing: -1.2px;
-    background: linear-gradient(135deg, var(--brand-orange) 10%, var(--brand-green) 55%, var(--brand-blue) 100%);
+    font-size: 32px; /* Slight bump for grand readability edge */
+    letter-spacing: -0.3px; /* 🌟 FIXED: Removed extreme contraction (-1.2px) so text breathes luxuriously */
+    background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+    padding-bottom: 2px; /* Minor axis alignment adjustment */
   }
 
   /* === 3. FLOATING COMPACT CENTER SEARCH BAR === */
@@ -151,7 +155,7 @@
   }
   .mobile-search-icon:hover { transform: scale(1.1); }
 
-  /* === 5. THE MASTERPIECE: HIGH-END DESIGN DROPDOWN MENU === */
+  /* === 5. THE MASTERPIECE: DROPDOWN MENU === */
   .profile-trigger-pill {
     display: flex;
     align-items: center;
@@ -196,7 +200,6 @@
     box-shadow: 0 3px 8px rgba(255, 94, 58, 0.2);
   }
 
-  /* Dynamic Dropdown UI Overhaul */
   .dropdown-menu {
     border-radius: 20px;
     box-shadow: 0 16px 48px rgba(0,0,0,0.1);
@@ -238,7 +241,6 @@
   }
   .dropdown-divider { border-top: 1px solid rgba(0,0,0,0.04); margin: 8px 6px; }
 
-  /* User context wrapper card styling inside dropdown */
   .user-badge-context {
     padding: 10px 16px 6px 16px;
     color: var(--text-dark);

@@ -1,0 +1,191 @@
+<!-- Animate.css Inclusion for Fluid Reveal Transitions -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+  /* === 🌌 ATITHI ADVANCED MINIMALIST CANVAS === */
+  .atithi-animated-details-chassis {
+    width: 100%;
+    background: transparent;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+
+  /* 🌟 BORDERLESS PREMIUM HOST BANNER (REMOVED RAINBOW LINE) */
+  .atithi-vibrant-host-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #ebebeb; /* Super faint crisp frame perimeter */
+    margin-bottom: 40px;
+    position: relative;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .atithi-vibrant-host-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    border-color: #dcdcdc;
+  }
+
+  .vibrant-host-title {
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    color: #222222;
+  }
+
+  .vibrant-host-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(103, 182, 54, 0.08);
+    color: #67B636;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 30px;
+    margin-top: 6px;
+    border: 1px solid rgba(103, 182, 54, 0.12);
+  }
+
+  /* Soft Gradient Fluid Avatar Control */
+  .vibrant-host-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #ff385c 0%, #ff9432 100%);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(255, 56, 92, 0.15);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  }
+  .atithi-vibrant-host-row:hover .vibrant-host-avatar {
+    transform: scale(1.08) rotate(15deg);
+  }
+
+  /* === 🏷️ INTEGRATED CONTRAST HEADING TAG === */
+  .editorial-heading-accent {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    color: #222222;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .editorial-heading-accent i {
+    color: #00A3E0; /* Signature crisp brand blue index indicator */
+    font-size: 16px;
+  }
+
+  /* === 📑 CLEAN BORDERLESS TYPOGRAPHY CANVAS (REMOVED VERTICAL LINE) === */
+  .animated-description-space {
+    position: relative;
+    padding-left: 4px; /* Removed left partition bounds entirely */
+    margin-bottom: 45px;
+  }
+
+  .animated-description-space p {
+    font-size: 16px;
+    font-weight: 450;
+    line-height: 1.72;
+    color: #222222; /* High-contrast graphite dark reading color */
+    white-space: pre-line;
+  }
+
+  /* === 🛠️ FLAT ACTION SYSTEM BUTTON LEVERS === */
+  .atithi-kinetic-admin-deck {
+    display: flex;
+    gap: 12px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #f2f2f2; /* Faint horizontal threshold spacer */
+  }
+
+  .btn-kinetic-lever {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 11px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: all 0.2s ease;
+  }
+
+  .btn-kinetic-edit {
+    background: #222222;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .btn-kinetic-edit:hover {
+    background: #000000;
+    transform: translateY(-1px);
+  }
+
+  .btn-kinetic-delete {
+    background: #ffffff;
+    color: #c13515;
+    border: 1px solid rgba(193, 53, 21, 0.25);
+  }
+  .btn-kinetic-delete:hover {
+    background: #fff8f6;
+    border-color: #c13515;
+    transform: translateY(-1px);
+  }
+</style>
+
+<div class="atithi-animated-details-chassis animate__animated animate__fadeInUp">
+  
+  <!-- 🌟 STEP 1: CLEAN BORDERLESS HOST BANNER -->
+  <div class="atithi-vibrant-host-row">
+    <div class="text-start">
+      <h3 class="vibrant-host-title mb-0">Hosted by <%= data.owner.username %></h3>
+      <div class="vibrant-host-badge">
+        <i class="bi bi-patch-check-fill"></i> Atithi Certified Partner
+      </div>
+    </div>
+    
+    <div class="vibrant-host-avatar">
+      <%= data.owner.username.charAt(0).toUpperCase() %>
+    </div>
+  </div>
+
+  <!-- 🌟 STEP 2: TYPOGRAPHY DESCRIPTION WITH NO VERTICAL LINES -->
+  <div class="editorial-heading-accent">
+    <i class="bi bi-compass"></i><span>Discover the Experience Manifest</span>
+  </div>
+  
+  <div class="animated-description-space">
+    <p><%= data.description %></p>
+  </div>
+
+  <!-- 🌟 STEP 3: MANAGEMENT BUTTONS DECK -->
+  <% if (currUser && currUser._id.equals(data.owner._id)){ %>
+    <div class="atithi-kinetic-admin-deck">
+      <a href="/listings/<%= data._id %>/edit" class="btn-kinetic-lever btn-kinetic-edit">
+        <i class="bi bi-sliders2"></i> Modify Space Configurations
+      </a>
+      
+      <form method="POST" action="/listings/<%= data._id %>?_method=DELETE" class="m-0">
+        <button type="submit" class="btn-kinetic-lever btn-kinetic-delete">
+          <i class="bi bi-trash3"></i> Purge Listing Node
+        </button>
+      </form>
+    </div>
+  <% } %>
+
+</div>

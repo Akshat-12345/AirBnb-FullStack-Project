@@ -1,122 +1,322 @@
-<% layout("/layouts/boiler_plate.ejs") %>
+<%= layout("/layouts/boiler_plate.ejs") %>
 
 <style>
-  .metric-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 20px; border: none; }
-  .metric-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.06) !important; }
-  .premium-badge { background: linear-gradient(135deg, #ff385c 0%, #bd1e59 100%); color: #fff; border: none; }
-  .card-img-gradient { position: relative; overflow: hidden; }
-  .card-img-gradient::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); }
-  
-  /* Status Phase Custom System Badges */
-  .badge-phase-custom { font-size: 10px; font-weight: bold; border-radius: 6px; padding: 4px 10px; font-family: monospace; letter-spacing: 0.5px; }
+  :root {
+    /* Atithi Immersive Brand Blueprint Colors */
+    --atithi-orange: #FF9432;
+    --atithi-green: #67B636;
+    --atithi-blue: #00A3E0;
+    --airbnb-red: #FF385C;
+    --text-slate-dark: #222222;
+    --text-slate-muted: #717171;
+    --font-premium-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
 
-  /* Split Ledger Node Layouts */
-  .split-ledger-box { background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 14px; padding: 14px; }
-  .participant-node { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e9ecef; }
+  body, html {
+    font-family: var(--font-premium-stack);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.1px;
+    background-color: #ffffff !important; 
+  }
+
+  /* === 🚀 GLOBAL CHROMIUM SCROLLBAR PIPELINE === */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.01);
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
+    border-radius: 100px;
+  }
+
+  /* === 🌟 1. ADVANCED USER HERO BANNER WITH SLIDESHOW ENGINE === */
+  .dashboard-user-banner {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    /* 🌟 FIXED SPECIFICATION: Padding expanded substantially to increase layout height naturally */
+    padding: 90px 4% 110px 4%;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+    overflow: hidden;
+    background-color: #1a1a1a; 
+  }
+
+  /* Dynamic Slide Track Elements Layer */
+  .banner-slide-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 1.2s ease-in-out; 
+  }
+  
+  .banner-slide-bg.slide-active {
+    opacity: 1;
+  }
+
+  /* Immersive dark tint filter map protection layer */
+  .banner-mask-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0.5) 100%);
+    z-index: 2;
+  }
+
+  .banner-content-cluster {
+    position: relative;
+    z-index: 3; 
+  }
+
+  .banner-voyager-title {
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: -0.8px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  
+  .banner-voyager-desc {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 15px;
+    font-weight: 500;
+    max-width: 850px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  }
+
+  /* === 🌟 2. TRANSLUCENT BENTO CARDS RESIDING INSIDE IMAGE BANNER === */
+  .metric-card { 
+    border-radius: 20px; 
+    position: relative; 
+    overflow: hidden; 
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    padding: 30px 24px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1); 
+  }
+  .metric-card:hover { 
+    transform: translateY(-4px); 
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28) !important; 
+  }
+  
+  .premium-badge { 
+    background: rgba(20, 26, 38, 0.94) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+  .premium-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
+  }
+
+  .metric-headline-tag {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px !important;
+  }
+
+  .metric-sub-context-text {
+    font-size: 12.5px;
+    color: var(--text-slate-muted);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+  .premium-badge .metric-sub-context-text {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* === 🌟 3. OUTSIDE CANVAS DECK MODULES FOR DATA LISTS === */
+  .dashboard-lower-workspace {
+    width: 100%;
+    padding: 10px 0 50px 0;
+  }
+
+  .card-img-gradient { 
+    position: relative; 
+    overflow: hidden; 
+    border-radius: 12px;
+    aspect-ratio: 20 / 14;
+    background-color: #f3f4f6;
+  }
+  
+  .atithi-stay-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .badge-phase-custom { font-size: 11px; font-weight: 700; border-radius: 6px; padding: 5px 12px; letter-spacing: 0.3px; }
+  .split-ledger-box { background-color: #f7f7f7; border: 1px solid #ebebeb; border-radius: 12px; padding: 14px; }
+  .participant-node { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ebebeb; }
   .participant-node:last-child { border-bottom: none; }
+  .badge-settled { background-color: rgba(103, 182, 54, 0.08); color: var(--atithi-green); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(103, 182, 54, 0.15); }
+  .badge-waiting { background-color: rgba(255, 148, 50, 0.08); color: var(--atithi-orange); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(255, 148, 50, 0.15); }
   
-  .badge-settled { background-color: #d1e7dd; color: #0f5132; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px; border: 1px solid #badbcc; }
-  .badge-waiting { background-color: #fff3cd; color: #664d03; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px; border: 1px solid #ffecb5; }
+  .history-card-wrapper { 
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #f2f2f2 !important;
+    padding-bottom: 16px;
+    margin-bottom: 12px;
+  }
   
-  /* Archive History Container Elements */
-  .history-card-wrapper { opacity: 0.88; filter: grayscale(15%); transition: all 0.2s; border-radius: 16px; background: #fafafa; }
-  .history-card-wrapper:hover { opacity: 1; filter: grayscale(0%); background: #fff; }
+  .history-detail-plate { background-color: #f7f7f7; border-radius: 8px; padding: 8px 12px; }
+  .atithi-table-card { background: #ffffff !important; border: 1px solid #ebebeb !important; border-radius: 16px; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.02); overflow: hidden; }
 </style>
 
-<div class="container mt-5 mb-5">
-  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-    <div>
-      <h2 class="fw-bold tracking-tight text-dark">Welcome Back, Voyager!</h2>
-      <p class="text-muted mb-0">Track your real-time reservations, platform travel expenditure, and history logs.</p>
-    </div>
-    <a href="/listings" class="btn btn-dark px-4 py-2 mt-2 rounded-pill shadow-sm"><i class="bi bi-compass me-2"></i>Explore New Destines</a>
-  </div>
+<!-- 🌟 IMMERSIVE FULL-WIDTH BANNER HOUSING WITH AUTOMATED MULTI-IMAGE ROTATOR SLIDESHOW -->
+<div class="dashboard-user-banner">
+  
+  <!-- Image Slides Arrays Matrix -->
+  <div class="banner-slide-bg slide-active" style="background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?q=80&w=1400&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1505843513577-22bb7d21e455?q=80&w=1400&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?q=80&w=1400&auto=format&fit=crop');"></div>
+  <div class="banner-slide-bg" style="background-image: url('https://images.unsplash.com/photo-1615529151169-7b1ff50dc7f2?q=80&w=1400&auto=format&fit=crop');"></div>
 
-  <div class="row mb-5">
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border shadow-sm p-3 bg-white text-dark">
-        <p class="text-muted text-uppercase small fw-bold mb-1 font-monospace">Total Index Trips</p>
-        <h3 class="fw-bold mb-0 text-dark"><%= metrics.totalTrips %></h3>
+  <!-- Ambient Safety Dark Filter Overlay Mask -->
+  <div class="banner-mask-overlay"></div>
+
+  <!-- Content Packets Stream Matrix -->
+  <div class="banner-content-cluster">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="banner-voyager-title mb-2">Welcome Back, Voyager!</h2>
+        <p class="banner-voyager-desc mb-0">Track your real-time reservations, platform travel expenditure, and history logs seamlessly.</p>
       </div>
+      <a href="/listings" class="btn btn-light px-4 py-2 rounded-pill fw-bold text-dark border-0 shadow-sm transition" style="font-size: 13.5px;"><i class="bi bi-compass me-2" style="color: var(--atithi-orange);"></i>Explore New Destinations</a>
     </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border shadow-sm p-3 bg-white text-dark">
-        <p class="text-muted text-uppercase small fw-bold mb-1 font-monospace">Nights Camped</p>
-        <h3 class="fw-bold mb-0 text-dark"><%= metrics.totalNights %> <span class="fs-6 text-muted">Nights</span></h3>
+
+    <!-- BENTO LOG INTEL METRICS CORE DECK INSIDE BANNER CANVAS -->
+    <div class="row g-4 mt-2">
+      <div class="col-6 col-md-3">
+        <div class="card metric-card border-0 h-100">
+          <p class="text-slate-muted text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-compass me-1.5" style="color: var(--atithi-orange);"></i>Total Index Trips</p>
+          <h3 class="fw-bold mb-0 text-dark display-6" style="letter-spacing: -1px;"><%= metrics.totalTrips %></h3>
+          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
+          <p class="metric-sub-context-text">Total checked-out properties processed under your profile verification token ledger.</p>
+        </div>
       </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border shadow-sm p-3 premium-badge shadow">
-        <p class="text-white-50 text-uppercase small fw-bold mb-1 font-monospace">Invested Value</p>
-        <h3 class="fw-bold mb-0">&#8377;<%= metrics.totalSpent.toLocaleString("en-IN") %></h3>
+      <div class="col-6 col-md-3">
+        <div class="card metric-card border-0 h-100">
+          <p class="text-slate-muted text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-moon-stars me-1.5" style="color: var(--atithi-green);"></i>Nights Camped</p>
+          <h3 class="fw-bold mb-0 text-dark display-6" style="letter-spacing: -1px;"><%= metrics.totalNights %> <span class="fs-6 text-muted fw-semibold" style="letter-spacing: 0px;">Nights</span></h3>
+          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
+          <p class="metric-sub-context-text">Accumulated night cycles spent across verified accommodations globally.</p>
+        </div>
       </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card metric-card border shadow-sm p-3 bg-dark text-white shadow">
-        <p class="text-white-50 text-uppercase small fw-bold mb-1 font-monospace">Upcoming Trips</p>
-        <h3 class="fw-bold mb-0 text-white"><%= metrics.upcomingTripsCount %> <span class="badge bg-danger ms-2 font-monospace">Live Queue</span></h3>
+      <div class="col-6 col-md-3">
+        <div class="card metric-card premium-badge p-4 h-100">
+          <p class="text-white-50 text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-currency-rupee me-1" style="color: var(--atithi-orange);"></i>Invested Value</p>
+          <h3 class="fw-bold mb-0 text-white display-6" style="letter-spacing: -1px;">&#8377;<%= metrics.totalSpent.toLocaleString("en-IN") %></h3>
+          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
+          <p class="metric-sub-context-text">Net transactional net capital cleared for active booking pipelines and split shares.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card metric-card shadow border-0 bg-dark text-white h-100">
+          <p class="text-white-50 text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-hourglass-split me-1.5" style="color: var(--atithi-blue);"></i>Upcoming Trips</p>
+          <h3 class="fw-bold mb-0 text-white display-6" style="letter-spacing: -1px;"><%= metrics.upcomingTripsCount %> <span class="badge bg-danger ms-2 font-monospace" style="font-size: 11px !important; font-weight: 700; vertical-align: middle; padding: 4px 10px;">LIVE QUEUE</span></h3>
+          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
+          <p class="metric-sub-context-text" style="color: rgba(255,255,255,0.55);">Active pipelines and upcoming holds queued inside the platform verification engine.</p>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="border-bottom pb-2 mb-4 d-flex align-items-center">
-    <h3 class="fw-bold text-dark mb-0"><i class="bi bi-calendar2-range text-danger me-2"></i>Active Accommodations Queue</h3>
-    <span class="badge bg-danger rounded-pill ms-2 font-monospace"><%= bookings.length %> Stays</span>
+<!-- === 🌟 OUTSIDE CONTAINER AREA: STABLE COMPACT TABLES === -->
+<div class="container-fluid px-md-5 dashboard-lower-workspace">
+
+  <!-- Active Accommodations Section Head -->
+  <div class="border-bottom pb-2 mb-4 d-flex align-items-center justify-content-between" style="border-bottom: 1px solid #ebebeb !important;">
+    <h4 class="fw-bold text-dark mb-0" style="font-size: 20px; letter-spacing: -0.4px;"><i class="bi bi-calendar2-range text-danger me-2"></i>Active Accommodations Queue</h4>
+    <span class="badge bg-white text-dark border rounded-pill ms-2 font-monospace px-3 py-2 shadow-sm" style="font-size: 11px; font-weight: 600;"><%= bookings.length %> Stays Running</span>
   </div>
 
   <% if(bookings.length === 0) { %>
-    <div class="p-5 text-center bg-white rounded-4 border shadow-sm mb-5">
-      <i class="bi bi-bookmark-x display-4 text-muted mb-3"></i>
+    <div class="p-5 text-center bg-white rounded-4 border mb-5" style="border-color: #ebebeb !important;">
+      <i class="bi bi-bookmark-x display-5 text-muted d-block mb-3"></i>
       <h5 class="text-secondary fw-bold">No running reservations or active holds found.</h5>
-      <p class="text-muted small mb-0">Your current operations ledger is clean. Book a place to initiate verification engines.</p>
+      <p class="text-muted small mb-0 fw-medium">Your current operations ledger is clean. Explore locations to initiate verification engines.</p>
     </div>
   <% } else { %>
-    <div class="row mb-5">
+    <div class="row mb-5 g-4">
       <% for(let booking of bookings) { %>
         <% if(booking.listing) { %>
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100 shadow-sm border metric-card overflow-hidden bg-white">
-              <div class="card-img-gradient">
-                <img src="<%= booking.listing.image.url %>" class="card-img-top" alt="property" style="height: 200px; object-fit: cover;">
-                <span class="position-absolute top-0 end-0 m-3 badge bg-dark text-uppercase font-monospace small px-2 py-1" style="z-index: 5;">
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 atithi-stay-card">
+              
+              <div class="image-wrapper-node container-img-holder position-relative overflow-hidden mb-3" style="border-radius: 12px; aspect-ratio: 20 / 14;">
+                <img src="<%= booking.listing.image.url %>" class="w-100 h-100" alt="Property asset" style="object-fit: cover;">
+                <span class="position-absolute top-0 end-0 m-3 badge bg-dark text-uppercase font-monospace small px-3 py-1" style="z-index: 5; font-size: 10px; font-weight: 700; border-radius: 6px; letter-spacing: 0.3px;">
                   <%= booking.bookingPhase %>
                 </span>
               </div>
-              <div class="card-body p-4 d-flex flex-column justify-content-between">
+
+              <div class="card-body p-0 d-flex flex-column justify-content-between">
                 <div>
-                  <h5 class="fw-bold text-truncate text-dark mb-1"><%= booking.listing.title %></h5>
-                  <p class="text-muted mb-3 small"><i class="bi bi-geo-alt-fill me-1 text-danger"></i><%= booking.listing.location %>, <%= booking.listing.country %></p>
+                  <h5 class="fw-bold text-truncate text-dark mb-1" style="font-size: 16px;"><%= booking.listing.title %></h5>
+                  <p class="text-muted mb-3 small fw-medium"><i class="bi bi-geo-alt-fill me-1 text-danger"></i><%= booking.listing.location %>, <%= booking.listing.country %></p>
                   
-                  <div class="bg-light p-3 rounded-3 mb-3">
+                  <div class="bg-light p-3 rounded-3 mb-3" style="background-color: #f7f7f7 !important;">
                     <div class="d-flex justify-content-between mb-1 small text-muted">
-                      <span>Check-in Sched:</span>
+                      <span class="fw-medium">Check-In:</span>
                       <span class="text-dark fw-bold"><%= new Date(booking.checkInDate).toLocaleDateString("en-IN", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
                     </div>
                     <div class="d-flex justify-content-between small text-muted">
-                      <span>Check-out Sched:</span>
+                      <span class="fw-medium">Check-Out:</span>
                       <span class="text-dark fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-IN", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
                     </div>
                   </div>
 
                   <% if(booking.isSplitBooking) { %>
                     <div class="split-ledger-box mb-3">
-                      <p class="text-muted small fw-bold mb-2 font-monospace text-uppercase" style="font-size: 10px;"><i class="bi bi-people-fill text-danger me-1"></i> Co-Travelers Split Ledger</p>
+                      <p class="text-muted small fw-bold mb-2 font-monospace text-uppercase" style="font-size: 10px; letter-spacing: 0.2px;"><i class="bi bi-people-fill text-danger me-1"></i> Co-Travelers Split Ledger</p>
                       <div class="participant-node">
-                        <span class="small text-dark fw-bold text-truncate" style="max-width: 150px;">
+                        <span class="small text-dark fw-bold text-truncate" style="max-width: 160px;">
                           <%= booking.user ? booking.user.username : "Main User" %> (Primary Booker)
                         </span>
                         <span class="badge-settled">Paid</span>
                       </div>
                       <% for(let friend of booking.splitParticipants) { %>
                         <div class="participant-node">
-                          <span class="small text-muted text-truncate" style="max-width: 130px;" title="<%= friend.email %>"><%= friend.email %></span>
+                          <span class="small text-muted text-truncate fw-medium" style="max-width: 130px;" title="<%= friend.email %>"><%= friend.email %></span>
                           <div class="d-flex align-items-center gap-1">
-                            <span class="small fw-bold text-dark me-1" style="font-size: 11px;">&#8377;<%= friend.shareAmount %></span>
+                            <span class="small fw-bold text-dark me-2" style="font-size: 11.5px;">&#8377;<%= friend.shareAmount %></span>
                             <% if(friend.hasPaid) { %>
                               <span class="badge-settled"><i class="bi bi-check"></i> Paid</span>
                             <% } else { %>
                               <span class="badge-waiting me-1">Pending</span>
-                              <button class="btn btn-sm btn-danger py-0 px-2 btn-clear-share" style="font-size: 9px; border-radius: 4px;" data-booking-id="<%= booking._id %>" data-friend-email="<%= friend.email %>">Pay</button>
+                              <button class="btn btn-sm btn-danger py-1 px-2 btn-clear-share font-monospace fw-bold text-uppercase" style="font-size: 9px; border-radius: 4px;" data-booking-id="<%= booking._id %>" data-friend-email="<%= friend.email %>">Pay</button>
                             <% } %>
                           </div>
                         </div>
@@ -124,24 +324,26 @@
                     </div>
                   <% } %>
 
-                  <%- include("includes/checkInForm.ejs", { booking: booking }) %>
-                  <%- include("includes/checkOutForm.ejs", { booking: booking }) %>
+                  <div class="d-flex flex-column gap-2 mt-2">
+                    <%- include("includes/checkInForm.ejs", { booking: booking }) %>
+                    <%- include("includes/checkOutForm.ejs", { booking: booking }) %>
+                  </div>
 
                   <% if (booking.dispute && booking.dispute.isDamaged) { %>
-                    <div class="card border-danger mt-3 shadow-sm bg-white" style="border-radius: 14px; overflow: hidden;">
-                      <div class="card-header bg-danger text-white small font-weight-bold py-2"><i class="bi bi-exclamation-octagon me-1"></i> Action Required: Dispute Fine Outstanding</div>
+                    <div class="card mt-3 shadow-sm bg-white border-0" style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 56, 92, 0.25) !important;">
+                      <div class="card-header bg-danger text-white small fw-bold py-2 font-monospace" style="background-color: var(--airbnb-red) !important;"><i class="bi bi-exclamation-octagon me-1"></i> DISPUTE FINE INVOICE</div>
                       <div class="card-body p-3 text-start">
-                        <p class="mb-1 text-dark small"><b>Dispute Reason:</b> <%= booking.dispute.fineReason %></p>
-                        <p class="mb-2 text-secondary small"><b>Fine Amount Due:</b> <span class="text-danger fw-bold">₹<%= booking.dispute.fineAmount %></span></p>
+                        <p class="mb-1 text-dark small fw-medium"><b>Reason Specification:</b> <%= booking.dispute.fineReason %></p>
+                        <p class="mb-2 text-secondary small fw-medium"><b>Fine Balance Due:</b> <span class="text-danger fw-bold fs-6">₹<%= booking.dispute.fineAmount %></span></p>
 
                         <% if (!booking.dispute.isFinePaid) { %>
                           <% if (currUser._id.equals(booking.user._id || booking.user)) { %>
-                            <button class="btn btn-sm btn-danger w-100 font-weight-bold py-2 text-uppercase btn-settle-fine" data-booking-id="<%= booking._id %>" data-fine-order-id="<%= booking.dispute.fineRazorpayOrderId %>" data-fine-amount="<%= booking.dispute.fineAmount %>">
-                              <i class="bi bi-credit-card-2-back-fill me-1"></i> Pay Settle Fine Balance
+                            <button class="btn btn-sm btn-danger w-100 fw-bold py-2 text-uppercase btn-settle-fine font-monospace" style="font-size: 11px; border-radius: 8px; background-color: var(--airbnb-red); border: none;" data-booking-id="<%= booking._id %>" data-fine-order-id="<%= booking.dispute.fineRazorpayOrderId %>" data-fine-amount="<%= booking.dispute.fineAmount %>">
+                              <i class="bi bi-credit-card-2-back-fill me-1"></i> Settle Damage Fine Balance
                             </button>
                           <% } else { %>
-                            <div class="alert alert-secondary border-0 p-2 mb-0 text-center text-muted small" style="font-size: 11px; border-radius: 6px;">
-                              <i class="bi bi-info-circle-fill me-1"></i> Platform hold active. Awaiting settlement from primary traveler.
+                            <div class="alert alert-secondary border-0 p-2 mb-0 text-center text-muted small fw-medium" style="font-size: 11px; background-color: #f7f7f7; border: 1px solid #ebebeb !important; border-radius: 6px;">
+                              <i class="bi bi-info-circle-fill me-1"></i> Awaiting transactional settlement from primary traveler.
                             </div>
                           <% } %>
                         <% } %>
@@ -150,13 +352,14 @@
                   <% } %>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-                  <span class="badge bg-light <%= booking.paymentStatus === 'Paid' ? 'text-success border-success' : 'text-warning border-warning' %> border px-3 py-2" style="border-radius: 12px;">
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2" style="border-top: 1px solid #f2f2f2;">
+                  <span class="badge bg-light <%= booking.paymentStatus === 'Paid' ? 'text-success border-success' : 'text-warning border-warning' %> border px-3 py-1.5 fw-bold" style="border-radius: 8px; font-size: 11.5px;">
                     <i class="bi <%= booking.paymentStatus === 'Paid' ? 'bi-check-circle-fill' : 'bi-clock-history' %> me-1"></i><%= booking.paymentStatus %>
                   </span>
-                  <h5 class="fw-bold text-danger mb-0">&#8377;<%= booking.totalPrice.toLocaleString("en-IN") %></h5>
+                  <h5 class="fw-bold text-dark mb-0 fs-5">₹<%= booking.totalPrice.toLocaleString("en-IN") %></h5>
                 </div>
               </div>
+
             </div>
           </div>
         <% } %>
@@ -164,26 +367,26 @@
     </div>
   <% } %>
 
-
-  <div class="border-bottom pb-2 mb-4 mt-5 d-flex align-items-center">
-    <h3 class="fw-bold text-secondary mb-0"><i class="bi bi-archive-fill text-muted me-2"></i>Past Archives & Ledger History</h3>
-    <span class="badge bg-secondary rounded-pill ms-2 font-monospace"><%= pastBookings.length %> Records</span>
+  <!-- Past Archives Section Head -->
+  <div class="border-bottom pb-2 mb-4 mt-5 d-flex align-items-center justify-content-between" style="border-bottom: 1px solid #ebebeb !important;">
+    <h4 class="fw-bold text-secondary mb-0" style="font-size: 20px; letter-spacing: -0.4px;"><i class="bi bi-archive-fill text-muted me-2"></i>Past Archives & Ledger History</h4>
+    <span class="badge bg-light text-secondary border rounded-pill ms-2 font-monospace px-3 py-1 fw-bold" style="font-size: 11px;"><%= pastBookings.length %> Logs Recorded</span>
   </div>
 
   <% if(pastBookings.length === 0) { %>
-    <div class="p-4 text-center text-muted small bg-light rounded-4 border">
-      <i class="bi bi-folder-symlink fs-3 mb-2 d-block"></i> No historical archive ledgers compiled yet.
+    <div class="p-4 text-center text-muted small bg-light rounded-4 border border-0" style="border: 1px dashed #dddddd !important;">
+      <i class="bi bi-folder-symlink display-6 mb-2 d-block text-muted"></i> No historical archive ledgers compiled yet inside profile repository.
     </div>
   <% } else { %>
-    <div class="row">
+    <div class="row g-4">
       <% for(let past of pastBookings) { %>
         <% if(past.listing) { %>
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100 border shadow-sm history-card-wrapper overflow-hidden">
-              <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 history-card-wrapper">
+              <div class="card-body p-0 d-flex flex-column justify-content-between">
                 <div>
                   <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
-                    <h6 class="fw-bold text-dark text-truncate mb-0"><%= past.listing.title %></h6>
+                    <h6 class="fw-bold text-dark text-truncate mb-0 fs-6"><%= past.listing.title %></h6>
                     
                     <% if (past.paymentStatus === 'Refunded') { %>
                       <span class="badge badge-phase-custom bg-light text-primary border border-primary">REFUNDED</span>
@@ -196,25 +399,25 @@
                     <% } %>
                   </div>
                   
-                  <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i><%= past.listing.location %></p>
+                  <p class="text-muted small mb-3 fw-medium"><i class="bi bi-geo-alt me-1"></i><%= past.listing.location %>, <%= past.listing.country %></p>
                   
-                  <div class="bg-light p-2 rounded-3 small text-muted mb-2" style="font-size: 12px;">
-                    <div class="d-flex justify-content-between">
-                      <span>Duration:</span>
+                  <div class="history-detail-plate small text-muted mb-2">
+                    <div class="d-flex justify-content-between fw-medium">
+                      <span>Duration Slot:</span>
                       <span class="text-dark fw-bold"><%= new Date(past.checkInDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit'}) %> to <%= new Date(past.checkOutDate).toLocaleDateString("en-IN", {month: '2-digit', day: '2-digit', year: '2-digit'}) %></span>
                     </div>
                   </div>
 
                   <% if (past.dispute && past.dispute.isDamaged && past.dispute.isFinePaid) { %>
-                    <div class="alert alert-success border-0 py-1 px-2 mb-0 text-center text-success" style="font-size: 11px; border-radius: 6px;">
-                      <i class="bi bi-patch-check-fill me-1"></i> Structural Damage Indemnity Settled (₹<%= past.dispute.fineAmount %>)
+                    <div class="alert alert-success border-0 py-1.5 px-3 mb-0 text-center text-success fw-bold" style="font-size: 11px; background-color: rgba(103, 182, 54, 0.08); border-radius: 6px;">
+                      <i class="bi bi-patch-check-fill me-1"></i> Damage Liability Indemnity Settled (₹<%= past.dispute.fineAmount %>)
                     </div>
                   <% } %>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top small font-monospace">
-                  <span class="text-muted">Total Ledger Clear:</span>
-                  <span class="text-dark fw-bold">&#8377;<%= past.totalPrice.toLocaleString("en-IN") %></span>
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 small font-monospace" style="border-top: 1px solid #f2f2f2;">
+                  <span class="text-muted fw-semibold">Total Ledger Clear:</span>
+                  <span class="text-dark fw-bold fs-6">&#8377;<%= past.totalPrice.toLocaleString("en-IN") %></span>
                 </div>
               </div>
             </div>
@@ -230,6 +433,18 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     
+    // === 🚀 CRUCIAL SLIDESHOW AUTO-ROTATION ENGINE ===
+    const slides = document.querySelectorAll('.banner-slide-bg');
+    let currentSlideIndex = 0;
+    
+    function rotateBannerSlides() {
+      slides[currentSlideIndex].classList.remove('slide-active');
+      currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+      slides[currentSlideIndex].classList.add('slide-active');
+    }
+    
+    setInterval(rotateBannerSlides, 4500);
+
     // 1. Split Co-Traveler payment engine binder
     const clearShareBtns = document.querySelectorAll(".btn-clear-share");
     clearShareBtns.forEach(btn => {
@@ -325,7 +540,7 @@
               window.location.reload();
             }
           },
-          "theme": { "color": "#d9534f" }
+          "theme": { "color": "#ff385c" }
         };
         const rzp = new Razorpay(options);
         rzp.open();

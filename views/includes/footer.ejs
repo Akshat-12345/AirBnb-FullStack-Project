@@ -14,10 +14,11 @@
     --font-premium-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   }
 
+  body { font-family: var(--font-premium-stack); }
+
   .footer-clean-engine {
     background-color: var(--bg-clean-canvas);
     border-top: 1px solid var(--border-divider);
-    font-family: var(--font-premium-stack);
     padding-top: 70px;
     padding-bottom: 40px;
     position: relative;
@@ -27,21 +28,25 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding-right: 30px; /* Right column grids se separation spacing */
+    padding-right: 30px; 
   }
+  
   .footer-logo-img {
-    height: 34px;
+    height: 36px;
     object-fit: contain;
   }
+
+  /* 🌟 FIXED SPECIFICATION: Squeezed text fixed to breathe luxuriously */
   .footer-logo-text {
     font-weight: 800;
-    font-size: 26px;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, var(--atithi-orange) 10%, var(--atithi-green) 55%, var(--atithi-blue) 100%);
+    font-size: 28px;
+    letter-spacing: -0.3px; /* 🌟 FIXED: Removed extreme contraction (-1px) so alphabets sync with the logo */
+    background: linear-gradient(135deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
   }
+  
   .footer-brand-desc {
     font-size: 14.5px;
     color: var(--text-slate-muted);
@@ -50,7 +55,7 @@
     margin-bottom: 8px;
   }
 
-  /* Stripe-Style Micro Newsletter Hub to fill empty left bounds */
+  /* Stripe-Style Micro Newsletter Hub */
   .footer-newsletter-form {
     display: flex;
     gap: 10px;
@@ -63,7 +68,7 @@
     background: #ffffff;
     border: 1px solid rgba(0,0,0,0.08);
     border-radius: 12px;
-    padding: 10px 14px;
+    padding: 11px 14px;
     font-size: 13.5px;
     font-weight: 500;
     outline: none;
@@ -71,14 +76,14 @@
   }
   .newsletter-input:focus {
     border-color: var(--atithi-orange);
-    box-shadow: 0 0 0 3px rgba(255, 148, 50, 0.1);
+    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.12);
   }
   .newsletter-submit-btn {
     background: var(--text-slate-dark);
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 10px 16px;
+    padding: 11px 18px;
     font-size: 13.5px;
     font-weight: 600;
     transition: all 0.2s ease;
@@ -120,14 +125,15 @@
     color: var(--text-slate-muted);
     text-decoration: none;
     display: inline-block;
-    transition: all 0.2s ease;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* 🚀 ADVANCED UX: Added subtle elegant horizontal slide transition on hover */
   .footer-col-deck ul li a:hover {
-    transform: translateY(-1px);
+    transform: translateX(4px); 
   }
   
-  /* Precision hover shifting rules */
+  /* Precision hover color transformations matching brand tags */
   .row .footer-col-deck:nth-of-type(2) ul li a:hover { color: var(--atithi-orange); }
   .row .footer-col-deck:nth-of-type(3) ul li a:hover { color: var(--atithi-green); }
   .row .footer-col-deck:nth-of-type(4) ul li a:hover { color: var(--atithi-blue); }
@@ -162,7 +168,6 @@
     color: #000000;
   }
 
-  /* Social Icons Spheres Styling */
   .dock-social-deck {
     display: flex;
     gap: 20px;
@@ -186,7 +191,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-lg-4 mb-5 mb-lg-0 footer-brand-block">
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-3">
           <img src="/images/airbnb.png" alt="Atithi Logo" class="footer-logo-img">
           <span class="footer-logo-text">Atithi</span>
         </div>
@@ -273,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function() {
             btn.textContent = "...";
 
             try {
-                // Hits the precise isolated endpoint to process real gmail notifications smoothly
                 const response = await fetch("/api/newsletter/subscribe", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

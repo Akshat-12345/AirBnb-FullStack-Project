@@ -1,88 +1,204 @@
 <% 
+  // Real-time Date Matching Engine
   let todayStr = new Date().toISOString().split("T")[0];
   let checkOutStr = new Date(booking.checkOutDate).toISOString().split("T")[0];
 %>
 
+<style>
+  /* === 🔓 ATITHI DISCOVERY CHECKOUT ENGINE STYLES === */
+  .atithi-checkout-portal {
+    background: rgba(255, 56, 92, 0.02) !important;
+    border: 1px solid rgba(255, 56, 92, 0.25) !important;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 16px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+  }
+
+  .checkout-portal-headline {
+    color: var(--text-slate-dark);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  .checkout-portal-subtext {
+    font-size: 13.5px;
+    color: var(--text-slate-muted);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* Micro Custom Core Controls Optimization */
+  .atithi-checkout-portal .form-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-slate-dark);
+    margin-bottom: 6px;
+  }
+
+  .atithi-checkout-portal .form-control {
+    background: #ffffff !important;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-slate-dark);
+    transition: all 0.2s ease;
+  }
+  .atithi-checkout-portal .form-control:focus {
+    border-color: var(--airbnb-red);
+    box-shadow: 0 0 0 3.5px rgba(255, 56, 92, 0.12);
+  }
+
+  .btn-checkout-execute {
+    background: #222222;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 13px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-checkout-execute:hover {
+    background: #000000;
+  }
+
+  /* Early Checkout Toggle Navigation Button Lever */
+  .btn-early-trigger {
+    border: 1px solid #ebebeb;
+    background: #ffffff;
+    color: var(--text-slate-dark);
+    font-weight: 600;
+    font-size: 12.5px;
+    border-radius: 10px;
+    padding: 10px 16px;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+  .btn-early-trigger:hover {
+    background: #f7f7f7;
+    border-color: #b0b0b0;
+  }
+
+  .early-mode-warning-strip {
+    background-color: rgba(255, 148, 50, 0.06) !important;
+    border: 1px dashed rgba(255, 148, 50, 0.4) !important;
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #664d03;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* 🌟 LOG LOCKED COMPLETED CAPSULE SUCCESS INFRASTRUCTURE */
+  .checkout-success-locked-node {
+    background: rgba(103, 182, 54, 0.06) !important;
+    border: 1px solid rgba(103, 182, 54, 0.25) !important;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    box-sizing: border-box;
+  }
+  .checkout-success-locked-node p {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f5132;
+    line-height: 1.4;
+  }
+</style>
+
+<!-- 🔥 MASTER LIFECYCLE 1: RESERVATION EXECUTION ACTIVE -->
 <% if (booking.paymentStatus === "Paid" && booking.bookingPhase === "CheckedIn") { %>
     
+    <!-- SLOT A: STANDARD CHECK-OUT WINDOW TIMELINE IS OPEN TODAY -->
     <% if (todayStr === checkOutStr) { %>
-        <div class="card checkout-automation-box border-danger my-4 shadow-sm">
-            <div class="card-header bg-danger text-white font-weight-bold d-flex align-items-center">
-                <span class="mr-2">⚡</span> Required Action: Complete Structural Verification & Check-Out
+        <div class="atithi-checkout-portal shadow-sm">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-camera-reels-fill" style="color: var(--airbnb-red); font-size: 16px;"></i>
+                <h6 class="checkout-portal-headline mb-0">Required Action: Complete Structural Verification & Check-Out</h6>
             </div>
-            <div class="card-body bg-light">
-                <p class="text-muted small">
-                    Dear Guest, your checkout window is officially open today. To avoid any fine matrix disputes, please record and attach 2 clear snapshots of the rooms and a 5-second panning safety clip.
-                </p>
-                
-                <form action="/bookings/<%= booking._id %>/checkout-verify" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label font-weight-bold text-secondary small">Room Condition Photos (Strictly 2 Snapshots)</label>
-                            <input type="file" name="checkOutPhotos" class="form-control" accept="image/*" multiple required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label font-weight-bold text-secondary small">Continuous Panning Video (Max 1 Safety Clip)</label>
-                            <input type="file" name="checkOutVideo" class="form-control" accept="video/*" required>
-                        </div>
+            <p class="checkout-portal-subtext mb-3">
+                Dear Guest, your checkout window is officially open today. To avoid any fine matrix disputes, please record and attach 2 clear snapshots of the rooms and a 5-second panning safety clip.
+            </p>
+            
+            <form action="/bookings/<%= booking._id %>/checkout-verify" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Room Condition Photos (Strictly 2 Snapshots)</label>
+                        <input type="file" name="checkOutPhotos" class="form-control" accept="image/*" multiple required>
                     </div>
-                    <button type="submit" class="btn btn-danger btn-block font-weight-bold mt-2 py-2 text-uppercase shadow-sm">
-                        📤 Authenticate Asset State & Check-Out
-                    </button>
-                </form>
-            </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Continuous Panning Video (Max 1 Safety Clip)</label>
+                        <input type="file" name="checkOutVideo" class="form-control" accept="video/*" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-checkout-execute mt-3 text-uppercase">
+                    <i class="bi bi-cloud-arrow-up-fill me-1"></i> Authenticate Asset State & Check-Out
+                </button>
+            </form>
         </div>
 
+    <!-- SLOT B: FUTURE SCHEDULED DEPARTURE INTERVAL (EARLY TRIGGER SYSTEM ON CAP) -->
     <% } else { %>
         <div class="my-3">
-            <div class="alert alert-info border-info d-flex align-items-center shadow-sm mb-2" role="alert" style="border-radius: 12px;">
-                <span class="mr-2">🗓️</span> 
-                <span class="small font-weight-bold">
-                    Scheduled departure date: <span class="text-danger"><%= new Date(booking.checkOutDate).toLocaleDateString("en-IN", { month: 'short', day: 'numeric', year: 'numeric' }) %></span>.
+            <div class="d-flex align-items-center gap-2 p-3 mb-2" style="background-color: #f7f7f7; border: 1px solid #ebebeb; border-radius: 12px;">
+                <i class="bi bi-calendar2-event" style="color: var(--text-slate-muted); font-size: 16px;"></i>
+                <span class="small fw-semibold text-dark">
+                    Scheduled departure date: <span class="text-danger fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-IN", { month: 'short', day: 'numeric', year: 'numeric' }) %></span>.
                 </span>
             </div>
             
-            <button class="btn btn-sm btn-outline-danger btn-block font-weight-bold py-2 text-uppercase" 
+            <button class="btn-early-trigger text-uppercase d-flex align-items-center justify-content-center gap-2" 
                     type="button" 
                     data-bs-toggle="collapse" 
-                    data-bs-target="#earlyCheckoutBox-<%= booking._id %>" 
-                    style="border-radius: 10px; font-size: 11px; letter-spacing: 0.5px;">
-                <i class="bi bi-box-arrow-left me-1"></i> Trigger Early Check-Out Workflow ⚡
+                    data-bs-target="#earlyCheckoutBox-<%= booking._id %>">
+                <i class="bi bi-box-arrow-left"></i> Trigger Early Check-Out Workflow ⚡
             </button>
 
             <div class="collapse mt-3" id="earlyCheckoutBox-<%= booking._id %>">
-                <div class="card border-danger shadow-sm">
-                    <div class="card-header bg-warning text-dark font-weight-bold small">
-                        ⚠️ Early Checkout Mode Active (Room Logs Validation Required)
+                <div class="atithi-checkout-portal shadow-sm" style="background: rgba(255, 148, 50, 0.02) !important; border-color: rgba(255, 148, 50, 0.25) !important;">
+                    <div class="early-mode-warning-strip mb-3 d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill" style="color: var(--atithi-orange);"></i> Early Checkout Mode Active (Room Logs Validation Required)
                     </div>
-                    <div class="card-body bg-light">
-                        <p class="text-muted text-start" style="font-size: 11px; line-height: 1.4;">
-                            Leaving early? No problem! Please secure 2 room snapshots and 1 short panning video sequence right now. Once uploaded, the platform will immediately release your access bounds and prompt for formal review.
-                        </p>
-                        
-                        <form action="/bookings/<%= booking._id %>/checkout-verify" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                            <div class="row text-start">
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label font-weight-bold text-secondary text-start mb-1" style="font-size: 11px;">Photos (Max 2 Room Shots)</label>
-                                    <input type="file" name="checkOutPhotos" class="form-control form-control-sm" accept="image/*" multiple required>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label font-weight-bold text-secondary text-start mb-1" style="font-size: 11px;">Video (1 Safety Sequence)</label>
-                                    <input type="file" name="checkOutVideo" class="form-control form-control-sm" accept="video/*" required>
-                                </div>
+                    
+                    <p class="checkout-portal-subtext mb-3 text-start" style="font-size: 13px;">
+                        Leaving early? No problem! Please secure 2 room snapshots and 1 short panning video sequence right now. Once uploaded, the platform will immediately release your access bounds and prompt for formal review.
+                    </p>
+                    
+                    <form action="/bookings/<%= booking._id %>/checkout-verify" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="row g-3 text-start">
+                            <div class="col-md-6">
+                                <label class="form-label text-start mb-1" style="color: #717171 !important;">Photos (Max 2 Room Shots)</label>
+                                <input type="file" name="checkOutPhotos" class="form-control form-control-sm" accept="image/*" multiple required>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-danger btn-block font-weight-bold w-100 mt-2 py-2">
-                                📤 Finalize Early Departure Matrix
-                            </button>
-                        </form>
-                    </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-start mb-1" style="color: #717171 !important;">Video (1 Safety Sequence)</label>
+                                <input type="file" name="checkOutVideo" class="form-control form-control-sm" accept="video/*" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-checkout-execute mt-3 text-uppercase" style="background: var(--text-slate-dark);">
+                            <i class="bi bi-cloud-arrow-up-fill me-1"></i> Finalize Early Departure Matrix
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     <% } %>
 
+<!-- 🔥 MASTER LIFECYCLE 2: ENTIRE BOOKING TRANSACTION LOCKED SUCCESSFULLY -->
 <% } else if (booking.bookingPhase === "CheckedOut") { %>
-    <div class="alert alert-success border-success my-3 text-center shadow-sm" role="alert" style="border-radius: 12px;">
-        <span class="font-weight-bold small">🎉 Check-out successfully verified! Room state captured & logs locked.</span>
+    <div class="checkout-success-locked-node shadow-sm">
+        <i class="bi bi-patch-check-fill" style="color: var(--atithi-green); font-size: 18px; flex-shrink: 0;"></i>
+        <p class="mb-0">Check-out successfully verified! Room state captured & logs locked.</p>
     </div>
 <% } %>

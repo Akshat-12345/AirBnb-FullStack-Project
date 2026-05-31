@@ -1,13 +1,170 @@
+<style>
+  :root {
+    /* Atithi Immersive Brand Colors Matrix */
+    --atithi-orange: #FF9432;
+    --atithi-green: #67B636;
+    --atithi-blue: #00A3E0;
+    --glass-alert-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  }
+
+  /* === 🚀 DYNAMIC BOTTOM-RIGHT FLOATING TOAST CONSOLE === */
+  .atithi-flash-container {
+    position: fixed;
+    bottom: 30px; /* Anchored perfectly to the bottom */
+    right: 30px;  /* Anchored clean to the right boundary edge */
+    z-index: 999999; /* Forces high-end execution stack priority over maps and grids */
+    width: 100%;
+    max-width: 400px; /* Compressed slightly for clean sidebar notifications styling */
+    padding: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(100px); /* Starts completely off-screen from right */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* Active kinetic display toggle trigger */
+  .atithi-flash-container.toast-active-trigger {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* 🔥 THE REFACTOR: Frosted Premium Industrial Glass Toast Deck */
+  .atithi-glass-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15);
+    font-family: var(--glass-alert-font);
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+  }
+
+  /* Success Variant Overlay Configuration */
+  .toast-success-node {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(103, 182, 54, 0.35);
+    color: #0f172a;
+  }
+
+  /* Error Variant Overlay Configuration */
+  .toast-error-node {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(255, 94, 58, 0.35);
+    color: #0f172a;
+  }
+
+  /* Integrated Premium Fluid Icon Hubs */
+  .toast-icon-hub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .toast-success-node .toast-icon-hub {
+    background: rgba(103, 182, 54, 0.12);
+    color: var(--atithi-green);
+  }
+  .toast-error-node .toast-icon-hub {
+    background: rgba(255, 94, 58, 0.12);
+    color: #ff5e3a;
+  }
+
+  .toast-msg-payload {
+    flex-grow: 1;
+    line-height: 1.4;
+  }
+
+  /* Sleek Cross Dismissal Lever Vector */
+  .toast-close-lever {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .toast-close-lever:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #0f172a;
+  }
+</style>
+
 <% if(success && success.length){ %>
-    <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
-     <%= success %>
-     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="atithi-flash-container" id="successFlashComponent">
+    <div class="atithi-glass-toast toast-success-node" role="alert">
+      <div class="toast-icon-hub">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+      <div class="toast-msg-payload">
+        <%= success %>
+      </div>
+      <button type="button" class="toast-close-lever" aria-label="Close" onclick="dismissAlert('successFlashComponent')">
+        <i class="bi bi-x"></i>
+      </button>
     </div>
+  </div>
 <% } %>
 
 <% if(error && error.length){ %>
-    <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
-     <%= error %>
-     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="atithi-flash-container" id="errorFlashComponent">
+    <div class="atithi-glass-toast toast-error-node" role="alert">
+      <div class="toast-icon-hub">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+      </div>
+      <div class="toast-msg-payload">
+        <%= error %>
+      </div>
+      <button type="button" class="toast-close-lever" aria-label="Close" onclick="dismissAlert('errorFlashComponent')">
+        <i class="bi bi-x"></i>
+      </button>
     </div>
+  </div>
 <% } %>
+
+<script>
+  // Silky Smooth Dismissal Slide-Out Engine
+  function dismissAlert(elementId) {
+    const alertComponent = document.getElementById(elementId);
+    if(alertComponent) {
+      alertComponent.style.transform = "translateX(100px)";
+      alertComponent.style.opacity = "0";
+      setTimeout(() => {
+        alertComponent.remove();
+      }, 400);
+    }
+  }
+
+  // Smooth Execution Lifecycle Hooks
+  document.addEventListener("DOMContentLoaded", () => {
+    const successToast = document.getElementById('successFlashComponent');
+    const errorToast = document.getElementById('errorFlashComponent');
+
+    // Trigger slide-in animation sequentially after render thread parses
+    setTimeout(() => {
+      if(successToast) successToast.classList.add('toast-active-trigger');
+      if(errorToast) errorToast.classList.add('toast-active-trigger');
+    }, 100);
+
+    // Automatic Smooth Timeout Fade (5 Seconds Interval)
+    setTimeout(() => dismissAlert('successFlashComponent'), 5100);
+    setTimeout(() => dismissAlert('errorFlashComponent'), 5100);
+  });
+</script>
