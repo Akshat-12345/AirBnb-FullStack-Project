@@ -221,7 +221,6 @@
         <div class="card metric-card border-0 h-100">
           <p class="text-slate-muted text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-compass me-1.5" style="color: var(--atithi-orange);"></i>Total Index Trips</p>
           <h3 class="fw-bold mb-0 text-dark display-6" style="letter-spacing: -1px;"><%= metrics.totalTrips %></h3>
-          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
           <p class="metric-sub-context-text">Total checked-out properties processed under your profile verification token ledger.</p>
         </div>
       </div>
@@ -229,7 +228,6 @@
         <div class="card metric-card border-0 h-100">
           <p class="text-slate-muted text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-moon-stars me-1.5" style="color: var(--atithi-green);"></i>Nights Camped</p>
           <h3 class="fw-bold mb-0 text-dark display-6" style="letter-spacing: -1px;"><%= metrics.totalNights %> <span class="fs-6 text-muted fw-semibold" style="letter-spacing: 0px;">Nights</span></h3>
-          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
           <p class="metric-sub-context-text">Accumulated night cycles spent across verified accommodations globally.</p>
         </div>
       </div>
@@ -237,7 +235,6 @@
         <div class="card metric-card premium-badge p-4 h-100">
           <p class="text-white-50 text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-currency-rupee me-1" style="color: var(--atithi-orange);"></i>Invested Value</p>
           <h3 class="fw-bold mb-0 text-white display-6" style="letter-spacing: -1px;">&#8377;<%= metrics.totalSpent.toLocaleString("en-IN") %></h3>
-          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
           <p class="metric-sub-context-text">Net transactional net capital cleared for active booking pipelines and split shares.</p>
         </div>
       </div>
@@ -245,7 +242,6 @@
         <div class="card metric-card shadow border-0 bg-dark text-white h-100">
           <p class="text-white-50 text-uppercase small fw-bold font-monospace metric-headline-tag"><i class="bi bi-hourglass-split me-1.5" style="color: var(--atithi-blue);"></i>Upcoming Trips</p>
           <h3 class="fw-bold mb-0 text-white display-6" style="letter-spacing: -1px;"><%= metrics.upcomingTripsCount %> <span class="badge bg-danger ms-2 font-monospace" style="font-size: 11px !important; font-weight: 700; vertical-align: middle; padding: 4px 10px;">LIVE QUEUE</span></h3>
-          <!-- 🌟 ADDED TEXT: Content addition for card look completion -->
           <p class="metric-sub-context-text" style="color: rgba(255,255,255,0.55);">Active pipelines and upcoming holds queued inside the platform verification engine.</p>
         </div>
       </div>
@@ -297,6 +293,16 @@
                       <span class="text-dark fw-bold"><%= new Date(booking.checkOutDate).toLocaleDateString("en-IN", {month: 'short', day: 'numeric', year: 'numeric'}) %></span>
                     </div>
                   </div>
+
+                  <!-- 🌟 EXTRACTION CORE: Automatically calculating real total stay days loop for elastic itineraries -->
+                  <% 
+                    let timeDiff = new Date(booking.checkOutDate).getTime() - new Date(booking.checkInDate).getTime();
+                    let computedDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    if(!computedDays || computedDays <= 0) computedDays = 1; 
+                  %>
+
+                  <!-- 🔗 LINKED COMPONENT: Injecting the clean independent button from includes folder -->
+                  <%- include("includes/itineraryButton.ejs", { booking: booking, computedDays: computedDays }) %>
 
                   <% if(booking.isSplitBooking) { %>
                     <div class="split-ledger-box mb-3">
@@ -428,6 +434,9 @@
   <% } %>
 
 </div>
+
+<!-- 🔗 LINKED VIEW ENGINE PARTIAL: Appending the dynamic modal logic at the bottom safely -->
+<%- include("includes/itineraryModal.ejs") %>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>

@@ -26,6 +26,7 @@ const bookingRouter = require("./routes/bookings");
 const reviews = require('./routes/review.js');
 const userRouter = require('./routes/user.js');
 const newsletterRouter = require("./routes/newsletter");
+const itineraryRouter = require("./routes/itinerary");
 const { date } = require('joi');
 let port = 3000;
 
@@ -160,6 +161,7 @@ app.use('/listings',listings);
 app.use('/listings/:id/reviews',reviews);
 app.use('/',userRouter);
 app.use("/api/newsletter", newsletterRouter);
+app.use("/", itineraryRouter);
 app.use((req, res, next) => {
     next(new ExpressError(404, 'Page Not Found!'));
 });
