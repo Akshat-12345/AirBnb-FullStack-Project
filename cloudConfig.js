@@ -19,11 +19,21 @@ const storage = new CloudinaryStorage({
             };
         }
 
-        // Default fallback for your normal listings upload (Images)
+        // 🚀 Fallback for normal listings upload (Images) with Compression Enabled
         return {
-            folder: 'airbnb_dev', // Tumhara purana folder safe hai
+            folder: 'airbnb_dev', // Purana folder bilkul safe hai
             resource_type: 'image',
-            allowed_formats: ["png", "jpg", "jpeg"]
+            allowed_formats: ["png", "jpg", "jpeg"],
+            // 🔥 LINE ADDED HERE: Auto compress large images instantly during upload stream
+            transformation: [
+                { 
+                    width: 1200,          // Image ka max width 1200px lock kiya
+                    height: 1200,         // Image ka max height 1200px lock kiya
+                    crop: 'limit',        // Choti photos ko kharab nahi karega, badi photos ko downscale karega
+                    quality: 'auto:good', // Visual quality safe rakhte hue file size drastically reduce karega
+                    fetch_format: 'auto'  // WebP/AVIF format automatically select karega optimized rendering ke liye
+                }
+            ]
         };
     },
 });

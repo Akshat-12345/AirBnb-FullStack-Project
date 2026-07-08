@@ -70,28 +70,22 @@
     animation: hostCrossfadeEngine 25s infinite ease-in-out;
   }
 
-  /* 🌟 FIXED: Removed dark overlays and added high-res query parameters (&w=1920&q=90) for full 4K output */
-  /* Slide 1: Premium White Interior Sofa Ambient */
   .host-scenery-pane:nth-child(1) {
     background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=90');
     animation-delay: 0s;
   }
-  /* Slide 2: Modern Glass Pane Front Architecture Stay */
   .host-scenery-pane:nth-child(2) {
     background-image: url('https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?auto=format&fit=crop&w=1920&q=90');
     animation-delay: 5s;
   }
-  /* Slide 3: Cozy Aesthetic Bed & Arch Glass Framing */
   .host-scenery-pane:nth-child(3) {
     background-image: url('https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?auto=format&fit=crop&w=1920&q=90');
     animation-delay: 10s;
   }
-  /* Slide 4: Bright Minimalist Wood-Paneled Modular Space */
   .host-scenery-pane:nth-child(4) {
     background-image: url('https://images.unsplash.com/photo-1686828751885-040f0a0fb77a?auto=format&fit=crop&w=1920&q=90');
     animation-delay: 15s;
   }
-  /* Slide 5: Sunlit Premium Organic Minimalist Apartment Entry */
   .host-scenery-pane:nth-child(5) {
     background-image: url('https://plus.unsplash.com/premium_photo-1681224438794-f63e754bf542?auto=format&fit=crop&w=1920&q=90');
     animation-delay: 20s;
@@ -126,7 +120,6 @@
     margin-bottom: 20px;
   }
 
-  /* Enhanced Text Shadow to keep it completely readable without dark overlay background gaps */
   .pitch-hero-title {
     font-size: 40px;
     font-weight: 800;
@@ -145,12 +138,11 @@
     max-width: 500px;
   }
 
-  /* 🌟 FIXED: Increased container glass blur and added a subtle dark text shadow background inside the layout pills */
   .pitch-bento-card {
     display: flex;
     align-items: flex-start;
     gap: 18px;
-    background: rgba(15, 23, 42, 0.25); /* Subtle dark glass overlay inside the specific card context for absolute clean visibility */
+    background: rgba(15, 23, 42, 0.25); 
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -300,6 +292,37 @@
     box-shadow: 0 6px 22px rgba(255, 94, 58, 0.38);
   }
 
+  /* === 📸 NEW PREVIEW PIPELINE GRID SYSTEM === */
+  .preview-pipeline-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .preview-pipeline-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .preview-img-thumbnail {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .preview-tag-selector {
+    flex-grow: 1;
+  }
+
   @media (max-width: 991px) {
     .image-overlay-pitch-side { display: none !important; }
     .host-form-side { flex: 1 1 100%; padding: 30px 12px; }
@@ -307,10 +330,8 @@
   }
 </style>
 
-<!-- True 100VW Full Horizon Execution Frame -->
 <div class="host-viewport-wrapper">
   
-  <!-- AUTOMATIC INFINITE SLIDESHOW ENGINE -->
   <div class="host-slideshow-container">
     <div class="host-scenery-pane"></div>
     <div class="host-scenery-pane"></div>
@@ -319,7 +340,6 @@
     <div class="host-scenery-pane"></div>
   </div>
   
-  <!-- LEFT SIDE HUB -->
   <div class="image-overlay-pitch-side">
     <div>
       <span class="pitch-brand-headline">Host on Atithi</span>
@@ -359,7 +379,6 @@
     </p>
   </div>
 
-  <!-- RIGHT SIDE HUB -->
   <div class="host-form-side">
     <div class="auth-frosted-envelope">
       <div class="form-title-block mb-4">
@@ -369,7 +388,6 @@
 
       <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
         
-        <!-- Advanced Title Input -->
         <div class="mb-3">
           <label class="form-label">Stay Title</label>
           <div class="advanced-input-bracket">
@@ -379,14 +397,12 @@
           <div class="valid-feedback">Title index allocation verified.</div>
         </div>
 
-        <!-- Spatial Description -->
         <div class="mb-3">
           <label class="form-label">Spatial Description</label>
           <textarea class="form-control" name="listing[description]" rows="3" placeholder="Describe the ambient layout, architecture, amenities..." required></textarea>
           <div class="valid-feedback">Structural specification mapped.</div>
         </div>
 
-        <!-- Price & Category Grid Split -->
         <div class="row">
           <div class="col-md-6 mb-3">
             <label class="form-label">Price Node (INR / Night)</label>
@@ -415,16 +431,16 @@
           </div>
         </div>
         
-        <!-- Advanced Image Upload Node -->
         <div class="mb-3">
-          <label class="form-label">Upload Asset Scenery Graphic</label>
+          <label class="form-label">Upload Asset Scenery Graphics</label>
           <div class="advanced-input-bracket">
-            <input type="file" class="form-control" name="listing[image]" required>
+            <input type="file" class="form-control" id="assetImagesInput" name="listing[images]" multiple required>
             <i class="bi bi-image"></i>
           </div>
+          
+          <div class="preview-pipeline-grid" id="previewPipelineGrid"></div>
         </div>
 
-        <!-- Location & Country Grid Split -->
         <div class="row mb-4">
           <div class="col-md-6 mb-3 mb-md-0">
             <label class="form-label">Location Coordinate Hub</label>
@@ -442,10 +458,51 @@
           </div>
         </div>
 
-        <!-- Master Submit Action Deploy Lever -->
         <button type="submit" class="btn btn-atithi-submit">Deploy Asset to Matrix</button>
       </form>
     </div>
   </div>
-
+ 
 </div>
+
+<script>
+  document.getElementById('assetImagesInput').addEventListener('change', function(event) {
+    const gridContainer = document.getElementById('previewPipelineGrid');
+    gridContainer.innerHTML = ''; // Purane previews clean karne ke liye
+    
+    const files = event.target.files;
+    
+    if (files) {
+      Array.from(files).forEach((file, index) => {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          // Card template generate karein har ek photo ke liye
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'preview-pipeline-item';
+          
+          itemDiv.innerHTML = `
+            <img src="${e.target.result}" class="preview-img-thumbnail" alt="Preview">
+            <div class="preview-tag-selector">
+              <label class="form-label" style="font-size: 10px; margin-bottom: 2px;">Tag for Photo ${index + 1}</label>
+              <div class="advanced-input-bracket">
+                <select class="form-select" name="imageTags" style="padding: 6px 12px 6px 35px; font-size: 13px; height: auto;" required>
+                  <option value="General" selected>General</option>
+                  <option value="Bedroom">Bedroom</option>
+                  <option value="Kitchen">Kitchen</option>
+                  <option value="Bathroom">Bathroom</option>
+                  <option value="Exterior">Exterior</option>
+                </select>
+                <i class="bi bi-tag-fill" style="font-size: 13px; left: 12px;"></i>
+              </div>
+            </div>
+          `;
+          
+          gridContainer.appendChild(itemDiv);
+        }
+        
+        reader.readAsDataURL(file);
+      });
+    }
+  });
+</script>

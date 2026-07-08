@@ -1,188 +1,240 @@
-<!-- Animate.css Inclusion for Fluid Reveal Transitions -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
 <style>
-  /* === 🌌 ATITHI ADVANCED MINIMALIST CANVAS === */
-  .atithi-animated-details-chassis {
+  /* === 🏡 MASTER LUXURY CANVAS === */
+  .atithi-luxury-editorial-chassis {
     width: 100%;
-    background: transparent;
-    box-sizing: border-box;
-    padding: 10px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #222222;
+    padding-right: 24px; /* Creates breathing channel between left block and sticky panel */
   }
 
-  /* 🌟 BORDERLESS PREMIUM HOST BANNER (REMOVED RAINBOW LINE) */
-  .atithi-vibrant-host-row {
+  /* 🌟 APPLE-STYLE INTERACTIVE HOST ANCHOR */
+  .atithi-luxury-host-profile-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 28px;
-    background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid #ebebeb; /* Super faint crisp frame perimeter */
-    margin-bottom: 40px;
-    position: relative;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  .atithi-vibrant-host-row:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
-    border-color: #dcdcdc;
+    padding: 24px 0;
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 32px;
   }
 
-  .vibrant-host-title {
-    font-size: 23px;
-    font-weight: 800;
-    letter-spacing: -0.6px;
+  .atithi-host-meta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .atithi-host-meta-stack h3 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin: 0;
     color: #222222;
   }
 
-  .vibrant-host-badge {
+  .atithi-host-status-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(103, 182, 54, 0.08);
-    color: #67B636;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 30px;
-    margin-top: 6px;
-    border: 1px solid rgba(103, 182, 54, 0.12);
+    color: #5ea330; /* Identity Operations Green */
+    font-size: 14px;
+    font-weight: 500;
   }
 
-  /* Soft Gradient Fluid Avatar Control */
-  .vibrant-host-avatar {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #ff385c 0%, #ff9432 100%);
+  .atithi-host-status-badge i {
+    font-size: 15px;
+  }
+
+  /* Solid Monochromatic Micro Monogram */
+  .atithi-host-avatar-frame {
+    width: 52px;
+    height: 52px;
+    background: #222222;
     color: #ffffff;
-    font-weight: 800;
+    font-weight: 500;
     font-size: 18px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
-    box-shadow: 0 4px 12px rgba(255, 56, 92, 0.15);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
-  }
-  .atithi-vibrant-host-row:hover .vibrant-host-avatar {
-    transform: scale(1.08) rotate(15deg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
-  /* === 🏷️ INTEGRATED CONTRAST HEADING TAG === */
-  .editorial-heading-accent {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.4px;
+  /* === 🏷️ PREMIUM ISOLATED FEATURE SPECIFICATION TRACK === */
+  .atithi-luxury-spec-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+
+  .luxury-spec-node {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .luxury-spec-icon-box {
+    font-size: 24px;
     color: #222222;
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 8px;
-  }
-  .editorial-heading-accent i {
-    color: #00A3E0; /* Signature crisp brand blue index indicator */
-    font-size: 16px;
+    justify-content: center;
+    margin-top: 2px;
   }
 
-  /* === 📑 CLEAN BORDERLESS TYPOGRAPHY CANVAS (REMOVED VERTICAL LINE) === */
-  .animated-description-space {
-    position: relative;
-    padding-left: 4px; /* Removed left partition bounds entirely */
-    margin-bottom: 45px;
-  }
-
-  .animated-description-space p {
-    font-size: 16px;
-    font-weight: 450;
-    line-height: 1.72;
-    color: #222222; /* High-contrast graphite dark reading color */
-    white-space: pre-line;
-  }
-
-  /* === 🛠️ FLAT ACTION SYSTEM BUTTON LEVERS === */
-  .atithi-kinetic-admin-deck {
+  .luxury-spec-text-block {
     display: flex;
-    gap: 12px;
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid #f2f2f2; /* Faint horizontal threshold spacer */
+    flex-direction: column;
+    gap: 2px;
   }
 
-  .btn-kinetic-lever {
+  .luxury-spec-text-block h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #222222;
+    letter-spacing: -0.1px;
+  }
+
+  .luxury-spec-text-block p {
+    font-size: 14px;
+    color: #717171;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* === 📑 ARCHITECTURAL READING SLATE (PROSE) === */
+  .atithi-editorial-divider-line {
+    height: 1px;
+    background: #ededed;
+    width: 100%;
+    margin-bottom: 32px;
+  }
+
+  .atithi-luxury-prose-container {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .atithi-luxury-prose-container p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #333333; /* Standard high-contrast reading ergonomics layout */
+    white-space: pre-line;
+    letter-spacing: -0.1px;
+  }
+
+  /* === 🛠️ FLAT COMPACT PLATFORM LEVERS === */
+  .atithi-luxury-admin-deck {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid #ededed;
+  }
+
+  .btn-luxury-operational-lever {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 13.5px;
-    padding: 11px 24px;
-    border-radius: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
     cursor: pointer;
     text-decoration: none !important;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
   }
 
-  .btn-kinetic-edit {
+  .btn-luxury-lever-modify {
     background: #222222;
     color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #222222;
   }
-  .btn-kinetic-edit:hover {
+  
+  .btn-luxury-lever-modify:hover {
     background: #000000;
+    border-color: #000000;
     transform: translateY(-1px);
   }
 
-  .btn-kinetic-delete {
+  .btn-luxury-lever-delete {
     background: #ffffff;
     color: #c13515;
-    border: 1px solid rgba(193, 53, 21, 0.25);
+    border: 1px solid #c13515;
   }
-  .btn-kinetic-delete:hover {
+  
+  .btn-luxury-lever-delete:hover {
     background: #fff8f6;
-    border-color: #c13515;
     transform: translateY(-1px);
   }
 </style>
 
-<div class="atithi-animated-details-chassis animate__animated animate__fadeInUp">
+<div class="atithi-luxury-editorial-chassis">
   
-  <!-- 🌟 STEP 1: CLEAN BORDERLESS HOST BANNER -->
-  <div class="atithi-vibrant-host-row">
-    <div class="text-start">
-      <h3 class="vibrant-host-title mb-0">Hosted by <%= data.owner.username %></h3>
-      <div class="vibrant-host-badge">
+  <div class="atithi-luxury-host-profile-row">
+    <div class="atithi-host-meta-stack">
+      <h3>Hosted by <%= data.owner ? data.owner.username : 'Exotic Host' %></h3>
+      <div class="atithi-host-status-badge">
         <i class="bi bi-patch-check-fill"></i> Atithi Certified Partner
       </div>
     </div>
     
-    <div class="vibrant-host-avatar">
-      <%= data.owner.username.charAt(0).toUpperCase() %>
+    <div class="atithi-host-avatar-frame">
+      <%= data.owner && data.owner.username ? data.owner.username.charAt(0).toUpperCase() : 'A' %>
     </div>
   </div>
 
-  <!-- 🌟 STEP 2: TYPOGRAPHY DESCRIPTION WITH NO VERTICAL LINES -->
-  <div class="editorial-heading-accent">
-    <i class="bi bi-compass"></i><span>Discover the Experience Manifest</span>
+  <div class="atithi-luxury-spec-matrix">
+    <div class="luxury-spec-node">
+      <div class="luxury-spec-icon-box">
+        <i class="bi bi-door-open"></i>
+      </div>
+      <div class="luxury-spec-text-block">
+        <h4>Self check-in via smartlock</h4>
+        <p>Check yourself in smoothly with our authenticated keyless system access gateway.</p>
+      </div>
+    </div>
+    
+    <div class="luxury-spec-node">
+      <div class="luxury-spec-icon-box">
+        <i class="bi bi-shield-check"></i>
+      </div>
+      <div class="luxury-spec-text-block">
+        <h4>100% Verified stay matrix</h4>
+        <p>Every single detail of this property has been physically audited and vetted by our operations engine.</p>
+      </div>
+    </div>
+
+    <div class="luxury-spec-node">
+      <div class="luxury-spec-icon-box">
+        <i class="bi bi-chat-square-heart"></i>
+      </div>
+      <div class="luxury-spec-text-block">
+        <h4>Highly rated host partner</h4>
+        <p>This host consistently receives 5-star ratings and exceptional engagement feedbacks.</p>
+      </div>
+    </div>
   </div>
-  
-  <div class="animated-description-space">
+
+  <div class="atithi-editorial-divider-line"></div>
+
+  <div class="atithi-luxury-prose-container">
     <p><%= data.description %></p>
   </div>
 
-  <!-- 🌟 STEP 3: MANAGEMENT BUTTONS DECK -->
-  <% if (currUser && currUser._id.equals(data.owner._id)){ %>
-    <div class="atithi-kinetic-admin-deck">
-      <a href="/listings/<%= data._id %>/edit" class="btn-kinetic-lever btn-kinetic-edit">
-        <i class="bi bi-sliders2"></i> Modify Space Configurations
+  <% if (currUser && data.owner && currUser._id.equals(data.owner._id)){ %>
+    <div class="atithi-luxury-admin-deck">
+      <a href="/listings/<%= data._id %>/edit" class="btn-luxury-operational-lever btn-luxury-lever-modify">
+        <i class="bi bi-sliders2"></i> Edit Configurations
       </a>
       
       <form method="POST" action="/listings/<%= data._id %>?_method=DELETE" class="m-0">
-        <button type="submit" class="btn-kinetic-lever btn-kinetic-delete">
-          <i class="bi bi-trash3"></i> Purge Listing Node
+        <button type="submit" class="btn-luxury-operational-lever btn-luxury-lever-delete">
+          <i class="bi bi-trash3"></i> Delete Space Node
         </button>
       </form>
     </div>

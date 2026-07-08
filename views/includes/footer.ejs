@@ -3,25 +3,40 @@
 <style>
   :root {
     /* Atithi Signature Creative Colors Blueprint */
-    --atithi-orange: #FF9432;
-    --atithi-green: #67B636;
-    --atithi-blue: #00A3E0;
+    --brand-orange: #FF9432;
+    --brand-green: #67B636;
+    --brand-blue: #00A3E0;
     
-    --bg-clean-canvas: #fcfcfd;
-    --text-slate-dark: #0f172a;
-    --text-slate-muted: #64748b;
-    --border-divider: rgba(0, 0, 0, 0.06);
+    --matrix-dark: #0f172a;       /* 🚀 FIXED: Exact dark backdrop matching image_6350ff.png */
+    --bg-sub-dark: #1e293b;       /* Balanced slate interior layers for fields */
+    --text-pure: #ffffff;         /* Premium high-end text headers */
+    --text-muted-gray: #94a3b8;   /* Sleek clean grey text parameters */
+    --glass-border: rgba(255, 255, 255, 0.08);
     --font-premium-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   }
 
-  body { font-family: var(--font-premium-stack); }
-
+  /* === 🌌 ABSOLUTE SPACE METALLIC FOOTER CONSOLE === */
   .footer-clean-engine {
-    background-color: var(--bg-clean-canvas);
-    border-top: 1px solid var(--border-divider);
-    padding-top: 70px;
-    padding-bottom: 40px;
+    background-color: var(--matrix-dark) !important;
+    border-top: 1px solid var(--glass-border);
+    padding-top: 65px;
+    padding-bottom: 35px;
     position: relative;
+    font-family: var(--font-premium-stack);
+    -webkit-font-smoothing: antialiased;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 🚀 TOP CEILING GLOW STRIP: Matches navbar dynamic ceiling pixel-for-pixel */
+  .footer-clean-engine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
+    z-index: 10;
   }
 
   .footer-brand-block {
@@ -34,28 +49,28 @@
   .footer-logo-img {
     height: 36px;
     object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(255, 148, 50, 0.25));
   }
 
-  /* 🌟 FIXED SPECIFICATION: Squeezed text fixed to breathe luxuriously */
   .footer-logo-text {
     font-weight: 800;
     font-size: 28px;
-    letter-spacing: -0.3px; /* 🌟 FIXED: Removed extreme contraction (-1px) so alphabets sync with the logo */
-    background: linear-gradient(135deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
   }
   
   .footer-brand-desc {
-    font-size: 14.5px;
-    color: var(--text-slate-muted);
+    font-size: 14px;
+    color: var(--text-muted-gray);
     line-height: 1.6;
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 8px;
   }
 
-  /* Stripe-Style Micro Newsletter Hub */
+  /* === 🔍 PREMIUM INTEGRATED INPUT DOCK === */
   .footer-newsletter-form {
     display: flex;
     gap: 10px;
@@ -65,49 +80,45 @@
   }
   .newsletter-input {
     flex: 1;
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.08);
+    background: var(--bg-sub-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 11px 14px;
     font-size: 13.5px;
     font-weight: 500;
+    color: var(--text-pure);
     outline: none;
     transition: all 0.25s ease;
   }
   .newsletter-input:focus {
-    border-color: var(--atithi-orange);
-    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.12);
+    border-color: var(--brand-orange);
+    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.15);
   }
   .newsletter-submit-btn {
-    background: var(--text-slate-dark);
+    background: linear-gradient(135deg, var(--brand-orange), #ff5a36);
     color: white;
     border: none;
     border-radius: 12px;
     padding: 11px 18px;
     font-size: 13.5px;
-    font-weight: 600;
-    transition: all 0.2s ease;
+    font-weight: 700;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 90, 54, 0.25);
   }
   .newsletter-submit-btn:hover {
-    background: #000000;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 90, 54, 0.4);
   }
 
   .footer-col-deck h6 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-bottom: 24px;
+    color: var(--text-pure) !important; /* Bold solid white text header categories */
+    margin-bottom: 22px;
+    letter-spacing: 0.3px;
     display: inline-block;
   }
-
-  /* Exact brand color sync mapping */
-  .row .footer-col-deck:nth-of-type(2) h6 { color: var(--atithi-orange); }
-  .row .footer-col-deck:nth-of-type(3) h6 { color: var(--atithi-green); }
-  .row .footer-col-deck:nth-of-type(4) h6 { color: var(--atithi-blue); }
-  .row .footer-col-deck:nth-of-type(5) h6 { color: var(--atithi-orange); }
 
   .footer-col-deck ul {
     list-style: none;
@@ -116,74 +127,68 @@
   }
 
   .footer-col-deck ul li {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .footer-col-deck ul li a {
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 500;
-    color: var(--text-slate-muted);
+    color: var(--text-muted-gray) !important;
     text-decoration: none;
     display: inline-block;
-    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  /* 🚀 ADVANCED UX: Added subtle elegant horizontal slide transition on hover */
+  /* 🚀 ADDED MICRO ANIMATIONS: Organic kinetic lift on focus */
   .footer-col-deck ul li a:hover {
     transform: translateX(4px); 
+    color: var(--text-pure) !important;
   }
   
-  /* Precision hover color transformations matching brand tags */
-  .row .footer-col-deck:nth-of-type(2) ul li a:hover { color: var(--atithi-orange); }
-  .row .footer-col-deck:nth-of-type(3) ul li a:hover { color: var(--atithi-green); }
-  .row .footer-col-deck:nth-of-type(4) ul li a:hover { color: var(--atithi-blue); }
-  .row .footer-col-deck:nth-of-type(5) ul li a:hover { color: var(--atithi-orange); }
-
-  /* === 4. MINIMALIST BOTTOM CREDITS DOCK === */
+  /* === 👤 MINIMALIST BOTTOM CREDITS DASHBOARD === */
   .footer-clean-dock {
-    border-top: 1px solid var(--border-divider);
-    margin-top: 50px;
-    padding-top: 30px;
+    border-top: 1px solid var(--glass-border);
+    margin-top: 45px;
+    padding-top: 26px;
     font-size: 14px;
   }
 
   .copyright-pill {
-    font-weight: 600;
-    color: var(--text-slate-dark);
+    font-weight: 500;
+    color: var(--text-muted-gray);
   }
 
   .dock-links-array {
     display: flex;
-    gap: 24px;
+    gap: 20px;
   }
 
   .dock-links-array a {
-    color: var(--text-slate-muted);
+    color: var(--text-muted-gray);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
   }
-
   .dock-links-array a:hover {
-    color: #000000;
+    color: var(--text-pure);
   }
 
   .dock-social-deck {
     display: flex;
-    gap: 20px;
+    gap: 16px;
   }
 
   .social-minimal-item {
-    font-size: 16px;
-    color: var(--text-slate-muted);
+    font-size: 18px;
+    color: var(--text-muted-gray);
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: inline-block;
   }
 
   .social-minimal-item:hover {
-    transform: scale(1.15) translateY(-1px);
-    color: #000000;
+    transform: scale(1.2) translateY(-2px);
+    color: var(--brand-orange); /* Glowing pop to primary branding accent color */
   }
 </style>
 
@@ -191,7 +196,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-lg-4 mb-5 mb-lg-0 footer-brand-block">
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
           <img src="/images/airbnb.png" alt="Atithi Logo" class="footer-logo-img">
           <span class="footer-logo-text">Atithi</span>
         </div>

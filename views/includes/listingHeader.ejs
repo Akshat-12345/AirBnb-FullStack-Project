@@ -1,173 +1,306 @@
 <style>
-  /* === 🌌 ULTRA-MODERN IMMERSIVE CORE BLUEPRINTS === */
-  .atithi-hero-stage {
-    width: 100%;
-    position: relative;
-    height: 72vh; /* Expanded vertical viewport footprint for grand theater reveal */
-    border-radius: 24px;
-    overflow: hidden;
-    background-color: #0b0f19;
-    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
-    margin-bottom: 45px;
+  :root {
+    --atithi-orange: #FF9432;
+    --atithi-green: #67B636;
+    --atithi-blue: #00A3E0;
+    --text-slate-dark: #0f172a;
+    --text-slate-muted: #475569;
   }
 
-  /* Structural Core Asset Canvas Background Element */
-  .hero-parallax-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
-  
-  .hero-parallax-backdrop img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1.002);
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .atithi-hero-stage:hover .hero-parallax-backdrop img {
-    transform: scale(1.025); /* Silky slow-motion internal push scale */
-  }
-
-  /* === 🎭 DOUBLE-GRADIENT LUXURY PROTECTION VEIL === */
-  .hero-cinematic-shroud {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Layered mask splits contrast perfectly from bottom typography to top HUD buttons */
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, transparent 40%, rgba(15, 23, 42, 0.88) 100%);
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  /* === 🎛️ INTEGRATED HUD ARCHITECTURE PANELS === */
-  .hero-hud-interface {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-  }
-
-  /* Top Section Controller Strip */
-  .hud-top-deck {
+  /* === 🏷️ CLEAN TOP HEADER DECK === */
+  .header-top-title-deck {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
+    margin-bottom: 16px;
   }
 
-  .hud-luxe-capsule {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 10px 18px;
-    border-radius: 40px;
-    font-size: 12.5px;
+  .header-master-title {
+    color: var(--text-slate-dark) !important;
+    font-size: 26px;
     font-weight: 700;
-    color: #ffffff;
-    display: inline-flex;
+    letter-spacing: -0.6px;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .header-meta-inline-row {
+    display: flex;
     align-items: center;
     gap: 8px;
-    letter-spacing: 0.2px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-slate-muted);
+    margin-top: 6px;
   }
 
-  .hud-action-circle-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #0f172a;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  .hud-action-circle-btn:hover {
-    transform: scale(1.1) translateY(-2px);
-    background: #ffffff;
-    color: #ff385c;
-    box-shadow: 0 12px 30px rgba(255, 56, 92, 0.25);
-  }
-
-  /* === 🏷️ INTEGRATED BOTTOM TYPOGRAPHY OVERLAY SYSTEM === */
-  .hud-bottom-content-stack {
-    width: 100%;
-    max-width: 900px;
-    text-align: left;
-  }
-
-  .hud-master-headline {
-    color: #ffffff !important;
-    font-size: 42px; /* Grand luxury text scale mapping */
-    font-weight: 800;
-    letter-spacing: -1.2px;
-    line-height: 1.15;
-    margin-bottom: 16px;
-    text-shadow: 0 4px 25px rgba(15, 23, 42, 0.6);
-  }
-
-  .hud-meta-blend-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 15px;
+  .header-rating-inline {
+    color: var(--text-slate-dark);
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.95);
-    flex-wrap: wrap;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  }
-
-  .hud-rating-pill {
-    background: #ffffff;
-    color: #0f172a;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 13.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-
-  .hud-meta-link {
-    color: #ffffff !important;
-    text-decoration: underline;
-    font-weight: 700;
-    transition: color 0.2s ease;
-  }
-  .hud-meta-link:hover {
-    color: var(--atithi-orange) !important;
-  }
-
-  .hud-location-anchor {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-weight: 600;
   }
 
-  /* === ⚡ NEW: FROSTED COZY FLASH TOAST NOTIFICATION === */
+  .header-meta-link {
+    color: var(--text-slate-muted) !important;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+  .header-meta-link:hover {
+    color: #000000 !important;
+  }
+
+  /* Action Buttons Group */
+  .header-utility-actions {
+    display: flex;
+    gap: 16px;
+  }
+
+  .header-text-action-btn {
+    background: transparent;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-slate-dark);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    text-decoration: underline;
+  }
+  
+  .header-text-action-btn:hover {
+    background-color: #f1f5f9;
+  }
+
+  /* === 📸 PHOTO REGION PIPELINE MATRIX === */
+  .atithi-photo-grid-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .gallery-img-element {
+    width: 100%;
+    object-fit: cover;
+    transition: filter 0.2s ease;
+    cursor: pointer;
+  }
+
+  .gallery-img-element:hover {
+    filter: brightness(0.9);
+  }
+
+  .hero-badi-frame {
+    height: 420px;
+  }
+
+  .sub-choti-frame {
+    height: 206px;
+  }
+
+  /* Grid Fallback Style if images are missing */
+  .grid-empty-placeholder {
+    width: 100%;
+    height: 206px;
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+  }
+
+  /* Show All Photos Button Custom Absolute Overlay */
+  .btn-show-all-photos-overlay {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: #ffffff;
+    border: 1px solid #222222;
+    padding: 7px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.18);
+    z-index: 5;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .btn-show-all-photos-overlay:hover {
+    transform: scale(1.02);
+    background-color: #f7f7f7;
+  }
+
+  /* === 🎭 IMMERSIVE FULL VIEWPORT PHOTO TOUR OVERLAY PORTAL === */
+  .photo-tour-overlay-portal {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .photo-tour-overlay-portal.portal-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Top HUD Navigation Bar */
+  .tour-top-hud {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+
+  .tour-close-trigger {
+    background: transparent;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .tour-close-trigger:hover {
+    background-color: #f1f5f9;
+  }
+
+  .tour-hud-title {
+    font-size: 15px;
+    color: #475569;
+  }
+
+  /* Split Content Area Workspace */
+  .tour-layout-container {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* Left Sticky Reference Sidebar */
+  .tour-sidebar-nav {
+    width: 320px;
+    padding: 40px;
+    border-right: 1px solid #e2e8f0;
+    box-sizing: border-box;
+    background: #ffffff;
+  }
+
+  .nav-tour-anchors {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-tour-anchors li {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-tour-anchors li:hover {
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  .nav-tour-anchors li.active-anchor {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    border-left: 3px solid #0f172a;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .tour-badge-count {
+    font-size: 11px;
+    background: #e2e8f0;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+
+  .nav-tour-anchors li.active-anchor .tour-badge-count {
+    background: #0f172a;
+    color: #ffffff;
+  }
+
+  /* Right Side Scrollable Lens Flow Frame */
+  .tour-gallery-scroll-feed {
+    flex: 1;
+    padding: 40px 6% 80px 6%;
+    overflow-y: auto;
+    background-color: #ffffff;
+    scroll-behavior: smooth;
+  }
+
+  .tour-category-section {
+    margin-bottom: 50px;
+  }
+
+  .tour-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+    text-transform: capitalize;
+  }
+
+  .tour-lens-graphic {
+    width: 100%;
+    height: auto;
+    max-height: 85vh;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.015);
+  }
+
+  /* Prevent body behind the modal from scrolling */
+  .body-lock-scroll {
+    overflow: hidden !important;
+  }
+
+  /* === ⚡ FROSTED FLASH TOAST === */
   .atithi-flash-toast {
     position: fixed;
     bottom: 30px;
@@ -182,11 +315,6 @@
     border-radius: 50px;
     font-size: 14.5px;
     font-weight: 700;
-    letter-spacing: -0.1px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     z-index: 9999;
     opacity: 0;
     pointer-events: none;
@@ -199,89 +327,251 @@
   }
 </style>
 
-<!-- 🌟 MASTER CINEMATIC STAGE MATRIX -->
-<div class="atithi-hero-stage">
-  
-  <!-- Parallax Asset Background Container Node -->
-  <div class="hero-parallax-backdrop">
-    <img src="<%= data.image.url %>" alt="<%= data.title %>">
+<div class="header-top-title-deck">
+  <div>
+    <h1 class="header-master-title"><%= data.title %></h1>
+    
+    <div class="header-meta-inline-row">
+      <% if (typeof reviewCount !== 'undefined' && reviewCount > 0) { %>
+        <span class="header-rating-inline">
+          <i class="bi bi-star-fill text-dark" style="font-size: 13px;"></i> <%= avgRating %>
+        </span>
+        <span>&middot;</span>
+        <a href="#reviews" class="header-meta-link"><%= reviewCount %> Reviews</a>
+      <% } else { %>
+        <span class="header-rating-inline">
+          <i class="bi bi-star"></i> New Horizon
+        </span>
+      <% } %>
+      <span>&middot;</span>
+      <span class="d-inline-flex align-items-center gap-1">
+        <i class="bi bi-geo-alt-fill text-dark" style="font-size: 13px;"></i>
+        <%= data.location %>, <%= data.country %>
+      </span>
+    </div>
   </div>
 
-  <!-- Dual Shroud Anti-Glow Shadow Canvas Filters -->
-  <div class="hero-cinematic-shroud"></div>
+  <div class="header-utility-actions">
+    <button class="header-text-action-btn" onclick="copyShareLink()">
+      <i class="bi bi-share" style="font-size: 15px; -webkit-text-stroke: 0.5px;"></i> <u>Share</u>
+    </button>
+    <button class="header-text-action-btn" onclick="this.querySelector('i').classList.toggle('bi-heart'); this.querySelector('i').classList.toggle('bi-heart-fill'); this.querySelector('i').style.color=this.querySelector('i').classList.contains('bi-heart-fill')?'#ff385c':'#000000'">
+      <i class="bi bi-heart" style="font-size: 15px; -webkit-text-stroke: 0.5px;"></i> <u>Save</u>
+    </button>
+  </div>
+</div>
 
-  <!-- Immersive Interactive Core HUD Panels Workspace -->
-  <div class="hero-hud-interface">
+<div class="atithi-photo-grid-wrapper">
+  <% if(data.images && data.images.length > 0) { %>
     
-    <!-- TOP STRIP CONTEXT DECK -->
-    <div class="hud-top-deck">
-      <div class="d-flex gap-2">
-        <div class="hud-luxe-capsule">
-          <span class="d-inline-block rounded-circle bg-success" style="width: 7px; height: 7px; box-shadow: 0 0 10px #67B636;"></span>
-          <i class="bi bi-shield-check text-success"></i> Premium Verified Stay
+    <% if(data.images.length === 1) { %>
+      <div class="row g-2">
+        <div class="col-12">
+          <img src="<%= data.images[0].url %>" class="gallery-img-element hero-badi-frame" alt="<%= data.title %>">
         </div>
       </div>
+    <% } else { %>
+      <div class="row g-2">
+        
+        <div class="col-md-6">
+          <img src="<%= data.images[0].url %>" class="gallery-img-element hero-badi-frame" alt="Main View Grid">
+        </div>
 
-      <!-- Action Automation Buttons Deck -->
-      <div class="d-flex gap-3" style="pointer-events: auto;">
-        <button class="hud-action-circle-btn" title="Share Configurations Matrix" onclick="copyShareLink()">
-          <i class="bi bi-share-fill" style="font-size: 14px;"></i>
-        </button>
-        <button class="hud-action-circle-btn" title="Save Asset Node Location" onclick="this.querySelector('i').classList.toggle('bi-heart'); this.querySelector('i').classList.toggle('bi-heart-fill'); this.querySelector('i').style.color='#ff385c'">
-          <i class="bi bi-heart" style="font-size: 14px;"></i>
-        </button>
+        <div class="col-md-6">
+          <div class="row g-2">
+            <% for(let i = 1; i < Math.min(data.images.length, 5); i++) { %>
+              <div class="col-6">
+                <img src="<%= data.images[i].url %>" class="gallery-img-element sub-choti-frame" alt="Sub Grid Node">
+              </div>
+            <% } %>
+
+            <% if(data.images.length < 5) { %>
+              <% for(let j = data.images.length; j < 5; j++) { %>
+                <div class="col-6">
+                  <div class="grid-empty-placeholder">
+                    <i class="bi bi-images" style="font-size: 1.4rem;"></i>
+                  </div>
+                </div>
+              <% j++ } %>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+    <% } %>
+
+    <button class="btn btn-show-all-photos-overlay d-flex align-items-center gap-2">
+      <i class="bi bi-grid-3x3-gap-fill" style="font-size: 14px;"></i> Show all photos
+    </button>
+
+  <% } else { %>
+    <div class="row g-2">
+      <div class="col-12">
+        <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7" class="gallery-img-element hero-badi-frame" alt="Default Blueprint Fallback">
       </div>
     </div>
+  <% } %>
+</div>
 
-    <!-- BOTTOM SEGMENT INTEGRATED METADATA STACK -->
-    <div class="hud-bottom-content-stack">
-      <h1 class="hud-master-headline"><%= data.title %></h1>
+<!-- === 🎭 CATEGORIZED IMMERSIVE PHOTO TOUR PORTAL === -->
+<div id="atithiPhotoTourModal" class="photo-tour-overlay-portal">
+  
+  <div class="tour-top-hud">
+    <button class="tour-close-trigger" onclick="closePhotoTour()">
+      <i class="bi bi-chevron-left"></i> Close
+    </button>
+    <div class="tour-hud-title fw-semibold"><%= data.title %> &middot; Photo Tour</div>
+  </div>
+
+  <div class="tour-layout-container">
+    
+    <!-- Left Navigation Menu (Dynamically parsed from modern tags array) -->
+    <div class="tour-sidebar-nav d-none d-lg-block">
+      <h3 class="fw-bold mb-3" style="font-size: 1.6rem; color: #0f172a; letter-spacing: -0.5px;">Photo tour</h3>
+      <ul class="nav-tour-anchors">
+        <li class="active-anchor" data-target="all-photos">
+          <span><i class="bi bi-images me-2"></i> All Photos</span>
+          <span class="tour-badge-count"><%= data.images.length %></span>
+        </li>
+        
+        <!-- Mongoose dynamic check processing tags loop -->
+        <% 
+          const validTags = ['General', 'Bedroom', 'Kitchen', 'Bathroom', 'Exterior']; 
+          validTags.forEach(tag => {
+            const count = data.images.filter(img => img.tag === tag).length;
+            if(count > 0) {
+        %>
+          <li data-target="sec-<%= tag.toLowerCase() %>">
+            <span>
+              <i class="bi <% if(tag==='Bedroom'){ %>%>bi-door-open<% }else if(tag==='Kitchen'){ %>%>bi-egg-fried<% }else if(tag==='Bathroom'){ %>%>bi-droplet<% }else if(tag==='Exterior'){ %>%>bi-tree<% }else{ %>%>bi-building<% } %> me-2"></i>
+              <%= tag %>
+            </span>
+            <span class="tour-badge-count"><%= count %></span>
+          </li>
+        <% 
+            }
+          }); 
+        %>
+      </ul>
+    </div>
+
+    <!-- Right Dynamic Scrollable Lens Feed Area Framework -->
+    <div class="tour-gallery-scroll-feed" id="tourScrollFeed">
       
-      <div class="hud-meta-blend-row">
-        <% if (reviewCount > 0) { %>
-          <div class="hud-rating-pill">
-            <i class="bi bi-star-fill text-warning"></i>
-            <span><%= avgRating %></span>
-          </div>
-          <span style="opacity: 0.6;">&middot;</span>
-          <a href="#reviews" class="hud-meta-link"><%= reviewCount %> Verified Reviews</a>
-        <% } else { %>
-          <div class="hud-rating-pill" style="background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.25);">
-            <i class="bi bi-star"></i> <span>New Horizon</span>
-          </div>
-        <% } %>
-        
-        <span style="opacity: 0.6;">&middot;</span>
-        
-        <div class="hud-location-anchor">
-          <i class="bi bi-geo-alt-fill text-danger"></i>
-          <span><%= data.location %>, <%= data.country %></span>
+      <!-- ALL PHOTOS WRAPPER NODE -->
+      <div id="all-photos" class="tour-category-section">
+        <h4 class="tour-section-title">All Asset Showcase Matrix</h4>
+        <div class="row g-3">
+          <% data.images.forEach((img, index) => { %>
+            <div class="<%= index % 3 === 0 ? 'col-12' : 'col-md-6' %> mb-3">
+              <img src="<%= img.url %>" class="tour-lens-graphic" alt="Asset Flow Element">
+            </div>
+          <% }) %>
         </div>
       </div>
+
+      <!-- CATEGORY SEPARATED GRIDS PIPELINE -->
+      <% validTags.forEach(tag => { 
+        const categoryImages = data.images.filter(img => img.tag === tag);
+        if(categoryImages.length > 0) {
+      %>
+        <div id="sec-<%= tag.toLowerCase() %>" class="tour-category-section">
+          <h4 class="tour-section-title"><%= tag %> Spaces</h4>
+          <div class="row g-3">
+            <% categoryImages.forEach((img, index) => { %>
+              <div class="<%= index % 3 === 0 ? 'col-12' : 'col-md-6' %> mb-3">
+                <img src="<%= img.url %>" class="tour-lens-graphic" alt="<%= tag %> Segment">
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% 
+        }
+      }); 
+      %>
     </div>
 
   </div>
 </div>
 
-<!-- 🌟 DYNAMIC TOAST FLASH POPUP MOUNT NODE -->
 <div id="flashToast" class="atithi-flash-toast">
   <i class="bi bi-link-45deg text-success fs-5"></i>
   <span>Link copied to clipboard workspace!</span>
 </div>
 
-<!-- HUD FUNCTIONALITY CORE JAVASCRIPT PIPELINES -->
 <script>
   function copyShareLink() {
-    // Copies link smoothly into device stack
     navigator.clipboard.writeText(window.location.href);
-    
-    // Deploys the dynamic flash toast node seamlessly
     const toast = document.getElementById("flashToast");
     toast.classList.add("show-flash");
-    
-    // Auto-wipes the notification tracking array after 2500ms
     setTimeout(() => {
       toast.classList.remove("show-flash");
     }, 2500);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const showAllBtn = document.querySelector('.btn-show-all-photos-overlay');
+    if (showAllBtn) {
+      showAllBtn.addEventListener('click', openPhotoTour);
+    }
+
+    const gridImages = document.querySelectorAll('.atithi-photo-grid-wrapper .gallery-img-element');
+    gridImages.forEach(img => {
+      img.addEventListener('click', openPhotoTour);
+    });
+
+    // Sidebar navigation highlight sync system
+    const anchors = document.querySelectorAll('.nav-tour-anchors li');
+    const scrollFeed = document.getElementById('tourScrollFeed');
+    const sections = document.querySelectorAll('.tour-category-section');
+
+    anchors.forEach(anchor => {
+      anchor.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const targetSection = document.getElementById(targetId);
+        
+        if(targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          anchors.forEach(a => a.classList.remove('active-anchor'));
+          this.classList.add('active-anchor');
+        }
+      });
+    });
+
+    // Scroll listener inside modal for dynamic link highlighting
+    scrollFeed.addEventListener('scroll', function() {
+      let currentSectionId = "all-photos";
+      
+      sections.forEach(sec => {
+        const top = sec.offsetTop - scrollFeed.offsetTop;
+        if (scrollFeed.scrollTop >= top - 60) {
+          currentSectionId = sec.getAttribute('id');
+        }
+      });
+
+      anchors.forEach(anchor => {
+        if(anchor.getAttribute('data-target') === currentSectionId) {
+          anchor.classList.add('active-anchor');
+        } else {
+          anchor.classList.remove('active-anchor');
+        }
+      });
+    });
+  });
+
+  function openPhotoTour() {
+    const portal = document.getElementById("atithiPhotoTourModal");
+    if (portal) {
+      portal.classList.add("portal-active");
+      document.body.classList.add("body-lock-scroll");
+    }
+  }
+
+  function closePhotoTour() {
+    const portal = document.getElementById("atithiPhotoTourModal");
+    if (portal) {
+      portal.classList.remove("portal-active");
+      document.body.classList.remove("body-lock-scroll");
+    }
   }
 </script>

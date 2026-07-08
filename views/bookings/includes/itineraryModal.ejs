@@ -1,6 +1,5 @@
 <!-- views/bookings/includes/itineraryModal.ejs -->
 <div class="modal fade" id="advancedItineraryModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
-  <!-- 💻 ADVANCED SPECIFICATION: Increased layout height and spatial optimization -->
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" style="max-width: 1250px;">
     <div class="modal-content border-0 bg-white shadow-lg" style="border-radius: 28px; overflow: hidden; height: calc(100vh - 80px);">
       
@@ -8,66 +7,65 @@
       <div class="d-flex flex-column flex-md-row w-100 h-100 position-relative" style="overflow: hidden;">
           
           <!-- 🧱 LEFT LAYER: FULL-WIDTH ACCOMMODATION PROFILE LOG (Off-White Premium Slate) -->
-          <div class="col-12 col-md-5 d-flex flex-column p-4 p-lg-5 justify-content-start atithi-custom-scrollbar" style="background-color: #fcfdfe !important; border-right: 1px solid #f1f3f5; overflow-y: auto; height: 100%;">
+          <div class="col-12 col-md-5 d-flex flex-column p-4 p-lg-5 justify-content-start atithi-custom-scrollbar" style="background-color: #f8fafc !important; border-right: 1px solid #e2e8f0; overflow-y: auto; height: 100%;">
               
               <!-- Property Asset Full Width Banner Frame -->
-              <div class="position-relative overflow-hidden mb-4 shadow-sm" style="border-radius: 20px; height: 260px; flex-shrink: 0; width: 100%;">
+              <div class="position-relative overflow-hidden mb-4 shadow-sm" style="border-radius: 20px; height: 260px; flex-shrink: 0; width: 100%; border: 1px solid rgba(0,0,0,0.03);">
                   <img id="modalHeroImg" src="" class="w-100 h-100" style="object-fit: cover;">
                   <div class="position-absolute top-0 start-0 m-3">
-                      <span class="badge px-3 py-2 rounded-pill fw-bold font-monospace shadow-sm text-white" style="font-size: 0.68rem; letter-spacing: 1px; background: linear-gradient(90deg, #FF9432 0%, #67B636 50%, #00A3E0 100%); border: 1px solid rgba(255,255,255,0.2);">✨ ATITHI AI HUB</span>
+                      <span class="badge px-3 py-2 rounded-pill fw-bold font-monospace shadow-sm text-white" style="font-size: 0.68rem; letter-spacing: 1px; background: var(--atithi-gradient); border: 1px solid rgba(255,255,255,0.2);">✨ ATITHI AI HUB</span>
                   </div>
               </div>
 
-              <!-- Content Deck Injection Slots: Only Title, Location, Description -->
-              <h3 id="modalHeroTitle" class="fw-extrabold text-dark mb-2" style="font-size: 1.8rem; letter-spacing: -0.6px; line-height: 1.25; font-weight: 800; color: #1a1a1a !important;"></h3>
-              <p id="modalHeroLocation" class="text-muted mb-4 fw-semibold" style="font-size: 0.9rem; color: #717171 !important;">
+              <!-- Content Deck Injection Slots -->
+              <h3 id="modalHeroTitle" class="fw-bold mb-2" style="font-size: 1.6rem; letter-spacing: -0.6px; line-height: 1.25; color: var(--text-slate-dark) !important;"></h3>
+              <p id="modalHeroLocation" class="text-muted mb-4 fw-semibold" style="font-size: 0.88rem;">
                   <i class="bi bi-geo-alt-fill text-danger me-1"></i><span id="modalLocTarget"></span>
               </p>
               
-              <div class="description-plate text-secondary" style="font-size: 0.92rem; line-height: 1.7; text-align: justify; border-top: 1px dashed #e9ecef; padding-top: 20px; color: #555555 !important;">
+              <div class="description-plate" style="font-size: 0.9rem; line-height: 1.7; text-align: justify; border-top: 1px dashed #e2e8f0; padding-top: 20px; color: var(--text-slate-muted) !important;">
                   <p id="modalHeroDesc" class="m-0"></p>
               </div>
-
           </div>
 
           <!-- 🌀 RIGHT LAYER: INDEPENDENT SCROLLABLE FEED GRID CONTAINER -->
           <div class="col-12 col-md-7 d-flex flex-column p-0 position-relative" style="background: #ffffff !important; overflow: hidden; height: 100%;">
               
               <!-- Layout Dismiss Cross Control Trigger -->
-              <button type="button" class="btn-close position-absolute top-0 end-0 m-4 p-2 bg-white rounded-circle border shadow-sm" data-bs-dismiss="modal" aria-label="Close" style="font-size: 0.72rem; z-index: 100;"></button>
+              <button type="button" class="btn-close position-absolute top-0 end-0 m-4 p-2 bg-white rounded-circle border shadow-sm" data-bs-dismiss="modal" aria-label="Close" style="font-size: 0.72rem; z-index: 100; transition: transform 0.2s ease;"></button>
 
               <!-- Computational Spinner Grid Loader -->
-              <div id="aiPopupLoader" class="text-center my-auto py-5 w-100 d-flex flex-column align-items-center justify-content-center h-100">
-                  <div class="spinner-border text-success" role="status" style="width: 3.5rem; height: 3.5rem; color: #67B636 !important; border-width: 0.3em;"></div>
-                  <h5 class="fw-bold mt-4 text-dark mb-1" style="letter-spacing: -0.5px;">Atithi AI is assembling your timetable data...</h5>
-                  <p class="text-muted small px-3" style="max-width: 400px; line-height: 1.5;">Aligning structural maps, local food configurations and timing parameters loop.</p>
+              <div id="aiPopupLoader" class="text-center my-auto py-5 w-100 d-flex flex-column align-items-center justify-content-center h-100 bg-white" style="position: absolute; inset: 0; z-index: 90;">
+                  <div class="spinner-border text-success" role="status" style="width: 3.5rem; height: 3.5rem; color: var(--atithi-green) !important; border-width: 0.25em;"></div>
+                  <h5 class="fw-bold mt-4 mb-1" style="letter-spacing: -0.5px; color: var(--text-slate-dark);">Atithi AI is assembling your timetable data...</h5>
+                  <p class="text-muted small px-3" style="max-width: 400px; line-height: 1.5;">Aligning structural maps, local food configurations, and timing parameters loop.</p>
               </div>
 
               <!-- Live Timeline Master Render Deck Canvas -->
               <div id="itineraryMainView" class="d-none w-100 h-100 flex-column overflow-hidden">
                   
                   <!-- 🔒 FIXED STICKY TOP CONTROLLER PANELS BOARD -->
-                  <div class="p-4 p-lg-5 pb-3 bg-white position-sticky top-0 w-100" style="border-bottom: 1px solid #f1f3f5; z-index: 50; padding-bottom: 20px !important;">
+                  <div class="p-4 p-lg-5 pb-3 bg-white position-sticky top-0 w-100" style="border-bottom: 1px solid #f1f3f5; z-index: 50;">
                       <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
                           <!-- Top Most Left Corner: Real Date Navigation Slider Matrix -->
-                          <div class="nav nav-pills gap-1.5 p-1 bg-light rounded-4 d-flex flex-nowrap overflow-auto atithi-clean-scroll-rail" id="dynamicTabsHook" role="tablist" style="max-width: 70%; white-space: nowrap;"></div>
+                          <div class="nav nav-pills gap-2 p-1 bg-light rounded-3 d-flex flex-nowrap overflow-auto atithi-clean-scroll-rail" id="dynamicTabsHook" role="tablist" style="max-width: 70%; white-space: nowrap;"></div>
                           
                           <!-- Top Most Right Corner: Custom Re-craft Action Control Link Button -->
-                          <button class="btn btn-sm px-4 rounded-3 fw-bold font-monospace shadow-sm d-flex align-items-center gap-1.5 transition-all text-white border-0" id="dateIsolatedRegenBtn" style="font-size: 0.75rem; padding: 10px 16px; background: linear-gradient(135deg, #FF385C 0%, #bd1e59 100%);">
+                          <button class="btn btn-sm px-4 rounded-3 fw-bold font-monospace shadow-sm d-flex align-items-center gap-2 text-white border-0" id="dateIsolatedRegenBtn" style="font-size: 0.75rem; padding: 10px 18px; background: var(--atithi-gradient); transition: all 0.3s ease;">
                               <i class="bi bi-arrow-clockwise"></i> Re-craft this day
                           </button>
                       </div>
 
-                      <!-- 🎯 PREMIUM RE-DESIGNED MINIMALIST DIRECTIVE BOX (Clean Typography, No Aggressive Box Borders) -->
-                      <div id="premiumDirectiveSlot" class="d-flex align-items-center gap-2 text-dark font-monospace" style="font-size: 0.85rem; font-weight: 600; color: #484848 !important; letter-spacing: -0.2px; padding: 4px 2px;">
+                      <!-- 🎯 PREMIUM RE-DESIGNED MINIMALIST DIRECTIVE BOX -->
+                      <div id="premiumDirectiveSlot" class="d-flex align-items-center gap-2 text-dark font-monospace" style="font-size: 0.85rem; font-weight: 600; padding: 6px 2px;">
                           <span style="font-size: 1.1rem;">🎯</span> 
-                          <span class="text-secondary fw-normal">Today's Segment Directive:</span> 
-                          <span id="directiveTextTarget" style="color: #1a1a1a !important; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;"></span>
+                          <span class="text-muted fw-normal">Segment Directive:</span> 
+                          <span id="directiveTextTarget" style="color: var(--text-slate-dark) !important; font-weight: 700; font-family: var(--font-premium-stack);"></span>
                       </div>
                   </div>
 
-                  <!-- 📜 FIX: Added atithi-custom-scrollbar class for scrolling through all list nodes dynamically -->
-                  <div class="tab-content w-100 flex-grow-1 p-4 p-lg-5 pt-2 atithi-custom-scrollbar" id="dynamicPanesHook" style="overflow-y: auto; height: calc(100% - 150px);"></div>
+                  <!-- 📜 Scrollable Timetable Content Canvas -->
+                  <div class="tab-content w-100 flex-grow-1 p-4 p-lg-5 pt-2 atithi-custom-scrollbar" id="dynamicPanesHook" style="overflow-y: auto; height: calc(100% - 160px);"></div>
               </div>
 
           </div>
@@ -78,9 +76,8 @@
   </div>
 </div>
 
-<!-- 🎨 ADVANCED ATITHI CHROMIUM SCROLLBAR PIPELINE METRICS -->
+<!-- 🎨 CUSTOM STYLING CHANNELS -->
 <style>
-    /* === 🚀 DYNAMIC CHROMIUM SCROLLBAR CHANNELS (ATITHI BRAND PIECE INTEGRATION) === */
     .atithi-custom-scrollbar::-webkit-scrollbar {
         width: 6px;
         height: 6px;
@@ -96,38 +93,35 @@
     }
     .atithi-clean-scroll-rail::-webkit-scrollbar { display: none; }
     
-    /* Linear Stream Tracking Lines setup */
     .timeline-stream-wrapper {
         position: relative;
-        padding-left: 24px;
-        margin-left: 6px;
-        border-left: 2px dashed #f1f3f5;
+        padding-left: 28px;
+        margin-left: 8px;
+        border-left: 2px dashed #e2e8f0;
     }
 
-    /* Floating Timeline Node Cards Architecture */
     .atithi-premium-bento-node {
         position: relative;
         background: #ffffff;
-        border: 1px solid #f1f3f5;
+        border: 1px solid rgba(0, 0, 0, 0.04);
         border-radius: 16px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
-        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .atithi-premium-bento-node:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 25px rgba(0,0,0,0.04) !important;
-        background-color: #fafbfc;
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05) !important;
+        border-color: rgba(0, 0, 0, 0.08);
     }
 
-    /* Minimalist Centralized Alignment Pin Indicator Dots */
     .node-indicator-dot {
         position: absolute;
-        left: -31px;
+        left: -35px;
         top: 26px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background: #dee2e6;
+        background: #cbd5e1;
         border: 2px solid #ffffff;
         box-shadow: 0 0 0 4px #ffffff;
         z-index: 5;
@@ -135,46 +129,49 @@
     .dot-food { background: #FF9432 !important; }
     .dot-sightseeing { background: #67B636 !important; }
     .dot-travel { background: #00A3E0 !important; }
-    .dot-rest { background: #8e9aaf !important; }
+    .dot-rest { background: #64748B !important; }
 
-    /* Control Nav Pill Select Buttons styling */
     #dynamicTabsHook .nav-link {
-        color: #555555;
+        color: var(--text-slate-muted);
         font-weight: 700;
-        font-size: 0.82rem;
-        padding: 8px 18px;
-        border-radius: 10px;
-        transition: all 0.2s ease;
+        font-size: 0.8rem;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.25s ease;
         background: transparent;
         border: 1px solid transparent;
     }
     #dynamicTabsHook .nav-link:hover {
-        color: #000;
-        background: rgba(0,0,0,0.03);
+        color: var(--text-slate-dark);
+        background: rgba(0,0,0,0.02);
     }
     #dynamicTabsHook .nav-link.active {
         background: #ffffff !important;
-        color: #000000 !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        border: 1px solid #eef0f2;
+        color: var(--text-slate-dark) !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.04);
     }
 
     .badge-bento-flat {
-        padding: 6px 14px;
-        border-radius: 8px;
+        padding: 5px 12px;
+        border-radius: 6px;
         font-size: 0.65rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.2px;
+        letter-spacing: 0.3px;
     }
     .badge-bento-food { background-color: rgba(255, 148, 50, 0.08); color: #FF9432; border: 1px solid rgba(255, 148, 50, 0.12); }
     .badge-bento-sightseeing { background-color: rgba(103, 182, 54, 0.08); color: #67B636; border: 1px solid rgba(103, 182, 54, 0.12); }
     .badge-bento-travel { background-color: rgba(0, 163, 224, 0.08); color: #00A3E0; border: 1px solid rgba(0, 163, 224, 0.12); }
-    .badge-bento-rest { background-color: #f1f3f5; color: #555555; border: 1px solid #e9ecef; }
+    .badge-bento-rest { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
 
-    @media (max-width: 767.98px) {
-        #dynamicTabsHook { flex-direction: row !important; overflow-x: auto !important; }
-        #dynamicTabsHook .nav-link { width: auto !important; }
+    #dateIsolatedRegenBtn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(255, 148, 50, 0.25) !important;
+    }
+    .btn-close:hover {
+        transform: rotate(90deg);
     }
 </style>
 
@@ -198,20 +195,26 @@ document.addEventListener("DOMContentLoaded", () => {
         globalListingId = btn.dataset.listingId;
         globalStayDuration = btn.dataset.days;
         
-        const parentCard = btn.closest(".card-body");
+        // 🌟 Safe Elastic Regex parsing framework for custom dynamic dates matching
+        globalCheckInDate = '';
+        const parentCard = btn.closest(".atithi-stay-card");
         if(parentCard) {
-            const checkInSpan = parentCard.querySelector(".bg-light div:first-child span:last-child");
-            globalCheckInDate = checkInSpan ? checkInSpan.innerText.trim() : '';
-            
             const locTextElement = parentCard.querySelector("p.text-muted");
             if(locTextElement && document.getElementById('modalLocTarget')) {
                 document.getElementById('modalLocTarget').innerText = locTextElement.innerText.trim();
             }
+
+            // Fallback scraping architecture reads raw text lines directly safely
+            const cardHtmlText = parentCard.innerText;
+            const dateMatch = cardHtmlText.match(/(?:Check-In|Check-In Slot):\s*([A-Za-z]{3}\s+\d{1,2},\s+\d{4})/i);
+            if(dateMatch && dateMatch[1]) {
+                globalCheckInDate = dateMatch[1].trim();
+            }
         }
 
-        document.getElementById('modalHeroTitle').innerText = btn.dataset.title;
-        document.getElementById('modalHeroImg').src = btn.dataset.img;
-        document.getElementById('modalHeroDesc').innerText = btn.dataset.desc;
+        document.getElementById('modalHeroTitle').innerText = btn.dataset.title || 'Atithi Premium Stay';
+        document.getElementById('modalHeroImg').src = btn.dataset.img || '';
+        document.getElementById('modalHeroDesc').innerText = btn.dataset.desc || '';
 
         bsModalInstance.show();
         await executeAIItineraryPipeline(false);
@@ -254,10 +257,12 @@ async function executeAIItineraryPipeline(isRegenerateFlow = false, targetedDayN
             }
         } else {
             alert("AI Engine processing constraint mismatch.");
+            loaderView.classList.add('d-none');
         }
     } catch (err) {
         console.error("AJAX Error:", err);
         alert("Failed to securely route parameters to AI pipeline.");
+        loaderView.classList.add('d-none');
     }
 }
 
@@ -276,7 +281,14 @@ function compileAndInjectUI(scheduleData) {
     tabsHook.innerHTML = '';
     panesHook.innerHTML = '';
 
-    let baseDate = globalCheckInDate ? new Date(globalCheckInDate) : new Date();
+    // Bulletproof validation parsing block protects from structural changes
+    let baseDate = new Date();
+    if(globalCheckInDate) {
+        const parsedTimestamp = Date.parse(globalCheckInDate);
+        if(!isNaN(parsedTimestamp)) {
+            baseDate = new Date(parsedTimestamp);
+        }
+    }
 
     scheduleData.forEach((day, index) => {
         const activeClass = index === 0 ? 'active' : '';
@@ -306,13 +318,13 @@ function compileAndInjectUI(scheduleData) {
                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-2">
                         <div class="d-flex align-items-center gap-2 flex-wrap">
                             <span class="badge-bento-flat badge-bento-${catKey}">${catIcon} ${slot.category}</span>
-                            <h5 class="fw-bold text-dark m-0" style="font-size: 1.02rem; letter-spacing: -0.1px; color: #222 !important;">${slot.activity}</h5>
+                            <h5 class="fw-bold text-dark m-0" style="font-size: 1.02rem; letter-spacing: -0.1px; color: #1e293b !important;">${slot.activity}</h5>
                         </div>
-                        <div class="font-monospace text-muted fw-bold bg-light p-1.5 px-3 rounded-pill border-0" style="font-size: 0.75rem; color: #495057 !important; border: 1px solid #eef0f2 !important;">
+                        <div class="font-monospace text-muted fw-bold bg-light p-1.5 px-3 rounded-pill border-0" style="font-size: 0.75rem; color: #475569 !important; border: 1px solid #e2e8f0 !important;">
                             ⏱️ ${slot.timeSlot}
                         </div>
                     </div>
-                    <p class="text-secondary m-0 pt-1" style="font-size: 0.88rem; line-height: 1.6; font-weight: 500; color: #666666 !important;">${slot.notes}</p>
+                    <p class="text-secondary m-0 pt-1" style="font-size: 0.88rem; line-height: 1.6; font-weight: 500; color: #475569 !important;">${slot.notes}</p>
                 </div>
             `;
         });

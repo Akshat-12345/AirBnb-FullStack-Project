@@ -1,176 +1,423 @@
+<!-- Atithi Elite Luxury Flatpickr Range Component -->
+
+<!-- 🧬 Flatpickr Production Core CSS & Scripts Assets Pipeline -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <style>
-  /* === 👑 ATITHI EXECUTIVE LUXURY CONTAINER CHASSIS === */
-  .atithi-premium-card-vault {
+  /* === 🌌 CORE MINIMALIST VAULT MASTER === */
+  .atithi-checkout-vault-container {
+    width: 100%;
     background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 24px;
-    padding: 36px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e3e3e3;
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.03);
     position: sticky;
     top: 110px;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .atithi-premium-card-vault:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
-  /* Sophisticated Clean Pricing Typography */
-  .premium-price-blueprint {
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -0.7px;
-    color: #111111;
-    margin-bottom: 0;
+  /* 🌟 PREMIUM PRICING HERO SEGMENT */
+  .atithi-pricing-hero-block {
     display: flex;
     align-items: baseline;
-    gap: 4px;
-  }
-  .premium-price-blueprint span {
-    font-size: 15px;
-    font-weight: 500;
-    color: #666666;
-    letter-spacing: 0;
-  }
-
-  /* Structural Clean Input Grids System */
-  .premium-input-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 24px;
+    justify-content: flex-start;
     margin-bottom: 24px;
   }
 
-  .premium-label-tag {
-    font-size: 11px;
+  .atithi-pricing-hero-block .currency-metric-large {
+    font-size: 26px;
+    font-weight: 600;
+    color: #222222;
+    letter-spacing: -0.7px;
+  }
+
+  .atithi-pricing-hero-block .time-slot-caption {
+    font-size: 15px;
+    font-weight: 400;
+    color: #717171;
+    margin-left: 4px;
+  }
+
+  /* 📅 AIRBNB LUXE INTEGRATED PICKER LAYOUT */
+  .atithi-integrated-date-chassis {
+    border: 1px solid #b0b0b0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .atithi-integrated-date-chassis:hover {
+    border-color: #222222;
+  }
+
+  .atithi-integrated-date-chassis.active-focus {
+    border-color: #222222;
+    box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.05);
+  }
+
+  /* Hidden layer covering the fields to bridge Flatpickr events safely */
+  .flatpickr-trigger-overlay-surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .date-capsule-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (min-width: 576px) {
+    .date-capsule-row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .date-capsule-item:first-child {
+      border-right: 1px solid #b0b0b0;
+    }
+  }
+
+  .date-capsule-item {
+    padding: 12px 16px;
+  }
+
+  .date-mini-tag {
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.6px;
     color: #222222;
-    letter-spacing: 0.8px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
-  /* Ultra-Crisp Custom Input Framework Elements */
-  .premium-luxe-input {
-    width: 100%;
-    border: 1.5px solid #e5e7eb !important;
-    border-radius: 12px !important;
-    font-size: 14.5px !important;
-    font-weight: 600 !important;
-    color: #111111 !important;
-    background-color: #ffffff !important;
-    padding: 13px 16px !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
-  .premium-luxe-input:focus {
-    border-color: #111111 !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.05) !important;
-    outline: none !important;
+  .atithi-date-display-placeholder {
+    font-size: 14px;
+    font-weight: 400;
+    color: #717171;
+    display: block;
+    min-height: 20px;
+    line-height: 20px;
   }
 
-  /* Authentic Clean Premium Switch Engine */
-  .premium-apple-switch {
+  .atithi-date-display-placeholder.has-value {
+    color: #222222;
+    font-weight: 500;
+  }
+
+  /* 🧬 IMMERSIVE SPLIT BILL TOGGLE DECK */
+  .atithi-split-bill-toggle-deck {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-top: 1px solid #ededed;
+    position: relative;
+    z-index: 20;
+  }
+
+  .toggle-left-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     cursor: pointer;
-    width: 2.8em !important;
-    height: 1.5em !important;
-    border-color: #e5e7eb !important;
-    background-color: #e5e7eb !important;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
-  .premium-apple-switch:checked {
+
+  .toggle-left-meta i {
+    font-size: 18px;
+    color: #222222;
+  }
+
+  .toggle-left-meta span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222222;
+  }
+
+  /* iOS Elegant Soft Toggle Switch */
+  .atithi-ios-switch-input {
+    cursor: pointer;
+    width: 44px !important;
+    height: 24px !important;
+    border-radius: 20px !important;
+    border: 1px solid #b0b0b0 !important;
+    background-color: #e5e5e5 !important;
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    outline: none !important;
+    transition: background-color 0.2s ease;
+  }
+
+  .atithi-ios-switch-input::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    top: 1px;
+    left: 1px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .atithi-ios-switch-input:checked {
     background-color: #222222 !important;
     border-color: #222222 !important;
   }
-  .premium-apple-switch:focus {
-    box-shadow: none !important;
+
+  .atithi-ios-switch-input:checked::before {
+    transform: translateX(20px);
   }
 
-  /* Co-Travelers Enclave Floating Box */
-  .premium-matrix-enclave {
-    background-color: #f8fafc !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 14px !important;
-    padding: 20px !important;
-    margin-top: 16px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+  /* 📑 CO-TRAVELERS SECURE MANAGEMENT GRID */
+  .atithi-split-matrix-enclave {
+    border-top: 1px dashed #e3e3e3;
+    padding-top: 18px;
+    margin-top: 4px;
+    position: relative;
+    z-index: 20;
   }
 
-  /* === 💎 SUPREME INTERACTIVE ACTION BUTTON LEVER === */
-  .btn-premium-reserve-lever {
-    width: 100%;
-    padding: 16px;
-    background: #111111;
-    color: #ffffff;
+  .enclave-tech-ticker {
+    font-size: 11px;
     font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.5px;
+    color: #717171;
+    margin-bottom: 14px;
+  }
+
+  .atithi-nested-input-group {
+    background: #ffffff;
+    border: 1px solid #b0b0b0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s ease;
+  }
+
+  .atithi-nested-input-group:focus-within {
+    border-color: #222222;
+  }
+
+  .atithi-nested-input-group .icon-pre-addon {
+    color: #717171;
+    font-size: 14px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  .atithi-nested-input-group input {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-size: 14px !important;
+    color: #222222 !important;
+    width: 100% !important;
+    padding: 12px 0 !important;
+  }
+
+  .btn-remove-node-link {
+    background: transparent;
     border: none;
-    border-radius: 12px;
+    color: #c13515;
+    padding-left: 10px;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(17, 17, 17, 0.12);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 15px;
   }
-  .btn-premium-reserve-lever:hover {
-    background: #000000;
-    transform: translateY(-1px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+
+  .enclave-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
   }
-  .btn-premium-reserve-lever:active {
-    transform: translateY(1px);
+
+  .btn-add-friend-trigger {
+    background: #ffffff;
+    color: #222222;
+    font-weight: 600;
+    font-size: 13px;
+    border: 1px solid #222222;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+
+  .btn-add-friend-trigger:hover {
+    background: #f7f7f7;
+  }
+
+  .enclave-cap-ticker {
+    font-size: 12px;
+    color: #717171;
+    font-weight: 500;
+  }
+
+  /* === 🚀 TRANSACTION LAUNCHER BUTTON === */
+  .atithi-rare-find-prompt {
+    font-size: 13px;
+    color: #222222;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+
+  .btn-atithi-master-checkout {
+    width: 100%;
+    background: linear-gradient(90deg, #ff385c 0%, #e61e4d 100%);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15.5px;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(230, 30, 77, 0.15);
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 20;
+  }
+
+  /* === 🎨 FLAT PICKER AIRBNB DITTO LUXE OVERWRITES === */
+  .flatpickr-calendar {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.15) !important;
+    padding: 20px !important;
+    background: #ffffff !important;
+    width: 320px !important;
+  }
+  .flatpickr-months .flatpickr-month {
+    color: #222222 !important;
+    fill: #222222 !important;
+    height: 38px !important;
+  }
+  .flatpickr-current-month {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-weight: 700 !important;
+    color: #222222 !important;
+  }
+  .flatpickr-weekday {
+    font-weight: 600 !important;
+    color: #717171 !important;
+  }
+  .flatpickr-day.selected, 
+  .flatpickr-day.startRange, 
+  .flatpickr-day.endRange,
+  .flatpickr-day.selected:hover, 
+  .flatpickr-day.startRange:hover, 
+  .flatpickr-day.endRange:hover {
+    background: #222222 !important;
+    border-color: #222222 !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+  }
+  .flatpickr-day.inRange {
+    background: #f7f7f7 !important;
+    border-color: #f7f7f7 !important;
+    box-shadow: -5px 0 0 #f7f7f7, 5px 0 0 #f7f7f7 !important;
+    color: #222222 !important;
+    border-radius: 0 !important;
+  }
+  .flatpickr-day:hover {
+    background: transparent !important;
+    border-color: #222222 !important;
+    border-radius: 50% !important;
+    color: #222222 !important;
   }
 </style>
 
-<div class="atithi-premium-card-vault">
+<div class="atithi-checkout-vault-container">
   
-  <div class="d-flex justify-content-between align-items-center">
-    <p class="premium-price-blueprint">
-      ₹ <%= data.price.toLocaleString("en-IN") %> <span>/ night</span>
-    </p>
+  <!-- Part 1: Price Metric Segment -->
+  <div class="atithi-pricing-hero-block">
+    <span class="currency-metric-large">₹ <%= data.price.toLocaleString("en-IN") %></span>
+    <span class="time-slot-caption">/ night</span>
   </div>
-  <hr class="my-3" style="color: #f1f5f9; opacity: 1; border-width: 1.5px;">
-  
-  <form id="booking-dates-form" novalidate class="needs-validation">
-    <div class="premium-input-grid">
-      <div>
-        <label for="checkInDate" class="premium-label-tag">Check-in Date</label>
-        <input type="date" id="checkInDate" class="form-control premium-luxe-input" required>
-      </div>
+
+  <form id="booking-dates-form" novalidate class="needs-validation m-0">
+    
+    <!-- Part 2: Premium Single-Month Flatpickr Track Chassis -->
+    <div class="atithi-integrated-date-chassis" id="date-chassis-trigger-box">
+      <div id="flatpickr-isolated-anchor" class="flatpickr-trigger-overlay-surface"></div>
       
-      <div>
-        <label for="checkOutDate" class="premium-label-tag">Check-out Date</label>
-        <input type="date" id="checkOutDate" class="form-control premium-luxe-input" required>
+      <!-- Hidden functional inputs syncing parameters safely to server routing backend models -->
+      <input type="hidden" id="checkInDate" name="checkInDate">
+      <input type="hidden" id="checkOutDate" name="checkOutDate">
+
+      <div class="date-capsule-row">
+        <div class="date-capsule-item">
+          <label class="date-mini-tag">Check-in</label>
+          <span class="atithi-date-display-placeholder" id="checkin-display-label">dd/mm/yyyy</span>
+        </div>
+        
+        <div class="date-capsule-item">
+          <label class="date-mini-tag">Check-out</label>
+          <span class="atithi-date-display-placeholder" id="checkout-display-label">dd/mm/yyyy</span>
+        </div>
       </div>
     </div>
     
-    <div class="form-check form-switch d-flex justify-content-between align-items-center ps-0 mb-3">
-      <label class="form-check-label small text-dark fw-bold" for="isSplitBooking" style="cursor: pointer; font-size: 14px;">
-        <i class="bi bi-people-fill text-dark me-2" style="font-size: 15px;"></i>Split Bill with Friends?
+    <!-- Part 3: Isolated Structural Toggle Module -->
+    <div class="atithi-split-bill-toggle-deck">
+      <label class="toggle-left-meta ps-0" for="isSplitBooking">
+        <i class="bi bi-people"></i>
+        <span>Split Bill with Friends?</span>
       </label>
-      <input class="form-check-input premium-apple-switch" type="checkbox" id="isSplitBooking" style="margin-left: 0;">
+      <input class="atithi-ios-switch-input" type="checkbox" id="isSplitBooking">
     </div>
 
-    <div id="splitEmailsContainer" class="mb-3 premium-matrix-enclave" style="display: none;">
-      <p class="text-secondary mb-3 fw-bold" style="font-size: 10px; letter-spacing: 0.8px; font-family: monospace;">CO-TRAVELERS VERIFICATION MATRIX</p>
+    <!-- Part 4: Co-Travelers Input Matrix Hub -->
+    <div id="splitEmailsContainer" class="atithi-split-matrix-enclave" style="display: none;">
+      <p class="enclave-tech-ticker">Co-Travelers Group Matrix</p>
       
       <div id="emailInputsList">
-        <div class="input-group input-group-sm mb-2" style="border-radius: 10px; overflow: hidden;">
-          <span class="input-group-text bg-white border-end-0 text-muted" style="border-color: #e5e7eb; padding-left: 12px;"><i class="bi bi-envelope"></i></span>
-          <input type="email" class="form-control border-start-0 shadow-none split-friend-email premium-luxe-input" placeholder="friend1@gmail.com" disabled style="padding: 10px 12px !important; border-radius: 0 10px 10px 0 !important;">
+        <div class="atithi-nested-input-group">
+          <span class="icon-pre-addon"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="split-friend-email" placeholder="friend1@gmail.com" disabled>
         </div>
       </div>
 
-      <div class="d-flex justify-content-between align-items-center mt-3 pt-2">
-        <button type="button" id="addEmailBtn" class="btn btn-sm btn-dark px-3 py-1fw-bold" style="font-size: 11px; border-radius: 8px; font-weight: 600; background: #222222;"><i class="bi bi-plus-lg me-1"></i>Add Friend</button>
-        <small class="text-secondary font-monospace" style="font-size: 11px; font-weight: 600;">Max 5 Friends</small>
+      <div class="enclave-controls-row">
+        <button type="button" id="addEmailBtn" class="btn-add-friend-trigger">
+          <i class="bi bi-plus"></i> Add Friend
+        </button>
+        <span class="enclave-cap-ticker">Max 5 Friends</span>
       </div>
     </div>
   </form>
 
-  <p class="text-muted small mb-3 text-center" style="font-size: 12.5px; font-weight: 500; margin-top: 12px;">This is a rare find. Prices are competitive for these dates.</p>
-  <button class="btn-premium-reserve-lever btn-reserve">Reserve Stay</button>
+  <!-- Part 5: Transaction Master Launcher Button -->
+  <p class="atithi-rare-find-prompt">This is a rare find. Prices are competitive for these dates.</p>
+  <button class="btn-atithi-master-checkout btn-reserve">Reserve Stay</button>
 </div>
 
 <script>
@@ -179,9 +426,57 @@
     const emailsContainer = document.getElementById("splitEmailsContainer");
     const emailInputsList = document.getElementById("emailInputsList");
     const addEmailBtn = document.getElementById("addEmailBtn");
+    
+    const chassisBox = document.getElementById("date-chassis-trigger-box");
+    const checkinLabel = document.getElementById("checkin-display-label");
+    const checkoutLabel = document.getElementById("checkout-display-label");
 
-    if(splitSwitch) {
-      splitSwitch.addEventListener("change", function() {
+    // 📅 Perfect Range Algorithm Pipeline Engine Fixed
+    const fp = flatpickr("#flatpickr-isolated-anchor", {
+      mode: "range",
+      showMonths: 1, 
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      position: "auto left",
+      onOpen: function() {
+        chassisBox.classList.add('active-focus');
+      },
+      onClose: function() {
+        chassisBox.classList.remove('active-focus');
+      },
+      onChange: function(selectedDates) {
+        // Step 1: User has tapped only the first date
+        if (selectedDates.length === 1) {
+          const d1 = flatpickr.formatDate(selectedDates[0], "d/m/Y");
+          checkinLabel.textContent = d1;
+          checkinLabel.classList.add('has-value');
+          
+          // Keep checkout reset until explicit click arrives
+          checkoutLabel.textContent = "dd/mm/yyyy";
+          checkoutLabel.classList.remove('has-value');
+        }
+        
+        // Step 2: Full range track completion (No more duplicate single-value copying!)
+        if (selectedDates.length === 2) {
+          const d1 = flatpickr.formatDate(selectedDates[0], "d/m/Y");
+          const d2 = flatpickr.formatDate(selectedDates[1], "d/m/Y");
+          
+          checkinLabel.textContent = d1;
+          checkinLabel.classList.add('has-value');
+          checkoutLabel.textContent = d2;
+          checkoutLabel.classList.add('has-value');
+
+          // Push pristine data payloads directly to hidden input forms safely for controllers validation
+          document.getElementById('checkInDate').value = flatpickr.formatDate(selectedDates[0], "Y-m-d");
+          document.getElementById('checkOutDate').value = flatpickr.formatDate(selectedDates[1], "Y-m-d");
+        }
+      }
+    });
+
+    // 🧬 Pure Isolated Handlers
+    if (splitSwitch) {
+      splitSwitch.addEventListener("change", function(e) {
+        e.stopPropagation();
         if (this.checked) {
           emailsContainer.style.display = "block";
           emailInputsList.querySelectorAll("input").forEach(input => input.disabled = false);
@@ -192,19 +487,18 @@
       });
     }
 
-    if(addEmailBtn) {
-      addEmailBtn.addEventListener("click", () => {
+    if (addEmailBtn) {
+      addEmailBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
         const currentInputs = emailInputsList.querySelectorAll("input").length;
         if (currentInputs >= 5) return alert("Maximum 5 friends allowed.");
 
         const inputGroup = document.createElement("div");
-        inputGroup.className = "input-group input-group-sm mb-2";
-        inputGroup.style.borderRadius = "10px";
-        inputGroup.style.overflow = "hidden";
+        inputGroup.className = "atithi-nested-input-group";
         inputGroup.innerHTML = `
-          <span class="input-group-text bg-white border-end-0 text-muted" style="border-color: #e5e7eb; padding-left: 12px;"><i class="bi bi-envelope"></i></span>
-          <input type="email" class="form-control border-start-0 shadow-none split-friend-email premium-luxe-input" placeholder="friend@gmail.com" required style="padding: 10px 12px !important; border-radius: 0 !important;">
-          <button type="button" class="btn btn-sm btn-outline-danger border-start-0" onclick="this.parentElement.remove()" style="border-color: #e5e7eb; background: #ffffff; padding: 0 12px;"><i class="bi bi-trash"></i></button>
+          <span class="icon-pre-addon"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="split-friend-email" placeholder="friend@gmail.com" required>
+          <button type="button" class="btn-remove-node-link" onclick="event.stopPropagation(); this.parentElement.remove()"><i class="bi bi-trash3"></i></button>
         `;
         emailInputsList.appendChild(inputGroup);
       });

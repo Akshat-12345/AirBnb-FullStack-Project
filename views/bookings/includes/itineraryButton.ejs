@@ -1,12 +1,25 @@
 <!-- views/bookings/includes/itineraryButton.ejs -->
 <!-- 🌟 ATITHI ULTRA-MODERN PREMIUM EMBEDDED INTERACTION BUTTON -->
+<% 
+  // 🚀 Bulletproof defensive pipeline to extract matching image asset context safely
+  let safeImgUrl = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80";
+  
+  if (booking && booking.listing && booking.listing.image) {
+    if (Array.isArray(booking.listing.image) && booking.listing.image.length > 0 && booking.listing.image[0]) {
+      safeImgUrl = booking.listing.image[0].url || safeImgUrl;
+    } else if (booking.listing.image.url) {
+      safeImgUrl = booking.listing.image.url;
+    }
+  }
+%>
+
 <div class="ai-itinerary-trigger-zone my-3">
     <button class="btn w-100 py-3 fw-bold border-0 position-relative overflow-hidden atithi-luxury-btn btn-trigger-itinerary" 
-            data-listing-id="<%= booking.listing._id %>"
-            data-title="<%= booking.listing.title %>"
-            data-img="<%= booking.listing.image.url %>"
-            data-desc="<%= booking.listing.description %>"
-            data-days="<%= computedDays %>">
+            data-listing-id="<%= (booking && booking.listing) ? booking.listing._id : '' %>"
+            data-title="<%= (booking && booking.listing) ? booking.listing.title : 'Atithi Premium Stay' %>"
+            data-img="<%= safeImgUrl %>"
+            data-desc="<%= (booking && booking.listing) ? booking.listing.description : 'Authentic platform verified traveler experience.' %>"
+            data-days="<%= typeof computedDays !== 'undefined' ? computedDays : 1 %>">
         
         <!-- Ambient Internal Hover Background Liquid Glow Map Layer -->
         <div class="atithi-btn-liquid-glow"></div>
@@ -34,7 +47,7 @@
         cursor: pointer;
     }
 
-    /* Multi-Brand Identity Sublte Text Gradient Pipeline Setup */
+    /* Multi-Brand Identity Subtle Text Gradient Pipeline Setup */
     .atithi-gradient-text-fill {
         background: linear-gradient(90deg, #FF9432 0%, #67B636 50%, #00A3E0 100%);
         -webkit-background-clip: text;
