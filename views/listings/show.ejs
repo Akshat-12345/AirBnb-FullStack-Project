@@ -67,7 +67,7 @@ const reviewCount = data.reviews.length;
 
 </div>
 
-<!-- === 🚀 CORE RAZORPAY TRANSACTION BINDERS === -->
+<!-- === 🚀 CORE RAZORPAY TRANSACTION BINDERS & MAP CONNECTIONS === -->
 <% if (typeof coordinates !== 'undefined' && coordinates) { %>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -96,17 +96,22 @@ const reviewCount = data.reviews.length;
 </script>
 <% } %>
 
+<!-- Razorpay Official Core Framework CDN External Asset -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const reserveBtn = document.querySelector('.btn-reserve');
     if (reserveBtn) {
         reserveBtn.addEventListener('click', async (e) => {
             e.preventDefault();
+            e.stopPropagation();
+
             const checkInInput = document.getElementById("checkInDate");
             const checkOutInput = document.getElementById("checkOutDate");
             
-            if (!checkInInput.value || !checkOutInput.value) {
+            // 📅 Check constraints verification
+            if (!checkInInput || !checkOutInput || !checkInInput.value || !checkOutInput.value) {
                 alert("Please select both Check-in and Check-out dates before reserving!");
                 return;
             }
@@ -114,30 +119,40 @@ document.addEventListener('DOMContentLoaded', function() {
             const isSplitBooking = document.getElementById("isSplitBooking").checked;
             const splitEmails = [];
             document.querySelectorAll(".split-friend-email").forEach(node => {
-                if(!node.disabled && node.value.trim() !== "") splitEmails.push(node.value.trim());
+                if(!node.disabled && node.value.trim() !== "") {
+                    splitEmails.push(node.value.trim());
+                }
             });
 
             try {
-                const response = await fetch(`/listings/<%= data._id %>/book`, {
+                // 📡 Route mapping perfectly synced with routes/bookings.js router rules
+                const response = await fetch('/listings/<%= data._id %>/book', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        checkInDate: checkInInput.value, checkOutDate: checkOutInput.value,
-                        isSplitBooking: isSplitBooking, splitEmails: splitEmails
+                        checkInDate: checkInInput.value, 
+                        checkOutDate: checkOutInput.value,
+                        isSplitBooking: isSplitBooking, 
+                        splitEmails: splitEmails
                     })
                 });
                 
                 const dataRes = await response.json();
-                if(!dataRes.success) { alert("Booking Error: " + dataRes.message); return; }
+                if(!dataRes.success) { 
+                    alert("Booking Error: " + dataRes.message); 
+                    return; 
+                }
 
+                // ⚡ PERFECT RECOVERY FIX: Using dataRes object parameters directly from controller response context
                 const options = {
-                    "key": "<%= razorpayKeyId %>",
+                    "key": dataRes.key_id, 
                     "amount": dataRes.rzpOrder.amount,
                     "currency": dataRes.rzpOrder.currency,
                     "name": "Atithi Premium Stay",
                     "description": `Booking for <%= data.title %>`,
                     "order_id": dataRes.rzpOrder.id,
                     "handler": async function (rzpResponse){
+                        // 🔒 Initiate dynamic payment validation node verification
                         const verifyResponse = await fetch('/bookings/verify-payment', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -146,21 +161,35 @@ document.addEventListener('DOMContentLoaded', function() {
                                 razorpay_payment_id: rzpResponse.razorpay_payment_id,
                                 razorpay_signature: rzpResponse.razorpay_signature,
                                 listingId: dataRes.listingId,
-                                checkInDate: dataRes.checkInDate, checkOutDate: dataRes.checkOutDate,
-                                totalPrice: dataRes.totalPrice, isSplitBooking: dataRes.isSplitBooking,
+                                checkInDate: dataRes.checkInDate, 
+                                checkOutDate: dataRes.checkOutDate,
+                                totalPrice: dataRes.totalPrice, 
+                                isSplitBooking: dataRes.isSplitBooking,
                                 structuredParticipants: dataRes.structuredParticipants
                             })
                         });
 
                         const verifyData = await verifyResponse.json();
-                        if (verifyData.success) window.location.href = `/bookings/my-bookings`;
+                        if (verifyData.success) {
+                            window.location.href = `/bookings/my-bookings`;
+                        } else {
+                            alert("Payment verification failed at server layer.");
+                        }
                     },
-                    "prefill": { "name": "<%= currUser ? currUser.username : '' %>", "email": "<%= currUser ? currUser.email : '' %>" },
+                    "prefill": { 
+                        "name": "<%= currUser ? currUser.username : '' %>", 
+                        "email": "<%= currUser ? currUser.email : '' %>" 
+                    },
                     "theme": { "color": "#ff385c" }
                 };
-                new Razorpay(options).open();
+
+                // Open Razorpay Popup Canvas Frame
+                const rzp = new Razorpay(options);
+                rzp.open();
+
             } catch (err) {
-                alert("Execution error inside transactional network maps.");
+                console.error("Payment flow failure details:", err);
+                alert("Execution error inside transactional network maps: Bridge Connection Failed.");
             }
         });
     }
