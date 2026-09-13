@@ -2,79 +2,46 @@
 
 <style>
   :root {
-    /* Atithi Immersive Brand Token Arrays */
     --atithi-orange: #FF9432;
     --atithi-green: #67B636;
     --atithi-blue: #00A3E0;
     
-    --text-slate-dark: #0f172a;
-    --text-slate-muted: #475569;
-    --font-premium-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    --card-surface: rgba(12, 19, 36, 0.94);
+    --card-border: rgba(255, 255, 255, 0.18);
+    --input-surface: rgba(18, 28, 52, 0.88);
+    --input-border: rgba(255, 255, 255, 0.22);
+    --text-slate-light: #f8fafc;
+    --text-slate-muted: #94a3b8;
+    --font-premium: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   }
 
-  /* === 🚀 ULTRA-PREMIUM MINIMALIST CUSTOM SCROLLBAR PIPELINE === */
-  /* Width and structure config of scrollbar track */
+  /* === KINETIC BRAND SCROLLBAR === */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    background-color: rgba(15, 23, 42, 0.05);
+    width: 10px;
   }
-
-  /* Scrollbar Track styling background layer */
   ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.15);
-    backdrop-filter: blur(10px);
+    background: #060a14;
   }
-
-  /* Dynamic kinetic thumb scroller core */
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, var(--atithi-orange) 0%, var(--atithi-green) 50%, var(--atithi-blue) 100%);
     border-radius: 100px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
+    border: 2px solid #060a14;
   }
-
-  /* Subtle hover scaling trigger node */
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #ffaa5b 0%, #7ecc4c 50%, #29beff 100%);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   }
 
-  body, html {
-    height: 100%;
-    margin: 0;
-    overflow-x: hidden;
-    font-family: var(--font-premium-stack);
-    background-color: #0f172a; 
-  }
-
-  /* === 1. NATURAL SCROLL SEAMLESS WRAPPER === */
-  .auth-master-scrollway {
-    min-height: calc(100vh - 96px); 
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 60px 20px;
-    box-sizing: border-box;
-    z-index: 1;
-  }
-
-  /* Full-Width Background Core Framework */
-  .body-slideshow-track {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw; 
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
+  /* === 1. FIXED BACKGROUND SCENERY CORE === */
+  .fixed-fullscreen-viewport {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
     pointer-events: none;
+    overflow: hidden;
   }
-  
+
   .body-scenery-pane {
     position: absolute;
     inset: 0;
@@ -82,314 +49,772 @@
     background-position: center center;
     background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    animation: identityCrossfade 20s infinite ease-in-out;
+    animation: panoramicKenBurns 24s infinite ease-in-out;
   }
 
-  /* Premium High-Resolution Match Nodes for Homely Stays Theme */
   .body-scenery-pane:nth-child(1) {
-    background-image: linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.4)), 
-                      url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=85');
+    background-image: linear-gradient(rgba(6, 10, 22, 0.48), rgba(6, 10, 22, 0.82)), 
+                      url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2200&q=85');
     animation-delay: 0s;
   }
   .body-scenery-pane:nth-child(2) {
-    background-image: linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.4)), 
-                      url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85');
-    animation-delay: 5s;
+    background-image: linear-gradient(rgba(6, 10, 22, 0.48), rgba(6, 10, 22, 0.82)), 
+                      url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85');
+    animation-delay: 6s;
   }
   .body-scenery-pane:nth-child(3) {
-    background-image: linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.4)), 
-                      url('https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1800&q=85');
-    animation-delay: 10s;
+    background-image: linear-gradient(rgba(6, 10, 22, 0.48), rgba(6, 10, 22, 0.82)), 
+                      url('https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=2200&q=85');
+    animation-delay: 12s;
   }
   .body-scenery-pane:nth-child(4) {
-    background-image: linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.4)), 
-                      url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1800&q=85');
-    animation-delay: 15s;
+    background-image: linear-gradient(rgba(6, 10, 22, 0.48), rgba(6, 10, 22, 0.82)), 
+                      url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=2200&q=85');
+    animation-delay: 18s;
   }
 
-  @keyframes identityCrossfade {
-    0% { opacity: 0; }
+  @keyframes panoramicKenBurns {
+    0% { opacity: 0; transform: scale(1); }
     8% { opacity: 1; }
     25% { opacity: 1; }
-    33% { opacity: 0; }
-    100% { opacity: 0; }
+    33% { opacity: 0; transform: scale(1.08) translate3d(-10px, -6px, 0); }
+    100% { opacity: 0; transform: scale(1); }
   }
 
-  /* === 2. ULTRA-MODERN MASTER SPLIT GLASS CONTAINER PANEL === */
-  .auth-split-panel {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px) saturate(190%);
-    -webkit-backdrop-filter: blur(20px) saturate(190%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 32px;
+  /* Ambient Dynamic Glow */
+  .aurora-ambient-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .aurora-orb-1 {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(255, 148, 50, 0.2) 0%, transparent 70%);
+    filter: blur(95px);
+  }
+  .aurora-orb-2 {
+    position: absolute;
+    bottom: 15%;
+    right: 12%;
+    width: 560px;
+    height: 560px;
+    background: radial-gradient(circle, rgba(0, 163, 224, 0.22) 0%, transparent 70%);
+    filter: blur(105px);
+  }
+
+  /* === 2. MAIN HERO SECTION WRAPPER === */
+  .auth-hero-viewport {
+    position: relative;
+    z-index: 2;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    padding: 30px 0 60px 0;
+  }
+
+  .auth-split-grid {
     width: 100%;
-    max-width: 1050px;
-    box-shadow: 0 35px 80px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 55px;
+  }
+
+  /* === 3. LEFT BRAND STORYTELLING === */
+  .brand-narrative-col {
+    flex: 1;
+    max-width: 580px;
+  }
+
+  .brand-pill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(255, 148, 50, 0.16);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 148, 50, 0.45);
+    border-radius: 40px;
+    color: var(--atithi-orange);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(255, 148, 50, 0.2);
+  }
+
+  .brand-headline-hero {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.22;
+    color: #ffffff;
+    letter-spacing: -1.2px;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 28px rgba(0, 0, 0, 0.9);
+  }
+
+  .gradient-shimmer-title {
+    background: linear-gradient(90deg, #ffffff 0%, var(--atithi-orange) 40%, var(--atithi-green) 75%, var(--atithi-blue) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textShimmerSweep 6s linear infinite;
+  }
+  @keyframes textShimmerSweep {
+    to { background-position: 200% center; }
+  }
+
+  .brand-paragraph-desc {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--text-slate-muted);
+    margin-bottom: 34px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  }
+
+  .metrics-frosted-capsule {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    background: rgba(12, 20, 38, 0.65);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 22px;
+    padding: 18px 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  }
+
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-number {
+    font-size: 21px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stat-number.orange { color: var(--atithi-orange); }
+  .stat-number.green { color: var(--atithi-green); }
+  .stat-number.blue { color: var(--atithi-blue); }
+
+  .stat-title {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 600;
+  }
+
+  /* === 4. RE-ARCHITECTED ULTRA-PREMIUM AUTH CARD === */
+  .auth-card-anchor {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+  }
+
+  /* Ambient Multi-Hue Aura Behind Glass Card */
+  .auth-card-anchor::before {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    background: radial-gradient(circle at 50% 0%, rgba(255, 148, 50, 0.35), rgba(0, 163, 224, 0.25), transparent 75%);
+    filter: blur(32px);
+    border-radius: 40px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .auth-card-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    background: var(--card-surface);
+    backdrop-filter: blur(50px) saturate(220%);
+    -webkit-backdrop-filter: blur(50px) saturate(220%);
+    border: 1px solid var(--card-border);
+    border-radius: 30px;
+    padding: 42px 36px;
+    box-shadow: 0 35px 90px rgba(0, 0, 0, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.3);
     overflow: hidden;
   }
 
-  /* === 3. LEFT COL: BRAND MARKETING DECK === */
-  .brand-showcase-column {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 60px 45px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
+  /* Top Animated Brand Beam */
+  .auth-card-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, var(--atithi-orange), var(--atithi-green), var(--atithi-blue), var(--atithi-orange));
+    background-size: 300% 100%;
+    animation: beamLaserFlow 5s linear infinite;
+  }
+  @keyframes beamLaserFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
   }
 
-  .brand-header-cluster {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    margin-bottom: 40px;
-  }
-  .brand-panel-logo {
-    height: 38px;
-    object-fit: contain;
-  }
-  .brand-panel-title {
+  .card-intro-block h2 {
+    font-size: 27px;
     font-weight: 800;
-    font-size: 32px;
-    letter-spacing: -1.2px;
-    background: linear-gradient(135deg, var(--atithi-orange) 10%, var(--atithi-green) 55%, var(--atithi-blue) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
+    color: #ffffff;
+    letter-spacing: -0.6px;
+    margin-bottom: 6px;
   }
-
-  .pitch-headline-hero {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.3;
-    color: var(--text-slate-dark);
-    letter-spacing: -0.8px;
-    margin-bottom: 30px;
-  }
-
-  .feature-capsule-deck {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .feature-pill-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 18px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
-    transition: all 0.25s ease;
-  }
-  .feature-pill-item:hover {
-    transform: translateX(5px);
-    background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 148, 50, 0.3);
-  }
-
-  .feature-icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: white;
-    flex-shrink: 0;
-  }
-  .feature-pill-item:nth-child(1) .feature-icon-box { background: var(--atithi-orange); }
-  .feature-pill-item:nth-child(2) .feature-icon-box { background: var(--atithi-green); }
-  .feature-pill-item:nth-child(3) .feature-icon-box { background: var(--atithi-blue); }
-
-  .feature-info-meta h4 {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text-slate-dark);
-    margin: 0 0 4px 0;
-  }
-  .feature-info-meta p {
+  .card-intro-block p {
     font-size: 13.5px;
     color: var(--text-slate-muted);
-    margin: 0;
-    line-height: 1.4;
-    font-weight: 600;
+    font-weight: 500;
+    margin-bottom: 26px;
   }
 
-  /* === 4. RIGHT COL: GLASSY AUTHENTICATION MATRIX === */
-  .auth-form-column {
-    padding: 60px 50px;
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .form-title-block h2 {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--text-slate-dark);
-    letter-spacing: -0.5px;
-  }
-  .form-title-block p {
-    font-size: 14.5px;
-    color: var(--text-slate-muted);
-    font-weight: 600;
-  }
-
-  .form-label {
-    font-size: 13px;
+  .field-label-tag {
+    display: block;
+    font-size: 11.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #1e293b;
+    letter-spacing: 0.7px;
+    color: #cbd5e1;
     margin-bottom: 8px;
   }
 
-  .form-control {
-    background: rgba(255, 255, 255, 0.75) !important;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 12px;
-    padding: 13px 16px;
-    font-size: 14.5px;
-    font-weight: 600;
-    color: #0f172a;
-    transition: all 0.25s ease;
-  }
-  .form-control:focus {
-    background: #ffffff !important;
-    border-color: var(--atithi-orange);
-    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.2);
+  /* Dynamic Glowing Input Cluster */
+  .input-icon-harness {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
   }
 
-  .btn-atithi-submit {
-    background: linear-gradient(135deg, var(--atithi-orange) 0%, #ff5e3a 100%);
-    color: white;
+  .input-icon-harness .lead-icon {
+    position: absolute;
+    left: 16px;
+    color: #94a3b8;
+    font-size: 17px;
+    pointer-events: none;
+    transition: all 0.25s ease;
+  }
+
+  .input-icon-harness .action-icon {
+    position: absolute;
+    right: 16px;
+    color: #94a3b8;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .input-icon-harness .action-icon:hover {
+    color: #ffffff;
+    transform: scale(1.15);
+  }
+
+  .input-glass-control {
+    width: 100%;
+    background: var(--input-surface) !important;
+    border: 1px solid var(--input-border) !important;
+    border-radius: 14px !important;
+    padding: 14px 44px 14px 44px !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Crystal Clear Placeholder Fix */
+  .input-glass-control::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+  }
+
+  .input-glass-control:focus {
+    background: rgba(22, 34, 62, 0.98) !important;
+    border-color: var(--atithi-orange) !important;
+    box-shadow: 0 0 0 3px rgba(255, 148, 50, 0.32), 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+    transform: translateY(-1.5px);
+    outline: none !important;
+  }
+
+  .input-glass-control:focus ~ .lead-icon {
+    color: var(--atithi-orange);
+    transform: scale(1.15);
+  }
+
+  /* Submit Glow Button */
+  .btn-auth-master-submit {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(135deg, var(--atithi-orange) 0%, #ff5a36 100%);
+    color: #ffffff;
     font-weight: 700;
     font-size: 15.5px;
+    letter-spacing: 0.2px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 14px;
-    width: 100%;
-    box-shadow: 0 4px 15px rgba(255, 94, 58, 0.25);
-    transition: all 0.25s ease;
     cursor: pointer;
-    margin-top: 10px;
+    box-shadow: 0 6px 24px rgba(255, 94, 58, 0.45);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    margin-top: 8px;
   }
-  .btn-atithi-submit:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 22px rgba(255, 94, 58, 0.35);
+  .btn-auth-master-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(255, 94, 58, 0.65);
+  }
+  .btn-auth-master-submit:active {
+    transform: translateY(0);
   }
 
-  .switch-portal-text {
+  /* Divider Separator */
+  .auth-divider-node {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 22px 0;
+  }
+  .auth-divider-node::before,
+  .auth-divider-node::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .auth-divider-node span {
+    padding: 0 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+  }
+
+  /* Google Sign-in Capsule */
+  .btn-google-social-gateway {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
     font-size: 14.5px;
     font-weight: 600;
+    padding: 13px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+  }
+  .btn-google-social-gateway:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    color: #ffffff;
+  }
+  .btn-google-social-gateway img {
+    width: 20px !important;
+    height: 20px !important;
+    object-fit: contain !important;
+    flex-shrink: 0 !important;
+  }
+
+  .switch-auth-portal {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13.5px;
     color: var(--text-slate-muted);
   }
-  .switch-portal-link {
-    color: #e26100; 
+  .switch-auth-portal a {
+    color: var(--atithi-orange);
     text-decoration: none;
     font-weight: 700;
-    transition: color 0.15s ease;
+    margin-left: 4px;
   }
-  .switch-portal-link:hover {
-    color: #ff5e3a;
+  .switch-auth-portal a:hover {
     text-decoration: underline;
   }
 
+  /* === 5. EXTENDED 4 + 4 INDIAN DESTINATIONS SHOWCASE === */
+  .destinations-grand-matrix {
+    position: relative;
+    z-index: 2;
+    padding: 70px 0 100px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .cluster-header-block {
+    text-align: center;
+    margin-bottom: 45px;
+  }
+  .cluster-header-block h3 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.6px;
+    margin-bottom: 6px;
+  }
+  .cluster-header-block p {
+    color: var(--text-slate-muted);
+    font-size: 15px;
+  }
+
+  .stays-grid-deck {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .stay-glass-card {
+    background: rgba(12, 20, 36, 0.88);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 22px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  .stay-glass-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 148, 50, 0.45);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+  }
+
+  .stay-thumbnail-wrapper {
+    position: relative;
+    height: 180px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .stay-thumbnail-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .stay-glass-card:hover .stay-thumbnail-wrapper img {
+    transform: scale(1.08);
+  }
+
+  .stay-rate-pill {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(10, 16, 30, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--atithi-orange);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .stay-details-pad {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .stay-details-pad h4 {
+    color: #ffffff;
+    font-size: 17.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .stay-geo-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--atithi-blue);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .stay-details-pad p {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .cluster-spacer-tier {
+    margin-top: 80px;
+  }
+
   @media (max-width: 991px) {
-    .brand-showcase-column { display: none !important; }
-    .auth-split-panel { max-width: 460px; background: rgba(255, 255, 255, 0.95); }
-    .auth-form-column { padding: 40px 30px; background: rgba(255, 255, 255, 0.1); }
+    .brand-narrative-col { display: none; }
+    .auth-split-grid { justify-content: center; }
   }
 </style>
 
-<div class="auth-master-scrollway">
-  <div class="body-slideshow-track">
-    <div class="body-scenery-pane"></div>
-    <div class="body-scenery-pane"></div>
-    <div class="body-scenery-pane"></div>
-    <div class="body-scenery-pane"></div>
-  </div>
+<!-- Fixed Background Slideshow -->
+<div class="fixed-fullscreen-viewport">
+  <div class="body-scenery-pane"></div>
+  <div class="body-scenery-pane"></div>
+  <div class="body-scenery-pane"></div>
+  <div class="body-scenery-pane"></div>
+</div>
 
-  <div class="auth-split-panel">
-    <div class="row g-0">
-      
-      <div class="col-lg-6 d-none d-lg-flex brand-showcase-column">
-        <div>
-          <div class="brand-header-cluster">
-            <img src="/images/airbnb.png" alt="Atithi Logo" class="brand-panel-logo">
-            <span class="brand-panel-title">Atithi</span>
-          </div>
-          
-          <h3 class="pitch-headline-hero">
-            Experience localized hospitality frameworks optimized for group travel sync workflows.
-          </h3>
-          
-          <div class="feature-capsule-deck">
-            <div class="feature-pill-item">
-              <div class="feature-icon-box"><i class="bi bi-wallet2"></i></div>
-              <div class="feature-info-meta">
-                <h4>Fluid Split Logistics</h4>
-                <p>Automated coordinate billing systems mapping participant shares asynchronously.</p>
-              </div>
-            </div>
-            
-            <div class="feature-pill-item">
-              <div class="feature-icon-box"><i class="bi bi-shield-check"></i></div>
-              <div class="feature-info-meta">
-                <h4>Secure Electronic Gateways</h4>
-                <p>Integrated signature cryptographic verification pipelines mapped via Razorpay.</p>
-              </div>
-            </div>
-            
-            <div class="feature-pill-item">
-              <div class="feature-icon-box"><i class="bi bi-map"></i></div>
-              <div class="feature-info-meta">
-                <h4>Dynamic Spatial Matrix</h4>
-                <p>Curated destination maps anchored directly to responsive geographical databases.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <p style="font-size: 12.5px; color: var(--text-slate-muted); font-weight: 600; margin: 40px 0 0 0;">
-          © 2026 Atithi Stack Infrastructure Inc. All rights secured.
-        </p>
+<!-- Ambient Lighting Aura -->
+<div class="aurora-ambient-glow">
+  <div class="aurora-orb-1"></div>
+  <div class="aurora-orb-2"></div>
+</div>
+
+<!-- Hero Authentication Stage -->
+<div class="auth-hero-viewport">
+  <div class="auth-split-grid">
+    
+    <!-- Left Column: High-Impact Typography -->
+    <div class="brand-narrative-col">
+      <div class="brand-pill-tag">
+        <i class="bi bi-geo-alt-fill"></i> Verified Across 40+ Destinations
       </div>
+      
+      <h1 class="brand-headline-hero">
+        Discover handpicked villas & <span class="gradient-shimmer-title">homestays across India.</span>
+      </h1>
+      
+      <p class="brand-paragraph-desc">
+        From mist-covered hill retreats in Himachal to private beach villas in Goa, experience seamless group travel with automatic bill splitting and encrypted payments.
+      </p>
+      
+      <!-- Unified Stats Capsule -->
+      <div class="metrics-frosted-capsule">
+        <div class="stat-block">
+          <span class="stat-number orange"><i class="bi bi-star-fill"></i> 4.9★</span>
+          <span class="stat-title">Guest Ratings</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-number green"><i class="bi bi-shield-check"></i> 100%</span>
+          <span class="stat-title">Razorpay Guard</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-number blue"><i class="bi bi-people-fill"></i> Smart</span>
+          <span class="stat-title">Split Stays</span>
+        </div>
+      </div>
+    </div>
 
-      <div class="col-12 col-lg-6 auth-form-column">
-        <div class="form-title-block mb-4">
-          <h2>Welcome Back</h2>
-          <p>Please enter your registered parameters to authenticate.</p>
+    <!-- Right Column: Luminescent Glass Auth Card -->
+    <div class="auth-card-anchor">
+      <div class="auth-card-container">
+        
+        <div class="card-intro-block">
+          <h2>Welcome back</h2>
+          <p>Access your saved trips and host dashboard</p>
         </div>
 
         <form action="/login" method="post" class="needs-validation" novalidate>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email Node Index</label>
-            <input type="email" class="form-control" name="email" id="email" placeholder="akshat@example.com" required>
-            <div class="invalid-feedback">A clear verified email data point is required.</div>
+          
+          <!-- Email Input -->
+          <label for="email" class="field-label-tag">Email Address</label>
+          <div class="input-icon-harness">
+            <i class="bi bi-envelope lead-icon"></i>
+            <input 
+              type="email" 
+              class="input-glass-control" 
+              name="email" 
+              id="email" 
+              placeholder="atithi@example.com" 
+              autocomplete="email"
+              required
+            >
+            <div class="invalid-feedback">A valid email is required.</div>
           </div>
 
-          <div class="mb-4">
-            <label for="password" class="form-label">Secure Passkey</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="••••••••" required>
-            <div class="invalid-feedback">Access field verification bounds cannot remain empty.</div>
+          <!-- Password Input with Toggle -->
+          <label for="password" class="field-label-tag">Password</label>
+          <div class="input-icon-harness">
+            <i class="bi bi-shield-lock lead-icon"></i>
+            <input 
+              type="password" 
+              class="input-glass-control" 
+              name="password" 
+              id="password" 
+              placeholder="Enter your password" 
+              autocomplete="current-password"
+              required
+            >
+            <i class="bi bi-eye action-icon" id="togglePasswordVisibility"></i>
+            <div class="invalid-feedback">Password cannot be empty.</div>
           </div>
 
-          <button class="btn btn-atithi-submit" type="submit">Verify & Initialize</button>
+          <button class="btn-auth-master-submit" type="submit">Sign In</button>
         </form>
 
-        <p class="text-center switch-portal-text mt-4 mb-0">
-          Don't have an established profile? <a href="/signup" class="switch-portal-link">Register slot</a>
+        <div class="auth-divider-node">
+          <span>Or Continue With</span>
+        </div>
+
+        <!-- Google OAuth Gateway -->
+        <a href="/auth/google" class="btn-google-social-gateway">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+          <span>Continue with Google</span>
+        </a>
+
+        <p class="switch-auth-portal mb-0">
+          Don't have an account? <a href="/signup">Sign up</a>
         </p>
+
       </div>
-      
     </div>
+
   </div>
 </div>
+
+<!-- 4. Extended 4 + 4 Indian Stays Showcase -->
+<div class="destinations-grand-matrix">
+  
+  <!-- CLUSTER 1: Top 4 Signature Heritage & Coastal Stays -->
+  <div class="cluster-header-block">
+    <h3>Top Curated Stays Across India</h3>
+    <p>Hand-verified private estates, forest cabins, and heritage sanctuaries.</p>
+  </div>
+
+  <div class="stays-grid-deck">
+    <!-- Card 1: Goa -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80" alt="Goa Stay">
+        <span class="stay-rate-pill">From ₹4,500/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Coastal Horizon Villa</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Anjuna, North Goa</span>
+        <p>Private infinity plunge pool, Portuguese heritage architecture, and sunset cocktail patio walking distance from beaches.</p>
+      </div>
+    </div>
+
+    <!-- Card 2: Manali -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1593181629936-11c609b8db9b?auto=format&fit=crop&w=800&q=80" alt="Manali Stay">
+        <span class="stay-rate-pill">From ₹3,800/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Snow Peak Cedar Chalet</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Old Manali, Himachal</span>
+        <p>Panoramic Himalayan valley balconies, pine-wood interiors, indoor stone fireplace, and organic apple orchard trails.</p>
+      </div>
+    </div>
+
+    <!-- Card 3: Kerala -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" alt="Kerala Stay">
+        <span class="stay-rate-pill">From ₹5,200/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Backwater Heritage Estate</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Alleppey, Kerala</span>
+        <p>Serene lakefront wooden docks, traditional ayurvedic wellness retreats, and authentic Malabar cuisine served by hosts.</p>
+      </div>
+    </div>
+
+    <!-- Card 4: Udaipur -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80" alt="Udaipur Stay">
+        <span class="stay-rate-pill">From ₹6,000/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Lakeside Haveli Suite</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Lake Pichola, Udaipur</span>
+        <p>Intricate Mewar stone carvings, private rooftop dining overlooking the City Palace, and royal royal court courtyards.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLUSTER 2: Next 4 Offbeat Wilderness & Mountain Escapes -->
+  <div class="cluster-header-block cluster-spacer-tier">
+    <h3>Offbeat Escapes & Wilderness Retreats</h3>
+    <p>Riverside sanctuaries, royal palaces, mountain houseboats, and coffee forest hideaways.</p>
+  </div>
+
+  <div class="stays-grid-deck">
+    <!-- Card 5: Rishikesh -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80" alt="Rishikesh Stay">
+        <span class="stay-rate-pill">From ₹3,200/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Ganges Riverside Sanctuary</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Tapovan, Rishikesh</span>
+        <p>Tranquil yoga decks overlooking river rapids, cliffside mountain views, and campfire acoustics beneath starlit skies.</p>
+      </div>
+    </div>
+
+    <!-- Card 6: Jaipur -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80" alt="Jaipur Stay">
+        <span class="stay-rate-pill">From ₹4,800/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Pink City Palace Villa</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> C-Scheme, Jaipur</span>
+        <p>Hand-painted jharokhas, sunlit marble courtyards, plunge jacuzzis, and bespoke artisanal textile decor.</p>
+      </div>
+    </div>
+
+    <!-- Card 7: Kashmir -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1677123419103-785c917c4a58?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Kashmir Stay">
+        <span class="stay-rate-pill">From ₹7,500/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Dal Lake Cedar Houseboat</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Srinagar, Kashmir</span>
+        <p>Carved walnut interiors, morning shikara floating flower markets, and private sundecks facing snow-capped peaks.</p>
+      </div>
+    </div>
+
+    <!-- Card 8: Coorg -->
+    <div class="stay-glass-card">
+      <div class="stay-thumbnail-wrapper">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Coorg Stay">
+        <span class="stay-rate-pill">From ₹4,100/night</span>
+      </div>
+      <div class="stay-details-pad">
+        <h4>Coffee Estate Wood Villa</h4>
+        <span class="stay-geo-tag"><i class="bi bi-geo-alt"></i> Madikeri, Coorg</span>
+        <p>Surrounded by aromatic robusta plantations, private waterfall hikes, fireplace lounges, and Kodava culinary spreads.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Password Eye Visibility Toggle Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("togglePasswordVisibility");
+    const passwordInput = document.getElementById("password");
+
+    if (toggleBtn && passwordInput) {
+      toggleBtn.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        toggleBtn.classList.toggle("bi-eye", !isPassword);
+        toggleBtn.classList.toggle("bi-eye-slash", isPassword);
+      });
+    }
+  });
+</script>

@@ -1,0 +1,269 @@
+<% if (typeof similarListings !== 'undefined' && similarListings && similarListings.length > 0) { %>
+<style>
+  /* === 🏡 AIRBNB MORE STAYS NEARBY CANONICAL COMPONENT === */
+  .ab-similar-stays-section {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding: 40px 0 20px 0;
+    width: 100%;
+    color: #222222;
+  }
+
+  /* Header with Title and 1/2 Nav Controls */
+  .ab-similar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .ab-similar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222222;
+    letter-spacing: -0.3px;
+    margin: 0;
+  }
+
+  .ab-similar-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ab-page-counter {
+    font-size: 14px;
+    font-weight: 500;
+    color: #717171;
+  }
+
+  .ab-nav-circle-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #222222;
+    transition: all 0.2s ease;
+  }
+  .ab-nav-circle-btn:hover:not(:disabled) {
+    border-color: #222222;
+    transform: scale(1.04);
+  }
+  .ab-nav-circle-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: #ebebeb;
+  }
+
+  /* Horizontal Slider Container */
+  .ab-similar-carousel-track {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  .ab-similar-carousel-track::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  /* Property Card */
+  .ab-stay-mini-card {
+    flex: 0 0 calc(20% - 15px); /* Exactly 5 cards on desktop as in screenshot */
+    min-width: 210px;
+    text-decoration: none !important;
+    color: inherit !important;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .ab-stay-mini-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Card Thumbnail */
+  .ab-stay-img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #f1f5f9;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .ab-stay-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .ab-stay-mini-card:hover .ab-stay-img-wrap img {
+    transform: scale(1.05);
+  }
+
+  /* Card Meta */
+  .ab-stay-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #222222;
+    line-height: 1.35;
+    margin: 0 0 3px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ab-stay-subtitle {
+    font-size: 13.5px;
+    color: #717171;
+    font-weight: 400;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ab-stay-bottom-line {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #222222;
+    margin-top: 1px;
+  }
+  .ab-stay-price {
+    font-weight: 600;
+  }
+  .ab-stay-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 500;
+    font-size: 13px;
+    color: #222222;
+  }
+
+  @media (max-width: 1100px) {
+    .ab-stay-mini-card { flex: 0 0 calc(33.333% - 12px); min-width: 190px; }
+  }
+  @media (max-width: 768px) {
+    .ab-stay-mini-card { flex: 0 0 calc(50% - 10px); min-width: 160px; }
+  }
+</style>
+
+<div class="ab-similar-stays-section">
+  <!-- Header -->
+  <div class="ab-similar-header">
+    <h3 class="ab-similar-title">More similar stays</h3>
+    <div class="ab-similar-controls">
+      <span class="ab-page-counter" id="abCarouselCounter">1/2</span>
+      <button class="ab-nav-circle-btn" id="abPrevBtn" aria-label="Previous stays" disabled>
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button class="ab-nav-circle-btn" id="abNextBtn" aria-label="Next stays">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards Horizontal Scroll Track -->
+  <div class="ab-similar-carousel-track" id="abCarouselTrack">
+    <% for(let stay of similarListings) { 
+        let stayImg = (stay.images && stay.images.length > 0) ? stay.images[0].url : (stay.image && stay.image.url ? stay.image.url : 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7');
+        
+        let avgStayRating = "4.9";
+        if (stay.reviews && stay.reviews.length > 0) {
+          let sum = stay.reviews.reduce((acc, curr) => acc + (Number(curr.rating) || 0), 0);
+          avgStayRating = (sum / stay.reviews.length).toFixed(2);
+        }
+    %>
+      <a href="/listings/<%= stay._id %>" class="ab-stay-mini-card">
+        <div class="ab-stay-img-wrap">
+          <img src="<%= stayImg %>" alt="<%= stay.title %>" loading="lazy">
+        </div>
+        <div class="ab-stay-title"><%= stay.title %></div>
+        <div class="ab-stay-subtitle"><%= stay.location %>, <%= stay.country %></div>
+        <div class="ab-stay-bottom-line">
+          <span class="ab-stay-price" data-base-price="<%= stay.price || 2500 %>">&#8377;<%= stay.price ? stay.price.toLocaleString("en-IN") : '2,500' %></span>
+          <span>&middot;</span>
+          <span class="ab-stay-rating">★ <%= avgStayRating %></span>
+        </div>
+      </a>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("abCarouselTrack");
+    const prevBtn = document.getElementById("abPrevBtn");
+    const nextBtn = document.getElementById("abNextBtn");
+    const counter = document.getElementById("abCarouselCounter");
+
+    if (!track || !prevBtn || !nextBtn) return;
+
+    function updateNavState() {
+      const scrollLeft = track.scrollLeft;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+
+      prevBtn.disabled = scrollLeft <= 10;
+      nextBtn.disabled = scrollLeft >= maxScroll - 10;
+
+      // Page counter calculation (1/2 toggle)
+      if (counter) {
+        if (maxScroll <= 0) {
+          counter.textContent = "1/1";
+        } else {
+          const currentPage = scrollLeft > maxScroll / 2 ? "2/2" : "1/2";
+          counter.textContent = currentPage;
+        }
+      }
+    }
+
+    nextBtn.addEventListener("click", () => {
+      track.scrollBy({ left: track.clientWidth * 0.85, behavior: "smooth" });
+    });
+
+    prevBtn.addEventListener("click", () => {
+      track.scrollBy({ left: -track.clientWidth * 0.85, behavior: "smooth" });
+    });
+
+    track.addEventListener("scroll", updateNavState);
+    window.addEventListener("resize", updateNavState);
+    updateNavState();
+
+    // Auto sync with active currency on initial load
+    const exchangeRates = {
+      INR: { symbol: "₹", rate: 1 },
+      USD: { symbol: "$", rate: 0.012 },
+      EUR: { symbol: "€", rate: 0.011 },
+      GBP: { symbol: "£", rate: 0.0095 },
+      JPY: { symbol: "¥", rate: 1.85 },
+      AED: { symbol: "د.إ", rate: 0.044 },
+      CAD: { symbol: "CA$", rate: 0.016 },
+      AUD: { symbol: "AU$", rate: 0.018 },
+      SGD: { symbol: "SG$", rate: 0.016 }
+    };
+
+    const savedCurr = localStorage.getItem("atithi_currency") || "INR";
+    const config = exchangeRates[savedCurr] || exchangeRates.INR;
+
+    document.querySelectorAll(".ab-stay-price[data-base-price]").forEach(el => {
+      const base = parseFloat(el.getAttribute("data-base-price"));
+      if (!isNaN(base)) {
+        const converted = Math.round(base * config.rate);
+        el.textContent = `${config.symbol}${converted.toLocaleString()}`;
+      }
+    });
+  });
+</script>
+<% } %>

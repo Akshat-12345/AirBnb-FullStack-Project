@@ -1,0 +1,466 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+  /* === 🌟 AIRBNB EXACT HOST & THINGS TO KNOW SPEC === */
+  .airbnb-host-canonical-scope {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #222222;
+    padding: 40px 0 20px 0;
+  }
+
+  .ab-title-lead {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222222;
+    margin: 0 0 24px 0;
+    letter-spacing: -0.2px;
+  }
+
+  /* === TWO COLUMN HOST DECK === */
+  .ab-host-two-column-deck {
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+    align-items: flex-start;
+  }
+
+  .ab-host-left-stack {
+    width: 380px;
+    flex-shrink: 0;
+  }
+
+  /* 🃏 TRUE AIRBNB HOST PASSPORT CARD */
+  .ab-passport-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 26px 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #f0f0f0;
+  }
+
+  /* Left Side Identity Area */
+  .ab-card-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    padding-right: 15px;
+    text-align: center;
+  }
+
+  .ab-avatar-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 12px;
+  }
+
+  .ab-avatar-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #222222;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .ab-superhost-badge-icon {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: #e00b41;
+    color: #ffffff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+    border: 2px solid #ffffff;
+  }
+
+  .ab-host-fullname {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin: 0;
+    color: #222222;
+    word-break: break-word;
+  }
+
+  .ab-superhost-role-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    margin-top: 6px;
+  }
+
+  .ab-superhost-role-badge i {
+    font-size: 13px;
+  }
+
+  /* Right Side Metrics Stack */
+  .ab-card-metrics {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding-left: 20px;
+  }
+
+  .ab-metric-node {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .ab-metric-node:first-child {
+    padding-top: 0;
+  }
+  .ab-metric-node:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .ab-metric-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222222;
+    line-height: 1.1;
+    letter-spacing: -0.4px;
+  }
+  .ab-metric-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: capitalize;
+    color: #717171;
+    margin-top: 2px;
+  }
+
+  /* Sub-Card Lifestyle Details */
+  .ab-subcard-attributes {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .ab-attr-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    color: #222222;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .ab-attr-line i {
+    font-size: 19px;
+    color: #222222;
+    margin-top: -1px;
+    flex-shrink: 0;
+  }
+
+  /* === RIGHT COLUMN: NARRATIVE & CONTACT === */
+  .ab-host-right-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ab-superhost-explainer h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 14px 0;
+    color: #222222;
+    letter-spacing: -0.3px;
+  }
+
+  .ab-superhost-explainer p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222222;
+    margin: 0 0 28px 0;
+  }
+
+  .ab-host-quickstats-block h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 14px 0;
+    color: #222222;
+    letter-spacing: -0.3px;
+  }
+
+  .ab-quickstats-row {
+    font-size: 16px;
+    line-height: 1.45;
+    color: #222222;
+    margin-bottom: 24px;
+  }
+
+  /* Authentic Borderless Gray Airbnb Button */
+  .btn-ab-message-host {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    background: #f2f2f2;
+    color: #222222;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 24px;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none !important;
+    transition: background 0.15s ease;
+  }
+  .btn-ab-message-host:hover {
+    background: #e6e6e6;
+    color: #000000;
+  }
+
+  /* Security Disclaimer Footer */
+  .ab-safety-guarantee-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid #ebebeb;
+  }
+
+  .ab-security-shield-icon {
+    color: #e00b41;
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: -1px;
+  }
+
+  .ab-safety-guarantee-note span {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #717171;
+  }
+
+  /* === DEDICATED SEPARATOR RULE === */
+  .ab-divider-rule {
+    height: 1px;
+    background-color: #ebebeb;
+    width: 100%;
+    margin: 44px 0 40px 0;
+  }
+
+  /* === 3. THINGS TO KNOW COMPACT SPEC === */
+  .ab-things-to-know-block {
+    padding-top: 0;
+  }
+
+  .ab-things-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+  }
+
+  .ab-things-unit {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .ab-things-unit i {
+    font-size: 24px;
+    color: #222222;
+    margin-bottom: 10px;
+  }
+
+  .ab-things-unit h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    color: #222222;
+  }
+
+  .ab-things-unit p {
+    font-size: 15px;
+    line-height: 1.35;
+    color: #717171;
+    margin: 0 0 6px 0;
+  }
+
+  /* Learn more matching secondary gray */
+  .ab-things-unit a {
+    color: #717171 !important;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: underline;
+    cursor: pointer;
+    width: fit-content;
+    display: inline-block;
+    transition: color 0.15s ease;
+  }
+  .ab-things-unit a:hover {
+    color: #222222 !important;
+  }
+
+  @media (max-width: 991px) {
+    .ab-host-two-column-deck {
+      flex-direction: column;
+      gap: 35px;
+    }
+    .ab-host-left-stack {
+      width: 100%;
+      max-width: 380px;
+    }
+    .ab-things-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>
+
+
+<div class="airbnb-host-canonical-scope">
+  <div class="ab-divider-rule"></div> 
+  <h3 class="ab-title-lead">Meet your host</h3>
+
+  <div class="ab-host-two-column-deck">
+    
+    <!-- LEFT SIDE: Floating Passport Card & Context Details -->
+    <div class="ab-host-left-stack">
+      
+      <div class="ab-passport-card">
+        
+        <!-- Left Identity Cluster -->
+        <div class="ab-card-identity">
+          <div class="ab-avatar-container">
+            <% if (data.owner && data.owner.avatar) { %>
+              <img src="<%= data.owner.avatar %>" alt="<%= data.owner.username %>" class="ab-avatar-photo" referrerpolicy="no-referrer">
+            <% } else { %>
+              <div class="ab-avatar-photo">
+                <%= data.owner && data.owner.username ? data.owner.username.charAt(0).toUpperCase() : 'H' %>
+              </div>
+            <% } %>
+            <div class="ab-superhost-badge-icon">
+              <i class="bi bi-shield-fill-check"></i>
+            </div>
+          </div>
+          
+          <h2 class="ab-host-fullname"><%= data.owner ? data.owner.username : 'Superhost' %></h2>
+          <div class="ab-superhost-role-badge">
+            <i class="bi bi-award-fill"></i> Superhost
+          </div>
+        </div>
+
+        <!-- Right Metrics Cluster -->
+        <div class="ab-card-metrics">
+          <div class="ab-metric-node">
+            <span class="ab-metric-num"><%= typeof hostTotalReviews !== 'undefined' ? hostTotalReviews : (data.reviews ? data.reviews.length : 0) %></span>
+            <span class="ab-metric-lbl">Reviews</span>
+          </div>
+          
+          <div class="ab-metric-node">
+            <span class="ab-metric-num"><%= typeof hostAverageRating !== 'undefined' ? hostAverageRating : '4.85' %>★</span>
+            <span class="ab-metric-lbl">Rating</span>
+          </div>
+
+          <div class="ab-metric-node">
+            <span class="ab-metric-num">2</span>
+            <span class="ab-metric-lbl">Years hosting</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Verified Hospitality Details -->
+      <div class="ab-subcard-attributes">
+        <div class="ab-attr-line">
+          <i class="bi bi-translate"></i>
+          <span>Speaks English and Hindi</span>
+        </div>
+        <div class="ab-attr-line">
+          <i class="bi bi-heart-pulse"></i>
+          <span>Passionate about local architecture & slow travel</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE: Superhost Narrative, Stats & Contact Button -->
+    <div class="ab-host-right-content">
+      
+      <div class="ab-superhost-explainer">
+        <h4><%= data.owner ? data.owner.username : 'Host' %> is a Superhost</h4>
+        <p>Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
+      </div>
+
+      <div class="ab-host-quickstats-block">
+        <h4>Host details</h4>
+        <div class="ab-quickstats-row">
+          <div>Response rate: 100%</div>
+          <div>Responds within an hour</div>
+        </div>
+      </div>
+
+      <a href="mailto:<%= data.owner ? data.owner.email : 'contact@atithi.com' %>" class="btn-ab-message-host">
+        Message host
+      </a>
+
+      <!-- Security Guarantee -->
+      <div class="ab-safety-guarantee-note">
+        <i class="bi bi-shield-check ab-security-shield-icon"></i>
+        <span>To help protect your payment, always use Atithi to send money and communicate with hosts.</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Dedicated Horizontal Divider -->
+  <div class="ab-divider-rule"></div>
+
+  <!-- THINGS TO KNOW SECTION -->
+  <div class="ab-things-to-know-block">
+    <h3 class="ab-title-lead" style="margin-bottom: 20px;">Things to know</h3>
+
+    <div class="ab-things-grid">
+      <!-- 1. Cancellation Policy -->
+      <div class="ab-things-unit">
+        <i class="bi bi-calendar-x"></i>
+        <h5>Cancellation policy</h5>
+        <p>This reservation is non-refundable.<br>Review this host’s full policy for details.</p>
+        <a>Learn more</a>
+      </div>
+
+      <!-- 2. House Rules -->
+      <div class="ab-things-unit">
+        <i class="bi bi-key"></i>
+        <h5>House rules</h5>
+        <p>Check-in: 2:00 pm – 2:00 am<br>Checkout before 11:00 am<br>3 guests maximum</p>
+        <a>Learn more</a>
+      </div>
+
+      <!-- 3. Safety & Property -->
+      <div class="ab-things-unit">
+        <i class="bi bi-shield-check"></i>
+        <h5>Safety & property</h5>
+        <p>Carbon monoxide alarm not reported<br>Smoke alarm not reported<br>Exterior security cameras on property</p>
+        <a>Learn more</a>
+      </div>
+    </div>
+  </div>
+  <div class="ab-divider-rule"></div>
+</div>

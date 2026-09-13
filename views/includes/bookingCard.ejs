@@ -298,16 +298,64 @@
     z-index: 20;
   }
 
-  /* === 🎨 FLAT PICKER AIRBNB DITTO LUXE OVERWRITES === */
+  /* === 🎨 FLAT PICKER AIRBNB DITTO LUXE OVERWRITES (PERFECT CIRCLES & SATURDAY FIX) === */
   .flatpickr-calendar {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
     border: none !important;
     border-radius: 16px !important;
     box-shadow: 0 24px 50px rgba(0, 0, 0, 0.15) !important;
-    padding: 20px !important;
+    padding: 16px !important;
     background: #ffffff !important;
     width: 320px !important;
+    box-sizing: content-box !important;
   }
+
+  .flatpickr-innerContainer {
+    width: 320px !important;
+    margin: 0 auto !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .flatpickr-rContainer {
+    width: 320px !important;
+  }
+
+  .flatpickr-weekdays {
+    width: 320px !important;
+    display: flex !important;
+    height: 32px !important;
+    align-items: center !important;
+  }
+
+  .flatpickr-weekdaycontainer {
+    width: 100% !important;
+    display: flex !important;
+  }
+
+  .flatpickr-weekday {
+    font-weight: 600 !important;
+    color: #717171 !important;
+    font-size: 12px !important;
+    flex: 1 !important;
+    max-width: 45.7px !important;
+    text-align: center !important;
+  }
+
+  .flatpickr-days {
+    width: 320px !important;
+  }
+
+  .dayContainer {
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box !important;
+  }
+
   .flatpickr-months .flatpickr-month {
     color: #222222 !important;
     fill: #222222 !important;
@@ -320,15 +368,39 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+    padding-top: 4px !important;
   }
   .flatpickr-current-month .flatpickr-monthDropdown-months {
     font-weight: 700 !important;
     color: #222222 !important;
   }
-  .flatpickr-weekday {
-    font-weight: 600 !important;
-    color: #717171 !important;
+
+  /* 🔘 Clean Circular Ratio for Days */
+  .flatpickr-day {
+    flex: 0 0 39px !important;
+    width: 39px !important;
+    height: 39px !important;
+    max-width: 39px !important;
+    line-height: 39px !important;
+    margin: 2px 3.3px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    border: 1px solid transparent !important;
+    box-sizing: border-box !important;
+    font-size: 14px !important;
   }
+
+  /* Today Pill */
+  .flatpickr-day.today {
+    border-color: #222222 !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    color: #222222 !important;
+  }
+
+  /* Selected & Range Endpoints */
   .flatpickr-day.selected, 
   .flatpickr-day.startRange, 
   .flatpickr-day.endRange,
@@ -340,13 +412,16 @@
     color: #ffffff !important;
     border-radius: 50% !important;
   }
+
+  /* Connecting In-between Range */
   .flatpickr-day.inRange {
     background: #f7f7f7 !important;
     border-color: #f7f7f7 !important;
-    box-shadow: -5px 0 0 #f7f7f7, 5px 0 0 #f7f7f7 !important;
+    box-shadow: -4px 0 0 #f7f7f7, 4px 0 0 #f7f7f7 !important;
     color: #222222 !important;
     border-radius: 0 !important;
   }
+
   .flatpickr-day:hover {
     background: transparent !important;
     border-color: #222222 !important;
@@ -445,18 +520,15 @@
         chassisBox.classList.remove('active-focus');
       },
       onChange: function(selectedDates) {
-        // Step 1: User has tapped only the first date
         if (selectedDates.length === 1) {
           const d1 = flatpickr.formatDate(selectedDates[0], "d/m/Y");
           checkinLabel.textContent = d1;
           checkinLabel.classList.add('has-value');
           
-          // Keep checkout reset until explicit click arrives
           checkoutLabel.textContent = "dd/mm/yyyy";
           checkoutLabel.classList.remove('has-value');
         }
         
-        // Step 2: Full range track completion (No more duplicate single-value copying!)
         if (selectedDates.length === 2) {
           const d1 = flatpickr.formatDate(selectedDates[0], "d/m/Y");
           const d2 = flatpickr.formatDate(selectedDates[1], "d/m/Y");
@@ -466,7 +538,6 @@
           checkoutLabel.textContent = d2;
           checkoutLabel.classList.add('has-value');
 
-          // Push pristine data payloads directly to hidden input forms safely for controllers validation
           document.getElementById('checkInDate').value = flatpickr.formatDate(selectedDates[0], "Y-m-d");
           document.getElementById('checkOutDate').value = flatpickr.formatDate(selectedDates[1], "Y-m-d");
         }

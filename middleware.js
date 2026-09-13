@@ -1,55 +1,57 @@
 const Listing = require('./models/listing.js');
 const Review = require('./models/review.js');
-const Booking = require('./models/booking.js'); // Naya module linkage review verification ke liye
+const Booking = require('./models/booking.js');
 
-module.exports.isLoggedIn = (req,res,next)=>{
-    if(!req.isAuthenticated()){
-        //redirect url
+// 1. Updated: Checks both Passport Session and JWT req.user
+module.exports.isLoggedIn = (req, res, next) => {
+    const isAuthed = (req.isAuthenticated && req.isAuthenticated()) || req.user;
+    if (!isAuthed) {
         req.session.redirectUrl = req.originalUrl;
-        req.flash('error','You Must Be Logged-In to Create Listings');
+        req.flash('error', 'You Must Be Logged-In to Create Listings');
         return res.redirect('/login');
     }
     next();
-}
+};
 
-module.exports.saveRedirectUrl = (req,res,next)=>{
-    if(req.session.redirectUrl){
-       res.locals.redirectUrl = req.session.redirectUrl;
+module.exports.saveRedirectUrl = (req, res, next) => {
+    if (req.session.redirectUrl) {
+        res.locals.redirectUrl = req.session.redirectUrl;
     } 
     next();
-}
+};
 
-module.exports.isOwner = async(req,res,next)=>{
-    let {id} = req.params;       
+module.exports.isOwner = async (req, res, next) => {
+    let { id } = req.params;       
     let listing = await Listing.findById(id);
-    if(!listing.owner._id.equals(res.locals.currUser._id)){
-        req.flash('error',"You are Not The Owner of This Listing!");
+    const currentUserId = res.locals.currUser?._id || req.user?._id;
+
+    if (!listing.owner._id.equals(currentUserId)) {
+        req.flash('error', "You are Not The Owner of This Listing!");
         return res.redirect(`/listings/${id}`);
     }
     next();
-}
+};
 
-module.exports.isReviewAuthor = async(req,res,next)=>{
+module.exports.isReviewAuthor = async (req, res, next) => {
     let { id, reviewId } = req.params;       
     let review = await Review.findById(reviewId);
-    if(!review.author._id.equals(res.locals.currUser._id)){
-        req.flash('error',"You are Not The Author of This Review!");
+    const currentUserId = res.locals.currUser?._id || req.user?._id;
+
+    if (!review.author._id.equals(currentUserId)) {
+        req.flash('error', "You are Not The Author of This Review!");
         return res.redirect(`/listings/${id}`);
     }
     next();
-}
+};
 
-
-// Inside your middleware.js -> Update the isReviewEnforced block completely
-
+// 2. Updated: Supports both Session & JWT inside review lock
 module.exports.isReviewEnforced = async (req, res, next) => {
-    // Agar user logged in nahi hai, toh check skip karke aage badhne do
-    if (!req.isAuthenticated()) {
+    const isAuthed = (req.isAuthenticated && req.isAuthenticated()) || req.user;
+    if (!isAuthed) {
         return next();
     }
 
     try {
-        // Find if this user has any active CheckedOut stay logs
         const pendingCheckoutBooking = await Booking.findOne({
             user: req.user._id,
             bookingPhase: "CheckedOut"
@@ -57,15 +59,11 @@ module.exports.isReviewEnforced = async (req, res, next) => {
 
         if (pendingCheckoutBooking && pendingCheckoutBooking.listing) {
             
-            // =========================================================================
-            // 🚨 CRITICAL LOCK: DISPUTE FINE CHECK BEFORE REVIEW ALLOWED (PHASE 8.5)
-            // =========================================================================
-            // Agar host ne damage log kiya hai AUR fine abhi tak paid nahi hua hai
+            // Dispute Fine Check
             if (pendingCheckoutBooking.dispute && 
                 pendingCheckoutBooking.dispute.isDamaged && 
                 !pendingCheckoutBooking.dispute.isFinePaid) {
                 
-                // Allow user to hit the dashboard only to pay the fine, block everything else
                 const fineSafeUrls = [
                     "/bookings/my-bookings",
                     "/bookings/verify-fine-payment"
@@ -76,18 +74,15 @@ module.exports.isReviewEnforced = async (req, res, next) => {
                     return res.redirect("/bookings/my-bookings");
                 }
                 
-                return next(); // If on my-bookings dashboard to pay fine, pass through
+                return next();
             }
 
-            // =========================================================================
-            // 📝 REVIEWS ENFORCEMENT STATE LOCK (Executes only if Fine is Paid/Cleared)
-            // =========================================================================
+            // Review Submission Lock
             const listingWithReviews = await Listing.findById(pendingCheckoutBooking.listing._id).populate({
                 path: "reviews",
                 match: { author: req.user._id }
             });
 
-            // Agar fine cleared hai par review abhi tak nahi diya, toh show page par redirect loop lagao
             if (!listingWithReviews.reviews || listingWithReviews.reviews.length === 0) {
                 const reviewSafeUrls = [
                     `/listings/${pendingCheckoutBooking.listing._id}`,

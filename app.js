@@ -2,18 +2,21 @@ if (process.env.NODE_ENV != "production") {
     require('dotenv').config();
 }
 
-console.log(process.env.SECRET)
+console.log(process.env.SECRET);
 
 const express = require('express');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require("method-override");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const Listing = require('./models/listing.js');
 const app = express();
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' })); 
+app.use(cookieParser());
 
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
@@ -24,7 +27,7 @@ const flash = require('connect-flash');
 // === AUTOMATION CHROMIUM ENGINES ===
 require("./controllers/bookingCron"); 
 
-//routes
+// Routes
 const listings = require('./routes/listing.js');
 const bookingRouter = require("./routes/bookings");
 const reviews = require('./routes/review.js');
@@ -34,9 +37,10 @@ const itineraryRouter = require("./routes/itinerary");
 const { date } = require('joi');
 let port = 3000;
 
-//authentication
+// Authentication Packages & Model
 const passport = require('passport');
 const localStrategy = require('passport-local');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./models/user.js');
 
 // Import Middleware Guard
@@ -46,80 +50,140 @@ const Razorpay = require('razorpay');
 const dbUrl = process.env.ATLAS_DB;
 
 main()
-   .then(()=>{
+   .then(() => {
     console.log("Connected To Database");
    })
-   .catch((err)=>{
+   .catch((err) => {
     console.error(`Some Error Occured: ${err}`);
-   })
+   });
 
 async function main() {
     mongoose.connect(dbUrl);
 }
 
-app.engine('ejs',ejsMate);
-app.set('view engine','ejs');
-app.set('views',path.join(__dirname,"views"));
+app.engine('ejs', ejsMate);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, "views"));
 
-app.use(express.static(path.join(__dirname,"/public")));
+app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride('_method'));
 
-// 🚀 FIXED HERE: Duplicate normal body parsers removed, limits shifted globally right at the top!
-
 const store = MongoStore.create({
-    mongoUrl : dbUrl,
-    crypto : {
-        secret :process.env.SECRET,
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: process.env.SECRET,
     },
-    touchAfter: 24*3600,
-})
+    touchAfter: 24 * 3600,
+});
 
-store.on("error", (err)=>{ 
-    console.log("Error In MongoDb Store",err);
-})
+store.on("error", (err) => { 
+    console.log("Error In MongoDb Store", err);
+});
 
 const sessionOption = {
     store,
-    secret :process.env.SECRET,
-    resave : false,
-    saveUninitialized :true,
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
     cookie: {
-        expires : Date.now() + 7*24*60*60*1000,
-        maxAge :  7*24*60*60*1000,
-        httpOnly : true
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true
     }
-}
+};
 
 app.use(session(sessionOption));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy({ usernameField: 'email' },User.authenticate()));
+
+// 1. Local Strategy Configuration
+passport.use(new localStrategy({ usernameField: 'email' }, User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get('/demo',async(req,res)=>{
-    let fakeUser = new User({
-        email :'student@gmail.com',
-        username : 'dleta-student',
-    })
-    let registeredUser = await User.register(fakeUser,'helloworld');
-    res.send(registeredUser);
-})
+// 2. Google OAuth Strategy Configuration
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/auth/google/callback',
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+        const photo = profile.photos && profile.photos.length > 0 ? profile.photos[0].value : null;
 
-app.use((req,res,next)=>{
+        // User match check
+        let user = await User.findOne({
+          $or: [{ googleId: profile.id }, { email: email }],
+        });
+
+        if (user) {
+          let isUpdated = false;
+          if (!user.googleId) {
+            user.googleId = profile.id;
+            isUpdated = true;
+          }
+          if (!user.avatar && photo) {
+            user.avatar = photo;
+            isUpdated = true;
+          }
+          if (isUpdated) await user.save();
+
+          return done(null, user);
+        }
+
+        // Create new user if not found
+        user = await User.create({
+          email: email,
+          username: profile.displayName.replace(/\s+/g, '').toLowerCase() + Math.floor(100 + Math.random() * 900),
+          googleId: profile.id,
+          avatar: photo,
+        });
+
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
+
+app.get('/demo', async (req, res) => {
+    let fakeUser = new User({
+        email: 'student@gmail.com',
+        username: 'dleta-student',
+    });
+    let registeredUser = await User.register(fakeUser, 'helloworld');
+    res.send(registeredUser);
+});
+
+// Flash messages & Current User Resolver (Session + JWT Cookie Sync)
+app.use(async (req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
+
+    if (!req.user && req.cookies?.token) {
+        try {
+            const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+            req.user = await User.findById(decoded.id);
+        } catch (e) {
+            res.clearCookie('token');
+        }
+    }
+
     res.locals.currUser = req.user;
     res.locals.razorpayKeyId = process.env.RAZORPAY_KEY_ID; 
     next();
-})
+});
 
 app.use(isReviewEnforced);
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("Root is Working");
-})
+});
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -156,9 +220,9 @@ app.post('/listings/:id/checkout', async (req, res) => {
 
 // === ROUTERS MOUNTING STACKS ===
 app.use("/", bookingRouter); 
-app.use('/listings',listings);
-app.use('/listings/:id/reviews',reviews);
-app.use('/',userRouter);
+app.use('/listings', listings);
+app.use('/listings/:id/reviews', reviews);
+app.use('/', userRouter);
 app.use("/api/newsletter", newsletterRouter);
 app.use("/", itineraryRouter);
 
@@ -166,15 +230,14 @@ app.use((req, res, next) => {
     next(new ExpressError(404, 'Page Not Found!'));
 });
 
-//custom error
+// Custom Error Handler
 app.use((err, req, res, next) => {
     const { status = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!';
     res.status(status).render("./listings/error.ejs", { err });
 });
 
-// 🚀 FIXED HERE AS WELL: Extended server connection stream lifetime mapping to avoid abrupt resets during massive file uploads
-const server = app.listen(port,()=>{
+const server = app.listen(port, () => {
     console.log(`Server is listening on port ${port}...`);
 });
 server.timeout = 600000;

@@ -64,7 +64,9 @@ const reviewCount = data.reviews.length;
 
   <!-- Component 5: Interactive Map Interface -->
   <%- include("../includes/listingMap.ejs", { data: data, coordinates: (typeof coordinates !== 'undefined' ? coordinates : null) }) %>
-
+  
+  <%- include("../includes/host_section.ejs") %>
+  <%- include("../includes/similar_listings.ejs") %>
 </div>
 
 <!-- === 🚀 CORE RAZORPAY TRANSACTION BINDERS & MAP CONNECTIONS === -->

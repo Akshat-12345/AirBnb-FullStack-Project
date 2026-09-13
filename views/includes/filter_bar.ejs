@@ -1,0 +1,428 @@
+<style>
+  /* === 🌟 ATITHI LUXURY 3-PANE CAROUSEL & TAX BAR === */
+  .atithi-filter-stage {
+    position: sticky;
+    top: 84px;
+    z-index: 850;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 12px 0 0 0;
+    margin-bottom: 1.5rem;
+    transition: all 0.25s ease;
+  }
+
+  .atithi-filter-deck {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+  }
+
+  /* 🎠 CAROUSEL DECK WITH PERMANENT ARROWS */
+  .category-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    padding: 0 4px;
+  }
+
+  /* Ultra-smooth Circular Navigation Arrows */
+  .cat-glide-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #1e293b;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+    z-index: 20;
+  }
+  .cat-glide-arrow:hover:not(:disabled) {
+    border-color: #0f172a;
+    transform: scale(1.1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  }
+  .cat-glide-arrow:disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  /* Scroll Rail Viewport */
+  .category-scroll-rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin: 0 6px;
+    scroll-snap-type: x mandatory;
+    padding: 4px 0 8px 0;
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+  .category-scroll-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Desktop Category Card Node */
+  .category-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none !important;
+    color: #717171 !important;
+    white-space: nowrap;
+    position: relative;
+    padding-bottom: 8px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    cursor: pointer;
+    scroll-snap-align: start;
+    min-width: 90px;
+  }
+  .category-node i {
+    font-size: 1.3rem;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+  }
+  .category-node span {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    text-align: center;
+  }
+  .category-node:hover {
+    color: #000000 !important;
+    transform: translateY(-2px);
+  }
+  .category-node:hover i {
+    color: #FF9432;
+    transform: scale(1.12);
+  }
+  .category-node.active {
+    color: #000000 !important;
+    font-weight: 600;
+  }
+  .category-node.active i {
+    color: #000000;
+  }
+  .category-node.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 70%;
+    height: 2.5px;
+    background: #000000;
+    border-radius: 4px;
+  }
+
+  /* ⚡ DESKTOP TAX CAPSULE PILL */
+  .tax-master-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+  }
+  .tax-master-pill:hover {
+    border-color: #222222;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  }
+  .tax-master-pill.pill-active-glow {
+    border-color: #000000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .tax-pill-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #222222;
+    letter-spacing: -0.2px;
+  }
+  .tax-pill-meta i {
+    font-size: 14px;
+    color: #64748b;
+  }
+  .tax-master-pill.pill-active-glow .tax-pill-meta i {
+    color: #FF9432;
+  }
+
+  /* iOS Switch Rail */
+  .tax-switch-capsule {
+    position: relative;
+    width: 38px;
+    height: 22px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .tax-switch-capsule input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+  .tax-switch-slider {
+    position: absolute;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 30px;
+    transition: background 0.25s ease;
+    cursor: pointer;
+  }
+  .tax-switch-slider::before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  }
+  .tax-switch-capsule input:checked + .tax-switch-slider {
+    background: #222222;
+  }
+  .tax-switch-capsule input:checked + .tax-switch-slider::before {
+    transform: translateX(16px);
+  }
+
+  /* === 📱 MOBILE: EXACT 3 CATEGORIES VIEWPORT + PERSISTENT ARROWS === */
+  @media (max-width: 768px) {
+    .atithi-filter-stage {
+      top: 68px;
+      padding: 10px 0 0 0;
+      margin-bottom: 1.2rem;
+    }
+
+    .atithi-filter-deck {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+
+    .category-carousel-wrapper {
+      width: 100%;
+      padding: 0;
+    }
+
+    .cat-glide-arrow {
+      width: 28px;
+      height: 28px;
+      font-size: 10px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.12);
+    }
+
+    /* 🎯 Exact 3 items visible at once */
+    .category-scroll-rail {
+      margin: 0 4px;
+      gap: 0;
+      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+
+    .category-node {
+      flex: 0 0 33.333% !important;
+      max-width: 33.333% !important;
+      min-width: 33.333% !important;
+      padding: 2px 4px 6px 4px;
+    }
+    .category-node i {
+      font-size: 1.2rem;
+    }
+    .category-node span {
+      font-size: 11px;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .category-node.active::after {
+      width: 60%;
+      left: 20%;
+    }
+
+    /* Clean Mobile Tax Bottom Row */
+    .tax-master-pill {
+      width: 100%;
+      justify-content: space-between;
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 8px 6px 6px 6px;
+      background: transparent;
+      margin-top: 2px;
+    }
+    .tax-master-pill:hover, .tax-master-pill.pill-active-glow {
+      border-color: #f1f5f9;
+      box-shadow: none;
+    }
+    .tax-pill-meta {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<div class="atithi-outer-wrapper">
+  <div class="atithi-filter-stage">
+    <div class="atithi-filter-deck">
+      
+      <!-- 1. Horizontal Carousel with 2 Permanent Floating Arrows -->
+      <div class="category-carousel-wrapper">
+        <button class="cat-glide-arrow" id="catScrollLeftBtn" aria-label="Scroll left" disabled>
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="category-scroll-rail" id="categoriesScrollTrack">
+          <a href="/listings" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Trending') ? 'active' : '' %>">
+            <i class="fa-solid fa-fire"></i><span>Trending</span>
+          </a>
+          <a href="/listings?category=Rooms" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Rooms') ? 'active' : '' %>">
+            <i class="fa-solid fa-bed"></i><span>Rooms</span>
+          </a>
+          <a href="/listings?category=Amazing views" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Amazing views') ? 'active' : '' %>">
+            <i class="fa-solid fa-mountain-sun"></i><span>Amazing views</span>
+          </a>
+          <a href="/listings?category=Mansions" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Mansions') ? 'active' : '' %>">
+            <i class="fa-solid fa-building-columns"></i><span>Mansions</span>
+          </a>
+          <a href="/listings?category=Amazing pools" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Amazing pools') ? 'active' : '' %>">
+            <i class="fa-solid fa-person-swimming"></i><span>Amazing pools</span>
+          </a>
+          <a href="/listings?category=Beach" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Beach') ? 'active' : '' %>">
+            <i class="fa-solid fa-umbrella-beach"></i><span>Beach</span>
+          </a>
+          <a href="/listings?category=Cabins" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Cabins') ? 'active' : '' %>">
+            <i class="fa-solid fa-house-chimney-window"></i><span>Cabins</span>
+          </a>
+          <a href="/listings?category=Camping" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Camping') ? 'active' : '' %>">
+            <i class="fa-solid fa-campground"></i><span>Camping</span>
+          </a>
+          <a href="/listings?category=Farms" class="category-node <%= (typeof selectedCategory !== 'undefined' && selectedCategory === 'Farms') ? 'active' : '' %>">
+            <i class="fa-solid fa-tractor"></i><span>Farms</span>
+          </a>
+        </div>
+
+        <button class="cat-glide-arrow" id="catScrollRightBtn" aria-label="Scroll right">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- 2. Clean Taxes Switch -->
+      <div class="tax-master-pill" id="taxMasterPillTrigger">
+        <div class="tax-pill-meta">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Display total before taxes</span>
+        </div>
+        <label class="tax-switch-capsule" for="taxToggleSwitchInput">
+          <input type="checkbox" id="taxToggleSwitchInput">
+          <span class="tax-switch-slider"></span>
+        </label>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1. Categories Carousel Controls
+    const track = document.getElementById("categoriesScrollTrack");
+    const leftBtn = document.getElementById("catScrollLeftBtn");
+    const rightBtn = document.getElementById("catScrollRightBtn");
+
+    if (track && leftBtn && rightBtn) {
+      function checkCarouselBounds() {
+        const scrollLeft = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        leftBtn.disabled = scrollLeft <= 6;
+        rightBtn.disabled = scrollLeft >= maxScroll - 6;
+      }
+
+      function getScrollStep() {
+        // Mobile par exact 1 full view shift karega, desktop par multiple
+        return track.clientWidth >= 768 ? 260 : track.clientWidth;
+      }
+
+      leftBtn.addEventListener("click", () => {
+        track.scrollBy({ left: -getScrollStep(), behavior: "smooth" });
+      });
+
+      rightBtn.addEventListener("click", () => {
+        track.scrollBy({ left: getScrollStep(), behavior: "smooth" });
+      });
+
+      track.addEventListener("scroll", checkCarouselBounds);
+      window.addEventListener("resize", checkCarouselBounds);
+      checkCarouselBounds();
+    }
+
+    // 2. Click & Toggle Logic
+    const taxPill = document.getElementById('taxMasterPillTrigger');
+    const taxSwitch = document.getElementById('taxToggleSwitchInput');
+
+    window.updateAtithiTaxUI = function() {
+      if (!taxSwitch) return;
+      const taxElements = document.querySelectorAll('.tax-info');
+      const isChecked = taxSwitch.checked;
+
+      taxPill.classList.toggle('pill-active-glow', isChecked);
+
+      taxElements.forEach(el => {
+        if (isChecked) {
+          el.style.display = 'block';
+          void el.offsetWidth;
+          el.classList.add('visible-tax');
+        } else {
+          el.classList.remove('visible-tax');
+          setTimeout(() => {
+            if (!taxSwitch.checked) el.style.display = 'none';
+          }, 200);
+        }
+      });
+    };
+
+    if (taxPill && taxSwitch) {
+      taxPill.addEventListener('click', (e) => {
+        if (e.target.closest('.tax-switch-capsule')) {
+          return;
+        }
+        taxSwitch.checked = !taxSwitch.checked;
+        window.updateAtithiTaxUI();
+      });
+
+      taxSwitch.addEventListener('change', () => {
+        window.updateAtithiTaxUI();
+      });
+    }
+  });
+</script>

@@ -3,11 +3,25 @@ const Booking = require("../models/booking");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const axios = require("axios");
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET_KEY
 });
+
+// Helper: Secure Nodemailer Transporter with explicit SSL
+const createTransporter = () => {
+    return nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // SSL
+        auth: {
+            user: (process.env.EMAIL_USER || "").trim(),
+            pass: (process.env.EMAIL_PASS || "").trim()
+        }
+    });
+};
 
 // === 1. SUBMIT CHECK-IN MULTI-MEDIA VERIFICATION ===
 module.exports.submitCheckInVerification = async (req, res) => {
@@ -61,7 +75,7 @@ module.exports.submitCheckInVerification = async (req, res) => {
     }
 };
 
-// === 2. SUBMIT CHECK-OUT MULTI-MEDIA VERIFICATION ===
+// === 2. SUBMIT CHECK-OUT MULTI-MEDIA VERIFICATION (WITH ATITHI-NET FORENSIC AUDIT BILLING) ===
 module.exports.submitCheckOutVerification = async (req, res) => {
     try {
         const { id } = req.params;
@@ -89,38 +103,235 @@ module.exports.submitCheckOutVerification = async (req, res) => {
         };
 
         booking.bookingPhase = "CheckedOut";
-        await booking.save();
 
-        try {
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-            });
+        // =========================================================================
+        // 🤖 ATITHI-NET: BI-TEMPORAL VISUAL DAMAGE DETECTION PIPELINE
+        // =========================================================================
+        const checkInPhotoUrl = booking.checkInMedia?.photos?.[0]?.url;
+        const checkOutPhotoUrl = booking.checkOutMedia?.photos?.[0]?.url;
 
-            const reviewRedirectUrl = `${process.env.APP_BASE_URL}/listings/${booking.listing._id}`;
+        let aiAuditSuccess = false;
 
-            await transporter.sendMail({
-                from: `"Akshat's Airbnb" <${process.env.EMAIL_USER}>`,
-                to: booking.user.email,
-                subject: `🔒 Action Required: Complete your stay review for ${booking.listing.title}`,
-                html: `
-                    <div style="font-family: sans-serif; padding: 20px; color: #222222; max-width: 600px; border: 1px solid #ff385c; border-radius: 12px;">
-                        <h2 style="color: #ff385c; font-size: 22px; margin-bottom: 4px;">Thank You for Staying! 🙏</h2>
-                        <p style="font-size: 15px; margin-top: 0; color: #555555;">Your checkout structural verification assets have been recorded safely.</p>
-                        <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;">
-                        <p style="font-size: 14px; line-height: 1.5; color: #666;">As per the platform's security layout guidelines, you are required to submit an honest feedback review to completely clear your booking ledger bounds.</p>
-                        <div style="margin: 25px 0; text-align: center;">
-                            <a href="${reviewRedirectUrl}" style="background-color: #ff385c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Submit Property Review</a>
-                        </div>
-                    </div>
-                `
-            });
-            console.log(`Review enforcement notification dispatched to ${booking.user.email}`);
-        } catch (mailErr) {
-            console.error("Nodemailer block handled gracefully for checkout reminder:", mailErr.message);
+        if (checkInPhotoUrl && checkOutPhotoUrl) {
+            try {
+                booking.aiAudit.auditStatus = "Processing";
+                await booking.save();
+
+                // Call FastAPI Microservice
+                const aiResponse = await axios.post("http://127.0.0.1:8000/api/v1/inspect", {
+                    bookingId: booking._id.toString(),
+                    checkInUrl: checkInPhotoUrl,
+                    checkOutUrl: checkOutPhotoUrl
+                }, { timeout: 35000 });
+
+                const auditData = aiResponse.data;
+
+                // 🛡️ ADAPTER: Strict Schema Enum Mapping for Mongoose
+                const mapToSchemaCategory = (text) => {
+                    const str = (text || "").toLowerCase();
+                    if (str.includes("linen") || str.includes("bed") || str.includes("towel") || str.includes("fabric")) return "Linen/Fabric";
+                    if (str.includes("switch") || str.includes("remote") || str.includes("kettle") || str.includes("electronic") || str.includes("tv") || str.includes("ac")) return "Electronic/Appliance";
+                    if (str.includes("wall") || str.includes("paint") || str.includes("plaster")) return "Wall/Paint";
+                    if (str.includes("glass") || str.includes("mirror") || str.includes("furniture")) return "Furniture/Glass";
+                    if (str.includes("sanitary") || str.includes("toilet") || str.includes("marble")) return "Sanitary";
+                    return "General";
+                };
+
+                const mapToSchemaSeverity = (sev) => {
+                    const str = (sev || "").toLowerCase();
+                    if (str.includes("critical") || str.includes("safety") || str.includes("depletion")) return "Critical";
+                    if (str.includes("moderate") || str.includes("actionable")) return "Moderate";
+                    return "Low";
+                };
+
+                const dbDamages = (auditData.damages || []).map(d => ({
+                    category: mapToSchemaCategory(d.item || d.category),
+                    severity: mapToSchemaSeverity(d.severity),
+                    confidenceScore: d.confidenceScore || 0.95,
+                    affectedAreaRatio: d.affectedAreaRatio || 0.02,
+                    checkInEvidenceUrl: d.checkInEvidenceUrl || checkInPhotoUrl,
+                    checkOutEvidenceUrl: d.checkOutEvidenceUrl || checkOutPhotoUrl,
+                    calculatedFine: d.fine !== undefined ? d.fine : (d.calculatedFine || 0)
+                }));
+
+                booking.aiAudit = {
+                    isAudited: true,
+                    auditTimestamp: new Date(),
+                    integrityScore: auditData.integrityScore !== undefined ? auditData.integrityScore : 100,
+                    damagesDetected: dbDamages,
+                    totalCalculatedFine: auditData.totalFine || 0,
+                    inferenceExecutionTimeMs: Math.round((auditData.executionTimeSec || 0) * 1000),
+                    auditStatus: "Completed"
+                };
+
+                // Agar AI ne damage detect kiya, automatically Razorpay fine order create karo
+                if (auditData.isDamaged && auditData.totalFine > 0) {
+                    const shortIdSlice = id.toString().slice(-6);
+                    const shortTimeSlice = Date.now().toString().slice(-8);
+
+                    const finePaise = Math.round(auditData.totalFine * 100);
+                    const fineOrder = await razorpay.orders.create({
+                        amount: finePaise,
+                        currency: "INR",
+                        receipt: `ai_fn_${shortIdSlice}_${shortTimeSlice}`
+                    });
+
+                    // Itemized human-readable ledger string
+                    const itemizedBreakdown = (auditData.damages || [])
+                        .filter(d => (d.fine || d.calculatedFine || 0) > 0)
+                        .map(d => `${d.item || d.category} (${d.anomalyType || d.severity}: ₹${d.fine || d.calculatedFine})`)
+                        .join(" | ");
+
+                    booking.dispute = {
+                        isDamaged: true,
+                        fineAmount: auditData.totalFine,
+                        fineReason: itemizedBreakdown || `Forensic damage flagged: ₹${auditData.totalFine}`,
+                        isFinePaid: false,
+                        fineRazorpayOrderId: fineOrder.id,
+                        ownerOverride: false
+                    };
+
+                    // =========================================================================
+                    // 📧 INVOICE EMAIL: ASYNC AWAITED DELIVERY
+                    // =========================================================================
+                    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+                        try {
+                            const transporter = createTransporter();
+                            const finePaymentUrl = `${process.env.APP_BASE_URL}/bookings/my-bookings`;
+
+                            let tableRowsHtml = "";
+                            (auditData.damages || []).forEach((dmg, index) => {
+                                const cost = dmg.fine || dmg.calculatedFine || 0;
+                                if (cost > 0) {
+                                    tableRowsHtml += `
+                                        <tr style="border-bottom: 1px solid #eeeeee;">
+                                            <td style="padding: 10px; font-size: 13px; color: #333333;">${index + 1}</td>
+                                            <td style="padding: 10px; font-size: 13px; color: #222222;">
+                                                <b>${dmg.item || dmg.category}</b><br>
+                                                <span style="font-size: 11px; color: #777777;">${dmg.spec || "Restoration / Replacement required"}</span>
+                                            </td>
+                                            <td style="padding: 10px; font-size: 13px; color: #d9534f; font-weight: 600;">${dmg.anomalyType || dmg.severity}</td>
+                                            <td style="padding: 10px; font-size: 13px; text-align: right; font-weight: 600; color: #222222;">₹${cost.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                    `;
+                                }
+                            });
+
+                            const mailOptions = {
+                                from: `"Smart Atithi Forensic Audit" <${process.env.EMAIL_USER}>`,
+                                to: booking.user.email,
+                                subject: `⚠️ Itemized Damage Invoice & Penalty Notice - Booking #${booking._id}`,
+                                html: `
+                                    <div style="font-family: Arial, sans-serif; padding: 25px; color: #222222; max-width: 650px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #ffffff;">
+                                        <div style="border-bottom: 2px solid #ff385c; padding-bottom: 15px; margin-bottom: 20px;">
+                                            <h2 style="color: #d9534f; margin: 0; font-size: 22px;">Property Damage Assessment Invoice</h2>
+                                            <p style="margin: 5px 0 0 0; font-size: 13px; color: #666666;">Automated Bi-Temporal Visual Inspection Ledger</p>
+                                        </div>
+
+                                        <p style="font-size: 14px; margin-bottom: 15px;">Dear <b>${booking.user.username}</b>,</p>
+                                        <p style="font-size: 14px; line-height: 1.5; color: #444444;">
+                                            During your check-out inspection at <b>${booking.listing.title}</b>, the ATITHI-Net Deep Vision Engine detected discrepancies compared to your check-in baseline. Non-damage everyday wear & tear has been exempted.
+                                        </p>
+
+                                        <table style="width: 100%; font-size: 13px; background-color: #f9f9f9; padding: 12px; border-radius: 6px; margin: 15px 0;">
+                                            <tr>
+                                                <td style="padding: 4px;"><b>Booking Ref:</b> #${booking._id}</td>
+                                                <td style="padding: 4px;"><b>Property:</b> ${booking.listing.title}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 4px;"><b>Room Integrity Score:</b> ${booking.aiAudit.integrityScore}/100</td>
+                                                <td style="padding: 4px;"><b>Audit Status:</b> Flagged with Discrepancy</td>
+                                            </tr>
+                                        </table>
+
+                                        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                                            <thead>
+                                                <tr style="background-color: #f2f2f2; border-bottom: 2px solid #dddddd;">
+                                                    <th style="padding: 10px; font-size: 12px; text-align: left; color: #555555;">#</th>
+                                                    <th style="padding: 10px; font-size: 12px; text-align: left; color: #555555;">Item & Specification</th>
+                                                    <th style="padding: 10px; font-size: 12px; text-align: left; color: #555555;">Anomaly</th>
+                                                    <th style="padding: 10px; font-size: 12px; text-align: right; color: #555555;">Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${tableRowsHtml}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr style="background-color: #fafafa; border-top: 2px solid #333333;">
+                                                    <td colspan="3" style="padding: 12px 10px; font-size: 14px; font-weight: bold; text-align: right;">Total Assessed Liability:</td>
+                                                    <td style="padding: 12px 10px; font-size: 16px; font-weight: bold; text-align: right; color: #d9534f;">₹${booking.dispute.fineAmount.toLocaleString("en-IN")}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <div style="margin: 30px 0; text-align: center;">
+                                            <a href="${finePaymentUrl}" style="background-color: #ff385c; color: #ffffff; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; display: inline-block;">View Evidence & Settle Balance</a>
+                                        </div>
+                                    </div>
+                                `
+                            };
+
+                            const mailResult = await transporter.sendMail(mailOptions);
+                            console.log(`✅ Itemized fine invoice email sent to ${booking.user.email} (MsgId: ${mailResult.messageId})`);
+                        } catch (mailErr) {
+                            console.error("❌ Nodemailer fine delivery failed:", mailErr.message);
+                        }
+                    }
+                } else {
+                    booking.dispute = {
+                        isDamaged: false,
+                        fineAmount: 0,
+                        fineReason: "AI Visual Audit verified pristine room condition (Wear & Tear Exempted).",
+                        isFinePaid: true,
+                        ownerOverride: false
+                    };
+                }
+
+                aiAuditSuccess = true;
+
+            } catch (aiErr) {
+                console.error("⚠️ AI Microservice Call Failed:", aiErr.message);
+                booking.aiAudit.auditStatus = "Failed";
+            }
         }
 
-        req.flash("success", "✅ Room structural logs locked! Checkout media processed and review notification dispatched.");
+        await booking.save();
+
+        // Review Reminder Email
+        if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+            try {
+                const transporter = createTransporter();
+                const reviewRedirectUrl = `${process.env.APP_BASE_URL}/listings/${booking.listing._id}`;
+
+                await transporter.sendMail({
+                    from: `"Akshat's Airbnb" <${process.env.EMAIL_USER}>`,
+                    to: booking.user.email,
+                    subject: `🔒 Action Required: Complete your stay review for ${booking.listing.title}`,
+                    html: `
+                        <div style="font-family: sans-serif; padding: 20px; color: #222222; max-width: 600px; border: 1px solid #ff385c; border-radius: 12px;">
+                            <h2 style="color: #ff385c; font-size: 22px; margin-bottom: 4px;">Thank You for Staying! 🙏</h2>
+                            <p style="font-size: 15px; margin-top: 0; color: #555555;">Your checkout structural verification assets have been recorded safely.</p>
+                            <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;">
+                            <p style="font-size: 14px; line-height: 1.5; color: #666;">As per the platform's security layout guidelines, you are required to submit an honest feedback review to completely clear your booking ledger bounds.</p>
+                            <div style="margin: 25px 0; text-align: center;">
+                                <a href="${reviewRedirectUrl}" style="background-color: #ff385c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Submit Property Review</a>
+                            </div>
+                        </div>
+                    `
+                });
+            } catch (mailErr) {
+                console.error("Nodemailer checkout reminder error:", mailErr.message);
+            }
+        }
+
+        if (aiAuditSuccess && booking.dispute.isDamaged) {
+            req.flash("error", `⚠️ AI Audit complete: Damage detected. Fine of ₹${booking.dispute.fineAmount} imposed.`);
+        } else if (aiAuditSuccess) {
+            req.flash("success", "✅ AI Room Audit passed with 100% clean condition! Enjoy your day.");
+        } else {
+            req.flash("success", "✅ Checkout media logged. AI inspection deferred for manual review.");
+        }
+
         res.redirect(`/listings/${booking.listing._id}`); 
 
     } catch (error) {
@@ -188,38 +399,36 @@ module.exports.claimDamageFine = async (req, res) => {
             fineAmount: parseFloat(fineAmount),
             fineReason: fineReason,
             isFinePaid: false,
-            fineRazorpayOrderId: fineOrder.id
+            fineRazorpayOrderId: fineOrder.id,
+            ownerOverride: true
         };
         await booking.save();
 
-        try {
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-            });
+        if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+            try {
+                const transporter = createTransporter();
+                const finePaymentUrl = `${process.env.APP_BASE_URL}/bookings/my-bookings`;
 
-            const finePaymentUrl = `${process.env.APP_BASE_URL}/bookings/my-bookings`;
-
-            await transporter.sendMail({
-                from: `"Akshat's Airbnb Legal" <${process.env.EMAIL_USER}>`,
-                to: booking.user.email,
-                subject: `🚨 Urgent Notice: Property Damage Fine Account Hold - Ref #${booking._id}`,
-                html: `
-                    <div style="font-family: sans-serif; padding: 20px; color: #222222; max-width: 600px; border: 2px solid #d9534f; border-radius: 12px;">
-                        <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 4px;">Property Damage Assessment Claim ⚠️</h2>
-                        <p>An official claim has been logged for your recent stay at <b>${booking.listing.title}</b>.</p>
-                        <hr style="border: none; border-top: 1px solid #eaeaea;">
-                        <p><b>Reason for Fine:</b> ${booking.dispute.fineReason}</p>
-                        <h3 style="color: #bd1e59;">Total Fine Amount Due: ₹${booking.dispute.fineAmount.toLocaleString("en-IN")}</h3>
-                        <div style="margin: 25px 0; text-align: center;">
-                            <a href="${finePaymentUrl}" style="background-color: #d9534f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Pay Fine & Settle Account Center</a>
+                await transporter.sendMail({
+                    from: `"Akshat's Airbnb Legal" <${process.env.EMAIL_USER}>`,
+                    to: booking.user.email,
+                    subject: `🚨 Urgent Notice: Property Damage Fine Account Hold - Ref #${booking._id}`,
+                    html: `
+                        <div style="font-family: sans-serif; padding: 20px; color: #222222; max-width: 600px; border: 2px solid #d9534f; border-radius: 12px;">
+                            <h2 style="color: #d9534f; font-size: 22px; margin-bottom: 4px;">Property Damage Assessment Claim ⚠️</h2>
+                            <p>An official claim has been logged for your recent stay at <b>${booking.listing.title}</b>.</p>
+                            <hr style="border: none; border-top: 1px solid #eaeaea;">
+                            <p><b>Reason for Fine:</b> ${booking.dispute.fineReason}</p>
+                            <h3 style="color: #bd1e59;">Total Fine Amount Due: ₹${booking.dispute.fineAmount.toLocaleString("en-IN")}</h3>
+                            <div style="margin: 25px 0; text-align: center;">
+                                <a href="${finePaymentUrl}" style="background-color: #d9534f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">Pay Fine & Settle Account Center</a>
+                            </div>
                         </div>
-                    </div>
-                `
-            });
-            console.log(`Dispute Invoice Order successfully tracked to primary user email: ${booking.user.email}`);
-        } catch (mailErr) {
-            console.error("Nodemailer Dispute Fine Pipeline Error handled safely:", mailErr.message);
+                    `
+                });
+            } catch (mailErr) {
+                console.error("Nodemailer Dispute Fine Pipeline Error handled safely:", mailErr.message);
+            }
         }
 
         req.flash("success", `🚨 Damage claim logged for ₹${fineAmount}! Invoice dispatched to the primary account wrapper.`);
@@ -243,6 +452,7 @@ module.exports.verifyFinePayment = async (req, res) => {
             const booking = await Booking.findById(bookingId);
             if (booking) {
                 booking.dispute.isFinePaid = true;
+                booking.dispute.fineRazorpayPaymentId = razorpay_payment_id;
                 await booking.save();
                 return res.status(200).json({ success: true });
             }
@@ -276,7 +486,8 @@ module.exports.settleBookingClean = async (req, res) => {
             isDamaged: false,
             fineAmount: 0,
             fineReason: "Property inspected. Room status verified as pristine condition.",
-            isFinePaid: true // 💥 RELEASE PARAMETER MATCHED CLEAN FOR DYNAMIC EXPORT TO ARCHIVE
+            isFinePaid: true,
+            ownerOverride: true
         };
         
         await booking.save();
@@ -309,7 +520,8 @@ module.exports.cancelDamageFine = async (req, res) => {
             fineAmount: 0,
             fineReason: "",
             isFinePaid: false,
-            fineRazorpayOrderId: null
+            fineRazorpayOrderId: null,
+            ownerOverride: true
         };
 
         await booking.save();

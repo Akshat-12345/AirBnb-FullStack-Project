@@ -1,33 +1,39 @@
 <style>
-  /* === 💬 AIRBNB CLEAN TYPOGRAPHY LAYOUT === */
+  /* === 💬 ATITHI VIBRANT REVIEW HUB === */
   .atithi-review-hub {
     width: 100%;
     margin-top: 48px;
     padding-top: 32px;
     border-top: 1px solid #ebebeb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   .review-master-headline {
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 500;
     letter-spacing: -0.4px;
-    color: #222222;
-    margin-bottom: 24px;
+    color: #1e293b;
+    margin-bottom: 28px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
-  /* Wide Spacing Preview Grid Matrix */
+  .review-master-headline i {
+    color: #FF9432;
+    font-size: 20px;
+  }
+
+  /* Grid Previews */
   .airbnb-review-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px 80px;
+    gap: 36px 60px;
     margin-bottom: 32px;
   }
 
   @media (max-width: 768px) {
-    .airbnb-review-grid { grid-template-columns: 1fr; gap: 28px; }
+    .airbnb-review-grid { grid-template-columns: 1fr; gap: 24px; }
   }
 
   .clean-review-node {
@@ -39,34 +45,46 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #f1f5f9;
-    color: #222222;
-    font-weight: 600;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #ffffff;
+    font-weight: 700;
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .reviewer-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .reviewer-name-meta {
     font-size: 16px;
-    font-weight: 600;
-    color: #222222;
+    font-weight: 500;
+    color: #0f172a;
     line-height: 1.2;
   }
 
   .reviewer-timeline-sub {
-    font-size: 14px;
-    color: #717171;
-    font-weight: 400;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 2px;
   }
 
-  /* === 🎨 DYNAMIC ATITHI SPECTRUM COLORS MAP === */
-  .star-spectrum-1 { color: #ff385c !important; } /* Core Brand Red */
-  .star-spectrum-2 { color: #FF9432 !important; } /* Atithi Orange */
-  .star-spectrum-3 { color: #00A3E0 !important; } /* Atithi Blue */
-  .star-spectrum-4, .star-spectrum-5 { color: #67B636 !important; } /* Atithi Green */
+  /* Star spectrum */
+  .star-spectrum-1 { color: #ff385c !important; }
+  .star-spectrum-2 { color: #FF9432 !important; }
+  .star-spectrum-3 { color: #00A3E0 !important; }
+  .star-spectrum-4, .star-spectrum-5 { color: #67B636 !important; }
   .star-spectrum-null { color: #e2e8f0 !important; }
 
   .review-stars-row-flat {
@@ -76,7 +94,7 @@
 
   .review-narrative-text {
     font-size: 15px;
-    color: #222222;
+    color: #334155;
     line-height: 1.6;
     margin-top: 8px;
     margin-bottom: 4px;
@@ -86,38 +104,69 @@
     overflow: hidden;
   }
 
-  /* === 🎛️ AIRBNB INTERACTIVE ACTION BUTTONS === */
+  /* Buttons */
   .btn-airbnb-hollow {
     background: #ffffff;
-    color: #222222;
-    border: 1px solid #222222;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
     font-weight: 600;
-    font-size: 14.5px;
-    padding: 11px 22px;
-    border-radius: 8px;
-    transition: background-color 0.15s ease;
+    font-size: 15px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
     cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   }
   .btn-airbnb-hollow:hover {
-    background: #f7f7f7;
+    background: #f8fafc;
+    border-color: #94a3b8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
-  /* === 🎭 ULTRA MODERN OVERLAY MODALS === */
+  .btn-atithi-primary-dark {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+    transition: all 0.2s ease;
+  }
+  .btn-atithi-primary-dark:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3);
+  }
+
+  /* Dedicated Bottom Separation Rule */
+  .reviews-bottom-divider {
+    height: 1px;
+    background-color: #ebebeb;
+    width: 100%;
+    margin-top: 48px;
+  }
+
+  /* === 🎭 MODAL OVERLAYS === */
   .atithi-luxe-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 2050;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999999;
     display: none;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
+    padding: 24px;
+    box-sizing: border-box;
   }
 
   .atithi-luxe-modal-overlay.active-modal {
@@ -128,15 +177,16 @@
   .modal-vault-chassis {
     background: #ffffff;
     width: 100%;
-    max-width: 780px;
-    max-height: 80vh;
-    border-radius: 20px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+    max-width: 1020px;
+    height: 86vh;
+    border-radius: 28px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transform: scale(0.95) translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transform: scale(0.96) translateY(15px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .atithi-luxe-modal-overlay.active-modal .modal-vault-chassis {
@@ -144,59 +194,175 @@
   }
 
   .modal-vault-header {
-    padding: 24px 36px;
+    padding: 20px 32px;
     border-bottom: 1px solid #f1f5f9;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: #ffffff;
   }
 
-  /* 🌟 ENHANCED MODAL BODY WORKSPACE CONTAINER */
-  .modal-vault-body {
-    padding: 36px;
-    overflow-y: auto;
-    flex: 1;
-  }
-
-  /* 🌟 CUSTOM SCROLLBAR WITH ATITHI GRADIENT SYSTEM */
-  .modal-vault-body::-webkit-scrollbar {
-    width: 8px;
-  }
-  .modal-vault-body::-webkit-scrollbar-track {
-    background: #f8fafc;
-    border-radius: 10px;
-  }
-  .modal-vault-body::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #FF9432 0%, #67B636 50%, #00A3E0 100%);
-    border-radius: 10px;
+  .modal-vault-header h6 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .close-vault-trigger {
     background: #f1f5f9;
     border: none;
     font-size: 20px;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #0f172a;
+    color: #475569;
     transition: all 0.2s ease;
   }
   .close-vault-trigger:hover { 
-    background: #ff385c; 
-    color: #ffffff; 
+    background: #fee2e2;
+    color: #ef4444;
     transform: rotate(90deg);
   }
 
-  /* === 🌟 STAR FORM ENGINE INPUT CONFIGURATOR === */
+  .modal-vault-body-split {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Left Sidebar */
+  .modal-summary-sidebar {
+    width: 360px;
+    flex-shrink: 0;
+    padding: 36px 32px;
+    border-right: 1px solid #f1f5f9;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .modal-summary-score-large {
+    font-size: 52px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+    letter-spacing: -1.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .modal-summary-score-large i {
+    color: #FF9432;
+    filter: drop-shadow(0 2px 8px rgba(255, 148, 50, 0.4));
+  }
+
+  .rating-breakdown-table {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .rating-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13.5px;
+    color: #475569;
+    font-weight: 600;
+  }
+
+  .rating-progress-track {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .rating-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FF9432 0%, #67B636 100%);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(103, 182, 54, 0.3);
+  }
+
+  /* Right Side: Reviews Stream */
+  .modal-reviews-stream {
+    flex: 1;
+    padding: 36px 40px;
+    overflow-y: auto;
+    background: #ffffff;
+  }
+
+  .modal-reviews-stream::-webkit-scrollbar {
+    width: 8px;
+  }
+  .modal-reviews-stream::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+  .modal-reviews-stream::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  .review-search-capsule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 12px 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s ease;
+  }
+  .review-search-capsule:focus-within {
+    border-color: #FF9432;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.15);
+  }
+  .review-search-capsule input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14.5px;
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  .modal-review-card-entry {
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+  }
+  .modal-review-card-entry:hover {
+    border-color: #e2e8f0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  /* Form Elements */
   .star-rating-form-spectrum {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
-    gap: 6px;
+    gap: 8px;
   }
   .star-rating-form-spectrum input[type="radio"] { display: none; }
   .star-rating-form-spectrum label {
@@ -205,135 +371,229 @@
     cursor: pointer;
     transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
-  
-  /* Hover scale animation physics inside matrix forms */
   .star-rating-form-spectrum label:hover {
     transform: scale(1.15);
+  }
+
+  @media (max-width: 850px) {
+    .modal-vault-body-split {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .modal-summary-sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 24px;
+    }
+    .modal-reviews-stream {
+      overflow-y: visible;
+      padding: 24px;
+    }
+    .modal-vault-chassis {
+      height: 92vh;
+    }
   }
 </style>
 
 <div class="atithi-review-hub">
   
-  <!-- Aggregate Indicator Header Segment -->
+  <!-- Aggregate Header Segment -->
   <h4 class="review-master-headline">
-    <% if (reviewCount > 0) { %>
-      <i class="bi bi-star-fill text-dark me-1" style="font-size: 19px;"></i> <%= avgRating %> &middot; <%= reviewCount %> reviews
+    <% if (typeof reviewCount !== 'undefined' && reviewCount > 0) { %>
+      <i class="bi bi-star-fill"></i> <%= typeof avgRating !== 'undefined' ? avgRating : '4.9' %> &middot; <%= reviewCount %> Guest reviews mention
     <% } else { %>
-      No reviews yet
+      <i class="bi bi-chat-heart"></i> No reviews yet &middot; Be the first to review!
     <% } %>
   </h4>
 
-  <!-- Main Showcase Grid Pipeline (Forced Bounds: Max 4 Previews) -->
+  <!-- Main Showcase Grid (Max 4 Previews) -->
   <div class="airbnb-review-grid">
-    <% let previewList = data.reviews.slice(0, 4); %>
-    <% for(let review of previewList) { %>
+    <% 
+      let previewList = (data && data.reviews) ? data.reviews.slice(0, 4) : [];
+      for(let review of previewList) { 
+        let authorName = (review.author && review.author.username) ? review.author.username : 'Guest Explorer';
+        let authorAvatar = (review.author && review.author.avatar) ? review.author.avatar : null;
+    %>
       <div class="clean-review-node">
         <div class="d-flex align-items-center gap-3 mb-2">
           <div class="reviewer-avatar-circle">
-            <%= review.author.username.charAt(0).toUpperCase() %>
+            <% if (authorAvatar) { %>
+              <img src="<%= authorAvatar %>" alt="<%= authorName %>" referrerpolicy="no-referrer">
+            <% } else { %>
+              <%= authorName.charAt(0).toUpperCase() %>
+            <% } %>
           </div>
           <div>
-            <div class="reviewer-name-meta"><%= review.author.username %></div>
-            <div class="reviewer-timeline-sub">August 2025</div>
+            <div class="reviewer-name-meta"><%= authorName %></div>
+            <div class="reviewer-timeline-sub">
+              <%= review.createdAt ? new Date(review.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Verified stay' %>
+            </div>
           </div>
         </div>
 
-        <!-- 🌟 ATITHI ACCENT SPECTRUM LOG LAYER PREVIEW -->
+        <!-- Star Rating Row -->
         <div class="review-stars-row-flat mb-1">
           <% for(let i=1; i<=5; i++) { %>
-            <span class="<%= i <= review.rating ? 'star-spectrum-' + review.rating : 'star-spectrum-null' %>">★</span>
+            <span class="<%= i <= (review.rating || 5) ? 'star-spectrum-' + (review.rating || 5) : 'star-spectrum-null' %>">★</span>
           <% } %>
-          <span class="text-muted small fw-medium ms-1">&middot; August 2025</span>
+          <span class="text-muted small fw-medium ms-1">&middot; Verified Booking</span>
         </div>
 
-        <p class="review-narrative-text"><%= review.comment %></p>
+        <p class="review-narrative-text"><%= review.comment || 'Wonderful stay and hospitable environment!' %></p>
       </div>
     <% } %>
   </div>
 
-  <!-- Dual Modal Activation Dashboard -->
-  <div class="d-flex gap-3 flex-wrap mt-4">
-    <% if (reviewCount > 4) { %>
+  <!-- Action Buttons -->
+  <div class="d-flex gap-3 flex-wrap mt-3">
+    <% if (typeof reviewCount !== 'undefined' && reviewCount > 0) { %>
       <button class="btn-airbnb-hollow" onclick="toggleReviewModal('allReviewsModal', true)">
         Show all <%= reviewCount %> reviews
       </button>
-    <% } else if (reviewCount > 0) { %>
-      <button class="btn-airbnb-hollow" onclick="toggleReviewModal('allReviewsModal', true)">
-        Show all reviews
-      </button>
     <% } %>
     
-    <% if(currUser) { %>
-      <button class="btn-airbnb-hollow" style="background: #222222; color: #ffffff; border: none;" onclick="toggleReviewModal('writeReviewModal', true)">
-        Write a verified review
+    <% if(typeof currUser !== 'undefined' && currUser) { %>
+      <button class="btn-atithi-primary-dark" onclick="toggleReviewModal('writeReviewModal', true)">
+        <i class="bi bi-pencil-square me-1"></i> Write a review
       </button>
     <% } %>
   </div>
 
+  <!-- 🚀 DEDICATED BOTTOM CONTENT SEPARATOR LINE -->
+  <div class="reviews-bottom-divider"></div>
+
 </div>
 
 <!-- ========================================================
-     🎭 COMPONENT A: ALL REVIEWS DYNAMIC CAROUSEL OVERLAY MODAL
+     🎭 ALL REVIEWS TWO-COLUMN MODAL
      ======================================================== -->
 <div id="allReviewsModal" class="atithi-luxe-modal-overlay" onclick="toggleReviewModal('allReviewsModal', false)">
   <div class="modal-vault-chassis" onclick="event.stopPropagation()">
+    
     <div class="modal-vault-header">
-      <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-chat-square-heart me-2 text-primary"></i>All Verified Reviews (<%= reviewCount %>)</h5>
+      <h6><i class="bi bi-patch-check-fill text-success"></i> Guest Verified Reviews</h6>
       <button class="close-vault-trigger" onclick="toggleReviewModal('allReviewsModal', false)">&times;</button>
     </div>
     
-    <!-- 🌟 HIGH CONTRATED OVERFLOW SHEET WITH ATITHI GRADIENT TRACK SCROLLBAR -->
-    <div class="modal-vault-body">
-      <div class="d-flex flex-column gap-4">
-        <% for(let review of data.reviews) { %>
-          <div class="pb-4 border-bottom" style="border-color: #f1f5f9 !important;">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="d-flex align-items-center gap-3">
-                <div class="reviewer-avatar-circle"><%= review.author.username.charAt(0).toUpperCase() %></div>
-                <div>
-                  <div class="reviewer-name-meta"><%= review.author.username %></div>
-                  <div class="reviewer-timeline-sub">August 2025</div>
+    <div class="modal-vault-body-split">
+      
+      <!-- Left Sidebar: Score & Multi-color Distribution -->
+      <div class="modal-summary-sidebar">
+        <div class="modal-summary-score-large">
+          <i class="bi bi-star-fill"></i> <%= typeof avgRating !== 'undefined' ? avgRating : '4.9' %>
+        </div>
+        <span class="fw-bold text-dark mt-2" style="font-size: 15px;">Guest Favorite Rating</span>
+        <span class="small text-muted"><%= typeof reviewCount !== 'undefined' ? reviewCount : 0 %> authenticated community scores</span>
+
+        <div class="rating-breakdown-table">
+          <% 
+            const counts = {5:0, 4:0, 3:0, 2:0, 1:0};
+            if(data && data.reviews && data.reviews.length > 0) {
+              data.reviews.forEach(r => { 
+                let ratingVal = Number(r.rating);
+                if(ratingVal && counts[ratingVal] !== undefined) counts[ratingVal]++; 
+              });
+            }
+            let totalReviewsSafe = (typeof reviewCount !== 'undefined' && reviewCount > 0) ? reviewCount : 1;
+          %>
+          <% for(let s=5; s>=1; s--) { 
+               let percentage = ((counts[s] / totalReviewsSafe) * 100).toFixed(0);
+          %>
+            <div class="rating-bar-row">
+              <span style="width: 14px;"><%= s %></span>
+              <div class="rating-progress-track">
+                <div class="rating-progress-fill" style="width: <%= percentage %>%;"></div>
+              </div>
+              <span style="width: 28px; text-align: right;"><%= counts[s] %></span>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="mt-auto pt-4 border-top">
+          <div class="d-flex align-items-center gap-2 text-dark fw-semibold small mb-1">
+            <i class="bi bi-shield-check text-primary"></i> 100% Verified Stays
+          </div>
+          <small class="text-muted" style="line-height: 1.4; display: block;">
+            Ratings are left only by travelers with confirmed check-outs via Atithi.
+          </small>
+        </div>
+      </div>
+
+      <!-- Right Scrollable Reviews Stream -->
+      <div class="modal-reviews-stream">
+        <div class="review-search-capsule">
+          <i class="bi bi-search text-secondary"></i>
+          <input type="text" id="liveReviewSearchInput" placeholder="Search reviews (e.g. view, clean, host, breakfast)...">
+        </div>
+
+        <div id="modalReviewsListingContainer">
+          <% 
+            if(data && data.reviews && data.reviews.length > 0) {
+              for(let review of data.reviews) { 
+                let authorName = (review.author && review.author.username) ? review.author.username : 'Guest Traveler';
+                let authorAvatar = (review.author && review.author.avatar) ? review.author.avatar : null;
+          %>
+            <div class="modal-review-card-entry individual-review-box">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="reviewer-avatar-circle">
+                    <% if (authorAvatar) { %>
+                      <img src="<%= authorAvatar %>" alt="<%= authorName %>" referrerpolicy="no-referrer">
+                    <% } else { %>
+                      <%= authorName.charAt(0).toUpperCase() %>
+                    <% } %>
+                  </div>
+                  <div>
+                    <div class="reviewer-name-meta"><%= authorName %></div>
+                    <div class="reviewer-timeline-sub">
+                      <%= review.createdAt ? new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Verified Stay' %>
+                    </div>
+                  </div>
                 </div>
+                
+                <% if (typeof currUser !== 'undefined' && currUser && review.author && currUser._id.equals(review.author._id)){ %>
+                  <form action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="m-0">
+                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-semibold" style="font-size: 12px;">Delete</button>
+                  </form>
+                <% } %>
               </div>
               
-              <% if (currUser && currUser._id.equals(review.author._id)){ %>
-                <form action="/listings/<%= data._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="m-0">
-                  <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 fw-bold font-monospace" style="font-size: 10px; border-color: rgba(225,29,72,0.2);">Purge</button>
-                </form>
-              <% } %>
+              <div class="review-stars-row-flat mb-2">
+                <% for(let i=1; i<=5; i++) { %>
+                  <span class="<%= i <= (review.rating || 5) ? 'star-spectrum-' + (review.rating || 5) : 'star-spectrum-null' %>">★</span>
+                <% } %>
+              </div>
+              <p class="text-secondary mb-0 review-body-paragraph" style="line-height: 1.6; font-size: 14.5px;"><%= review.comment %></p>
             </div>
-            
-            <!-- Dynamic Star Shifting Framework inside scroll engine -->
-            <div class="review-stars-row-flat mb-2">
-              <% for(let i=1; i<=5; i++) { %>
-                <span class="<%= i <= review.rating ? 'star-spectrum-' + review.rating : 'star-spectrum-null' %>">★</span>
-              <% } %>
-            </div>
-            <p class="text-dark small mb-0" style="line-height: 1.62; font-weight: 450;"><%= review.comment %></p>
-          </div>
-        <% } %>
+          <% 
+              }
+            } else { 
+          %>
+            <div class="text-center py-5 text-muted">No reviews recorded yet for this sanctuary.</div>
+          <% } %>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <!-- ========================================================
-     🎭 COMPONENT B: LEAVE A REVIEW VERIFIED TRANSACTIONS MODAL
+     🎭 LEAVE A REVIEW MODAL
      ======================================================== -->
-<% if(currUser) { %>
+<% if(typeof currUser !== 'undefined' && currUser) { %>
 <div id="writeReviewModal" class="atithi-luxe-modal-overlay" onclick="toggleReviewModal('writeReviewModal', false)">
-  <div class="modal-vault-chassis" onclick="event.stopPropagation()">
+  <div class="modal-vault-chassis" style="max-width: 580px; height: auto;" onclick="event.stopPropagation()">
     <div class="modal-vault-header">
-      <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-pencil-square me-2 text-success"></i>Compile Verified Review Log</h5>
+      <h6><i class="bi bi-star-fill text-warning"></i> Share Your Stay Experience</h6>
       <button class="close-vault-trigger" onclick="toggleReviewModal('writeReviewModal', false)">&times;</button>
     </div>
     
-    <div class="modal-vault-body">
+    <div style="padding: 32px;">
       <form action="/listings/<%= data._id %>/reviews" method="POST" novalidate class="needs-validation">
-        
         <div class="mb-4">
-          <label class="form-label small fw-bold text-dark text-uppercase font-monospace">Your Experience Scale</label>
-          <!-- 🌟 LIVE SPECTRUM COLOR CAPTURING RATING ENGINE STARS -->
+          <label class="form-label small fw-bold text-dark text-uppercase mb-2" style="letter-spacing: 0.5px;">Overall Rating</label>
           <div class="star-rating-form-spectrum">
             <input type="radio" id="mStar5" name="review[rating]" value="5" required><label for="mStar5" class="star-label-node" data-val="5">★</label>
             <input type="radio" id="mStar4" name="review[rating]" value="4"><label for="mStar4" class="star-label-node" data-val="4">★</label>
@@ -344,12 +604,12 @@
         </div>
         
         <div class="mb-4">
-          <label for="modalComment" class="form-label small fw-bold text-dark text-uppercase font-monospace">Constructive Commentary</label>
-          <textarea name="review[comment]" id="modalComment" rows="5" class="form-control rounded-3" placeholder="Provide objective configurations feedback on how your experience map resolved..." required style="font-size: 15px; padding: 14px; border-color: #cbd5e1;"></textarea>
+          <label for="modalComment" class="form-label small fw-bold text-dark text-uppercase mb-2" style="letter-spacing: 0.5px;">Your Feedback</label>
+          <textarea name="review[comment]" id="modalComment" rows="4" class="form-control rounded-3" placeholder="Tell other travelers about the views, cleanliness, and hospitality..." required style="font-size: 14.5px; padding: 14px; border: 1px solid #cbd5e1;"></textarea>
         </div>
         
-        <button type="submit" class="btn btn-dark w-100 py-3 rounded-3 fw-bold text-uppercase font-monospace" style="font-size: 13px; letter-spacing: 0.5px; background: #222222; border: none;">
-          Commit Review Node Data
+        <button type="submit" class="btn btn-atithi-primary-dark w-100 py-3 rounded-3 fw-bold" style="font-size: 14.5px;">
+          Submit Review
         </button>
       </form>
     </div>
@@ -357,7 +617,7 @@
 </div>
 <% } %>
 
-<!-- === 🚀 TRIGGER JAVASCRIPT ANIMATION ROUTINES === -->
+<!-- === 🚀 JAVASCRIPT INTERACTIONS === -->
 <script>
   function toggleReviewModal(modalId, flag) {
     const modal = document.getElementById(modalId);
@@ -372,18 +632,16 @@
     }
   }
 
-  // Live Dynamic Script for Capturing Star Color Mapping Fields Real-time
   document.addEventListener('DOMContentLoaded', function() {
     const colorMatrix = {
-      '1': '#ff385c', // Red
-      '2': '#FF9432', // Orange
-      '3': '#00A3E0', // Blue
-      '4': '#67B636', // Green
-      '5': '#67B636'  // Green
+      '1': '#ff385c',
+      '2': '#FF9432',
+      '3': '#00A3E0',
+      '4': '#67B636',
+      '5': '#67B636'
     };
 
     const targetLabels = document.querySelectorAll('.star-rating-form-spectrum label');
-    
     targetLabels.forEach(label => {
       label.addEventListener('click', function() {
         const activeVal = this.dataset.val;
@@ -398,9 +656,26 @@
         });
       });
     });
+
+    const searchInput = document.getElementById("liveReviewSearchInput");
+    const reviewCards = document.querySelectorAll(".individual-review-box");
+
+    if(searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        reviewCards.forEach(card => {
+          const bodyText = card.querySelector(".review-body-paragraph")?.innerText.toLowerCase() || "";
+          const authorText = card.querySelector(".reviewer-name-meta")?.innerText.toLowerCase() || "";
+          if (bodyText.includes(query) || authorText.includes(query)) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    }
   });
 
-  // Escape bound tracking trigger closing overlays maps
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       toggleReviewModal('allReviewsModal', false);

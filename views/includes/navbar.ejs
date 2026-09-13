@@ -5,407 +5,950 @@
     --brand-orange: #FF9432;
     --brand-green: #67B636;
     --brand-blue: #00A3E0;
-    --matrix-dark: #0f172a; 
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --space-navy-velvet: rgba(10, 17, 32, 0.98); /* Deep Luxurious Matte Blackish Navy */
+    --nav-bg: rgba(255, 255, 255, 0.94);
+    --nav-border: #ebebeb;
+    --nav-text: #222222;
+    --nav-muted: #717171;
+    --nav-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --nav-shadow-scrolled: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
-  /* === 🌌 ULTRA-PREMIUM METALLIC NAVBAR BASE === */
-  .navbar-custom {
-    height: 86px; 
-    background: rgba(15, 23, 42, 0.95) !important; 
-    backdrop-filter: blur(30px) saturate(210%);
-    -webkit-backdrop-filter: blur(30px) saturate(210%);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 0 3rem; 
-    position: sticky;
+  /* === 🌐 1. EXACT 1/3RD ATITHI TRI-COLOR SCROLLBAR === */
+  html, body, * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-orange) #f8fafc;
+  }
+
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f8fafc;
+    border-radius: 100px;
+    margin: 3px 0;
+  }
+
+  /* Vertical Thumb: Exact 1/3rd Orange, 1/3rd Green, 1/3rd Blue smoothly mixed */
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      #FF9432 0%,
+      #FF9432 28%,
+      #67B636 33.33%,
+      #67B636 61.33%,
+      #00A3E0 66.66%,
+      #00A3E0 100%
+    );
+    border-radius: 100px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Horizontal Thumb: 1/3rd split left to right */
+  ::-webkit-scrollbar-thumb:horizontal {
+    background: linear-gradient(
+      90deg,
+      #FF9432 0%,
+      #FF9432 28%,
+      #67B636 33.33%,
+      #67B636 61.33%,
+      #00A3E0 66.66%,
+      #00A3E0 100%
+    );
+    border-radius: 100px;
+    border: 2px solid #ffffff;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      #ff7f0e 0%,
+      #ff7f0e 28%,
+      #55a524 33.33%,
+      #55a524 61.33%,
+      #008dc4 66.66%,
+      #008dc4 100%
+    );
+  }
+
+  ::-webkit-scrollbar-thumb:horizontal:hover {
+    background: linear-gradient(
+      90deg,
+      #ff7f0e 0%,
+      #ff7f0e 28%,
+      #55a524 33.33%,
+      #55a524 61.33%,
+      #008dc4 66.66%,
+      #008dc4 100%
+    );
+  }
+
+  /* Modals & Dropdown panel scrollbars */
+  .currency-grid-deck::-webkit-scrollbar,
+  .atithi-autocomplete-panel::-webkit-scrollbar,
+  .atithi-inline-filter-dropdown::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .currency-grid-deck::-webkit-scrollbar-thumb,
+  .atithi-autocomplete-panel::-webkit-scrollbar-thumb,
+  .atithi-inline-filter-dropdown::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      #FF9432 0%,
+      #FF9432 28%,
+      #67B636 33.33%,
+      #67B636 61.33%,
+      #00A3E0 66.66%,
+      #00A3E0 100%
+    );
+    border-radius: 100px;
+    border: 1px solid #ffffff;
+  }
+
+  /* === 🌌 2. FLUID SHRINK-ON-SCROLL NAVBAR === */
+  .atithi-navbar-master {
+    position: sticky !important;
     top: 0;
-    z-index: 10000;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    left: 0;
+    right: 0;
+    z-index: 99999 !important;
+    height: 102px;
+    background: var(--nav-bg) !important;
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border-bottom: 1px solid var(--nav-border);
+    box-shadow: var(--nav-shadow);
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    transition: all 0.3s ease;
+    padding: 0 4rem;
+    gap: 16px;
+    transition: height 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.28s ease, 
+                padding 0.28s ease,
+                background 0.28s ease;
+    box-sizing: border-box;
   }
-  .navbar-custom::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+
+  .atithi-navbar-master.navbar-scrolled {
+    height: 85px;
+    box-shadow: var(--nav-shadow-scrolled);
+    background: rgba(255, 255, 255, 0.97) !important;
+    padding: 0 3.5rem;
+  }
+
+  /* Top laser spectrum line */
+  .atithi-navbar-master::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2.5px;
     background: linear-gradient(90deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
-    z-index: 10001;
+    z-index: 100000;
   }
 
-  .navbar-brand-custom { display: flex; align-items: center; gap: 12px; text-decoration: none; justify-self: start; }
-  .brand-logo-img { height: 38px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255, 148, 50, 0.25)); }
-  .brand-logo-text { font-weight: 800; font-size: 30px; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--brand-orange) 10%, var(--brand-green) 55%, var(--brand-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
-
-  /* === 🔍 GLOWING HIGH-CONTRAST CAPSULE SEARCH BAR === */
-  .center-search-bar {
-    position: relative; 
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 50px;
-    background: rgba(30, 41, 59, 0.55); 
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    justify-self: center;
-    padding: 5px 6px 5px 22px;
-  }
-  .center-search-bar:focus-within {
-    background: rgba(30, 41, 59, 0.8);
-    border-color: var(--brand-blue);
-    box-shadow: 0 0 25px rgba(0, 163, 224, 0.25), inset 0 1px 2px rgba(255,255,255,0.05);
-  }
-
-  .search-form-wrapper {
+  /* Brand Logo */
+  .brand-identity-anchor {
     display: flex;
     align-items: center;
-    gap: 5px;
-    margin: 0;
-  }
-
-  .search-input-field {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #f8fafc;
-    font-size: 13.5px;
-    font-weight: 600;
-    padding: 0 10px;
-    width: 320px; 
-    transition: width 0.2s ease;
-  }
-  .search-input-field:focus { width: 350px; }
-  .search-input-field::placeholder { color: #cbd5e1; font-weight: 500; }
-  .search-divider-line { color: rgba(255, 255, 255, 0.2); font-weight: 300; margin: 0 6px; }
-
-  /* 🎛️ INTEGRATED CAPSULE INLINE FILTER TOGGLE BUTTON */
-  .sidebar-filter-trigger {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #cbd5e1;
-    font-size: 13.5px;
-    font-weight: 600;
-    padding: 0 14px;
-    transition: all 0.2s ease;
+    gap: 10px;
+    text-decoration: none !important;
     cursor: pointer;
-    position: relative;
-    z-index: 10;
+    flex-shrink: 0;
   }
-  .sidebar-filter-trigger:hover, .sidebar-filter-trigger.active {
-    color: var(--brand-orange);
-    transform: translateY(-0.5px);
+  .brand-logo-img {
+    height: 40px;
+    object-fit: contain;
+    transition: all 0.28s ease;
+  }
+  .navbar-scrolled .brand-logo-img {
+    height: 34px;
+  }
+  .brand-identity-anchor:hover .brand-logo-img {
+    transform: rotate(-6deg) scale(1.08);
+  }
+  .brand-logo-text {
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.8px;
+    background: linear-gradient(135deg, var(--brand-orange) 10%, var(--brand-green) 55%, var(--brand-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    transition: font-size 0.28s ease;
+  }
+  .navbar-scrolled .brand-logo-text {
+    font-size: 23px;
   }
 
-  .search-submit-icon-btn {
-    background: linear-gradient(135deg, var(--brand-orange), #ff5a36);
-    color: white;
-    width: 38px;
-    height: 38px;
+  /* === 🔍 3. SEARCH CAPSULE === */
+  .center-capsule-scaffold {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+  }
+
+  .atithi-search-pill-hub {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 40px;
+    padding: 7px 8px 7px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    max-width: 100%;
+  }
+  .navbar-scrolled .atithi-search-pill-hub {
+    padding: 5px 6px 5px 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  }
+  .atithi-search-pill-hub:hover {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  }
+  .atithi-search-pill-hub:focus-within {
+    border-color: #222222;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+  }
+
+  .search-inline-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .main-search-input {
     border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    width: 270px;
+    transition: width 0.25s ease;
+  }
+  .main-search-input:focus {
+    width: 310px;
+  }
+  .main-search-input::placeholder {
+    color: #717171;
+    font-weight: 500;
+  }
+
+  .capsule-v-divider {
+    color: #dddddd;
+    font-weight: 300;
+    font-size: 16px;
+    user-select: none;
+  }
+
+  .btn-voice-mic-trigger {
+    background: transparent;
+    border: none;
+    color: #717171;
+    font-size: 15px;
+    padding: 4px 6px;
+    cursor: pointer;
     border-radius: 50%;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 14px rgba(255, 148, 50, 0.4);
-    cursor: pointer;
-    transition: transform 0.2s ease;
   }
-  .search-submit-icon-btn:hover { transform: scale(1.05) rotate(5deg); }
-  
-  /* === 🔮 AUTOCOMPLETE LIST LAYER === */
+  .btn-voice-mic-trigger:hover {
+    color: var(--brand-orange);
+    background: #f8fafc;
+  }
+  .btn-voice-mic-trigger.recording-active {
+    color: #ff385c;
+    animation: micBlink 1s infinite alternate;
+  }
+  @keyframes micBlink {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
+  }
+
+  .btn-capsule-filter-toggle {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #222222;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .btn-capsule-filter-toggle:hover, .btn-capsule-filter-toggle.active {
+    background: #f7f7f7;
+    color: var(--brand-orange);
+  }
+
+  .btn-search-magnifier {
+    background: linear-gradient(135deg, var(--brand-orange) 0%, #ff5e3a 100%);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(255, 94, 58, 0.4);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+  }
+  .navbar-scrolled .btn-search-magnifier {
+    width: 33px;
+    height: 33px;
+    font-size: 12px;
+  }
+  .btn-search-magnifier:hover {
+    transform: scale(1.08) rotate(5deg);
+  }
+
+  /* === AUTOCOMPLETE & FILTERS === */
   .atithi-autocomplete-panel {
     position: absolute;
-    top: 130%;
-    left: -30px;
-    right: -30px; 
-    background: var(--space-navy-velvet) !important; 
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    top: calc(100% + 14px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #ededed;
     border-radius: 24px;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255,255,255,0.08);
-    max-height: 430px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+    max-height: 420px;
     overflow-y: auto;
-    z-index: 9999999999 !important; 
-    padding: 14px;
-    display: none; 
+    z-index: 100002;
+    padding: 12px;
+    display: none;
   }
 
   .suggestion-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 14px;
-    color: #e2e8f0;
+    gap: 14px;
+    padding: 10px 14px;
     border-radius: 16px;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    background: rgba(255, 255, 255, 0.02);
-    margin-bottom: 6px;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f8fafc;
   }
   .suggestion-item:hover {
-    background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.4)) !important;
-    color: #ffffff !important;
+    background: #f8fafc;
     transform: translateX(4px);
-    border-color: rgba(255, 255, 255, 0.15);
+  }
+  .suggestion-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid #e2e8f0;
+  }
+  .suggestion-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+  .suggestion-subtitle {
+    font-size: 12.5px;
+    color: #64748b;
+  }
+  .suggestion-price {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--brand-green);
   }
 
-  .suggestion-img-thumbnail { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.18); background: #1e293b; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-  .suggestion-info-block { display: flex; flex-direction: column; gap: 4px; flex-grow: 1; min-width: 0; }
-  .suggestion-meta-row { display: flex; align-items: center; gap: 12px; font-size: 12px; color: #94a3b8; }
-  .suggestion-rating-badge { display: flex; align-items: center; gap: 4px; color: #ffb020 !important; font-weight: 700; font-size: 12.5px; }
-  .suggestion-item .item-type-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; padding: 4px 12px; border-radius: 30px; background: rgba(255, 148, 50, 0.2); color: var(--brand-orange); flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
-  .suggestion-item.loc-match .item-type-badge { background: rgba(0, 163, 224, 0.2); color: var(--brand-blue); }
-
-  /* === 🎛️ NEW MODERN INLINE ADVANCED FILTER SHEET PANEL === */
   .atithi-inline-filter-dropdown {
     position: absolute;
-    top: 130%;
-    right: -155px;
-    width: 620px; /* Spacious width canvas blueprint alignment */
-    background: var(--space-navy-velvet) !important;
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 24px;
-    box-shadow: 0 35px 80px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255,255,255,0.08);
-    padding: 26px;
+    top: calc(100% + 14px);
+    right: 0;
+    width: 540px;
+    max-width: 90vw;
+    background: #ffffff;
+    border: 1px solid #ededed;
+    border-radius: 26px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+    padding: 24px;
     display: none;
-    z-index: 9999999998 !important; 
+    z-index: 100001;
   }
 
-  .filter-dropdown-section-title {
-    color: #f1f5f9;
-    font-size: 14.5px;
+  .filter-section-header {
+    font-size: 15px;
     font-weight: 700;
-    margin-bottom: 14px;
-    letter-spacing: -0.1px;
+    color: #222222;
+    margin-bottom: 12px;
   }
-
-  .premium-price-lbl {
-    color: #94a3b8;
-    font-size: 12.5px;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 3px 12px;
+  .price-slider-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #222222;
+    background: #f7f7f7;
+    padding: 4px 14px;
     border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid #ebebeb;
   }
-
-  .atithi-clean-slider {
-    background: rgba(255, 255, 255, 0.08);
-    height: 4px;
-    border-radius: 10px;
-    outline: none;
-  }
-  .atithi-clean-slider::-webkit-slider-thumb {
-    background: #ffffff !important;
-    border: 1px solid #090f1d;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
+  .atithi-filter-slider {
+    width: 100%;
+    accent-color: #222222;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   }
-
-  /* Horizontal Flex Pill System Layout */
-  .horizontal-pill-flex-wrapper {
+  .category-pill-matrix {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    row-gap: 10px;
   }
-
-  .inline-enterprise-pill {
-    border-radius: 10px !important;
-    padding: 8px 15px !important;
-    font-size: 12.5px !important;
-    font-weight: 600 !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
-    background: rgba(255, 255, 255, 0.02) !important;
-    color: #94a3b8 !important;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  .pill-check-input { display: none; }
+  .pill-check-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 7px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
-  .inline-enterprise-pill:hover {
-    border-color: rgba(255, 255, 255, 0.25) !important;
-    color: #f1f5f9 !important;
+  .pill-check-input:checked + .pill-check-label {
+    background: #222222;
+    color: #ffffff;
+    border-color: #222222;
+    font-weight: 600;
   }
-  .btn-check:checked + .inline-enterprise-pill {
-    background: #ffffff !important;
-    color: #090f1d !important;
-    border-color: #ffffff !important;
-    font-weight: 700 !important;
-    box-shadow: 0 4px 12px rgba(255,255,255,0.1);
-  }
-
-  .filter-inline-hr {
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    margin: 20px 0;
-  }
-
-  .inline-dropdown-footer-actions {
+  .filter-actions-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 8px;
+    padding-top: 18px;
+    border-top: 1px solid #ebebeb;
+    margin-top: 20px;
   }
-  .inline-clear-all-btn {
-    color: #94a3b8; font-size: 13.5px; font-weight: 600; text-decoration: underline !important; background: transparent; border: none; padding: 4px 0;
+  .filter-clear-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    text-decoration: underline;
+    cursor: pointer;
   }
-  .inline-clear-all-btn:hover { color: white; }
-  .inline-apply-action-btn {
-    background: #ffffff !important; color: #090f1d !important; font-size: 13.5px !important; font-weight: 700 !important; padding: 10px 24px !important; border-radius: 10px !important; border: none !important; transition: opacity 0.2s ease !important;
+  .btn-filter-apply {
+    background: #222222;
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
   }
-  .inline-apply-action-btn:hover { opacity: 0.9 !important; }
 
-  /* === 👤 PROFILE SECTION === */
-  .right-nav-items { display: flex; align-items: center; gap: 20px; justify-self: end; }
-  .add-listing-link { font-size: 13.5px; font-weight: 700; color: #ffffff; background: rgba(255, 255, 255, 0.05); padding: 11px 20px; border-radius: 30px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.05); }
-  .profile-trigger-pill { display: flex; align-items: center; gap: 12px; padding: 5px 5px 5px 14px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 40px; background: rgba(15, 23, 42, 0.6); cursor: pointer; }
-  .profile-avatar-circle { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; background: #1e293b; color: #cbd5e1; }
-  .profile-trigger-pill.is-logged-in .profile-avatar-circle { background: linear-gradient(135deg, var(--brand-orange) 0%, #ff5e3a 100%); color: white; font-weight: 800; border: none; box-shadow: 0 0 10px rgba(255, 94, 58, 0.35); }
-  .dropdown-menu { border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); padding: 10px; min-width: 260px; margin-top: 14px !important; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-  .dropdown-item { padding: 11px 16px; font-size: 14px; font-weight: 600; color: #cbd5e1; border-radius: 12px; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 12px; }
-  .dropdown-divider { border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 8px 6px; }
-  .user-badge-context { padding: 10px 16px 6px 16px; }
+  /* === 👤 4. RIGHT UTILITY CONTROLS === */
+  .right-utility-deck {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+  .nav-host-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    text-decoration: none !important;
+    padding: 10px 14px;
+    border-radius: 24px;
+    white-space: nowrap;
+  }
+  .nav-host-link:hover {
+    background: #f7f7f7;
+    color: #000000;
+  }
+  .currency-globe-btn {
+    background: transparent;
+    border: none;
+    color: #222222;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 24px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .currency-globe-btn:hover {
+    background: #f7f7f7;
+  }
+  .profile-trigger-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 6px 5px 12px;
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+  .profile-avatar-node {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #222222;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    overflow: hidden;
+  }
+  .profile-avatar-node img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .dropdown-menu-atithi {
+    border-radius: 20px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+    padding: 8px;
+    min-width: 250px;
+    margin-top: 12px !important;
+    border: 1px solid #ebebeb;
+    background: #ffffff;
+  }
+  .dropdown-menu-atithi .dropdown-item {
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #222222;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .dropdown-menu-atithi .dropdown-item:hover {
+    background: #f7f7f7;
+  }
+
+  /* Currency Modal */
+  .atithi-currency-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 100005;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .atithi-currency-modal-backdrop.active-curr-modal {
+    display: flex;
+  }
+  .currency-modal-sheet {
+    background: #ffffff;
+    width: 100%;
+    max-width: 740px;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
+    padding: 26px;
+  }
+  .currency-modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .currency-grid-deck {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .currency-option-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid #ebebeb;
+    cursor: pointer;
+  }
+  .currency-option-card.selected-curr {
+    border-color: var(--brand-orange);
+    background: rgba(255, 148, 50, 0.08);
+  }
+
+  /* ========================================================
+     📱 RESPONSIVE RULES: TABLET & MOBILE VIEWPORTS
+     ======================================================== */
+  
+  /* 💻 TABLET (Full features matching Windows) */
+  @media (max-width: 1024px) and (min-width: 768px) {
+    .atithi-navbar-master {
+      padding: 0 1.5rem;
+      height: 90px;
+    }
+    .atithi-navbar-master.navbar-scrolled {
+      padding: 0 1.25rem;
+      height: 78px;
+    }
+    .center-capsule-scaffold {
+      display: flex !important;
+    }
+    .main-search-input {
+      width: 150px;
+    }
+    .main-search-input:focus {
+      width: 180px;
+    }
+    .currency-globe-btn {
+      display: flex !important;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+    .nav-host-link {
+      display: none !important;
+    }
+  }
+
+  /* 📱 MOBILE (Search visible, currency hidden) */
+  @media (max-width: 767px) {
+    .atithi-navbar-master {
+      padding: 0 12px;
+      height: 76px;
+      gap: 8px;
+    }
+    .atithi-navbar-master.navbar-scrolled {
+      padding: 0 12px;
+      height: 70px;
+    }
+    .brand-logo-text {
+      display: none;
+    }
+    .brand-logo-img {
+      height: 32px;
+    }
+    .center-capsule-scaffold {
+      display: flex !important;
+      flex-grow: 1;
+    }
+    .atithi-search-pill-hub {
+      padding: 4px 6px 4px 12px;
+      width: 100%;
+    }
+    .main-search-input {
+      width: 100%;
+      min-width: 0;
+      font-size: 13px;
+    }
+    .main-search-input:focus {
+      width: 100%;
+    }
+    .capsule-v-divider {
+      display: none;
+    }
+    .btn-capsule-filter-toggle {
+      padding: 4px 6px;
+      font-size: 0;
+    }
+    .btn-capsule-filter-toggle i {
+      font-size: 14px;
+    }
+    .btn-search-magnifier {
+      width: 30px;
+      height: 30px;
+      font-size: 11px;
+    }
+    .currency-globe-btn {
+      display: none !important;
+    }
+    .nav-host-link {
+      display: none !important;
+    }
+    .profile-trigger-pill {
+      padding: 4px 5px;
+      gap: 6px;
+    }
+    .profile-avatar-node {
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
+    }
+    .atithi-inline-filter-dropdown {
+      position: fixed;
+      top: 76px;
+      left: 10px;
+      right: 10px;
+      width: auto;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .currency-grid-deck {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 </style>
 
-<nav class="navbar navbar-custom">
-  <a class="navbar-brand-custom" href="/">
+<!-- ==========================================
+     NAVBAR MASTER ENGINE
+     ========================================== -->
+<nav class="atithi-navbar-master" id="masterAtithiNavbar">
+  
+  <!-- 1. LEFT BRAND LOGO -->
+  <a class="brand-identity-anchor" href="/listings">
     <img src="/images/airbnb.png" alt="Atithi Logo" class="brand-logo-img">
     <span class="brand-logo-text">Atithi</span>
   </a>
 
-  <!-- Capsule Main Wrapper Framework Grid Box -->
-  <div class="center-search-bar d-none d-lg-flex">
-    <form action="/listings" method="GET" id="atithiLiveSearchForm" class="search-form-wrapper" autocomplete="off">
-      
-      <input 
-        type="text" 
-        name="search" 
-        id="atithiSearchInput"
-        placeholder="Search destination, luxury villa or city..." 
-        value="<%= (typeof currentFilters !== 'undefined' && currentFilters.search) ? currentFilters.search : '' %>"
-        class="search-input-field"
-      >
-      
-      <span class="search-divider-line">|</span>
-      
-      <!-- 🎛️ Horizontal Dropdown Activation Toggle -->
-      <button class="sidebar-filter-trigger" type="button" id="inlineFilterDropdownBtnToggle">
-         Filters <i class="bi bi-sliders ms-1"></i>
-      </button>
+  <!-- 2. CENTER CAPSULE SEARCH ENGINE WITH VOICE & ADVANCED FILTERS -->
+  <div class="center-capsule-scaffold">
+    <div class="atithi-search-pill-hub">
+      <form action="/listings" method="GET" id="atithiLiveSearchForm" class="search-inline-form" autocomplete="off">
+        
+        <input 
+          type="text" 
+          name="search" 
+          id="atithiSearchInput"
+          placeholder="Search destination, villa or city..." 
+          value="<%= (typeof currentFilters !== 'undefined' && currentFilters.search) ? currentFilters.search : '' %>"
+          class="main-search-input"
+        >
+        
+        <!-- Voice Search Button -->
+        <button type="button" class="btn-voice-mic-trigger" id="voiceSearchTrigger" title="Search with Voice">
+          <i class="bi bi-mic"></i>
+        </button>
 
-      <button type="submit" class="search-submit-icon-btn">
-        <i class="bi bi-search"></i>
-      </button>
+        <span class="capsule-v-divider">|</span>
+        
+        <!-- Advanced Filter Toggle -->
+        <button class="btn-capsule-filter-toggle" type="button" id="inlineFilterDropdownBtnToggle">
+          Filters <i class="bi bi-sliders"></i>
+        </button>
 
-      <!-- 🌌 DEEP SPACE NAVY VELVET INLINE FILTER DRAWER BLOCK -->
-      <div class="atithi-inline-filter-dropdown" id="atithiInlineFilterDropdownPanel">
-        <!-- 💵 1. Budget slider range -->
-        <div class="mb-4">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="filter-dropdown-section-title m-0">Price range</span>
-            <span class="premium-price-display" id="inlineDisplayPriceLbl" style="font-size: 12px; font-weight:700;">
-              max ₹<%= (typeof currentFilters !== 'undefined' && currentFilters.maxPrice) ? Number(currentFilters.maxPrice).toLocaleString('en-IN') : '1,00,000' %>
-            </span>
+        <!-- Submit Magnifier -->
+        <button type="submit" class="btn-search-magnifier" aria-label="Search">
+          <i class="bi bi-search"></i>
+        </button>
+
+        <!-- INLINE FILTER DROPDOWN SHEET -->
+        <div class="atithi-inline-filter-dropdown" id="atithiInlineFilterDropdownPanel">
+          
+          <!-- Price Range Slider -->
+          <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="filter-section-header m-0">Price Range</span>
+              <span class="price-slider-label" id="inlineDisplayPriceLbl">
+                max &#8377;<%= (typeof currentFilters !== 'undefined' && currentFilters.maxPrice) ? Number(currentFilters.maxPrice).toLocaleString('en-IN') : '1,00,000' %>
+              </span>
+            </div>
+            <input 
+              type="range" 
+              class="atithi-filter-slider" 
+              name="maxPrice" 
+              min="1000" 
+              max="100000" 
+              step="500" 
+              value="<%= (typeof currentFilters !== 'undefined' && currentFilters.maxPrice) ? currentFilters.maxPrice : '100000' %>" 
+              id="inlineDropdownSliderInput"
+            >
           </div>
-          <input type="range" class="form-range atithi-inline-range-slider" name="maxPrice" min="1000" max="100000" step="500" 
-                 value="<%= (typeof currentFilters !== 'undefined' && currentFilters.maxPrice) ? currentFilters.maxPrice : '100000' %>" 
-                 id="inlineDropdownSliderInput">
-        </div>
 
-        <div class="filter-inline-hr"></div>
-
-        <!-- 🗂️ 2. Horizontal Radio Categories Mapping -->
-        <div class="mb-4">
-          <label class="filter-dropdown-section-title">Property category</label>
-          <div class="horizontal-pill-flex-wrapper">
-            <% const availableCategories = ['Trending', 'Rooms', 'Amazing views', 'Mansions', 'Amazing pools', 'Beach', 'Cabins', 'Camping', 'Farms']; %>
-            <% for(let cat of availableCategories) { %>
-              <div class="pill-node">
-                <input type="radio" class="btn-check inline-auto-stream-trigger" name="category" id="in_cat_<%= cat.replace(/\s+/g, '_') %>" value="<%= cat %>"
-                       <%= (typeof currentFilters !== 'undefined' && currentFilters.category === cat) ? 'checked' : '' %>>
-                <label class="btn inline-enterprise-pill" for="in_cat_<%= cat.replace(/\s+/g, '_') %>"><%= cat %></label>
-              </div>
-            <% } %>
+          <!-- Category Filter Radios -->
+          <div class="mb-4">
+            <label class="filter-section-header">Property Type</label>
+            <div class="category-pill-matrix">
+              <% const categoriesList = ['Trending', 'Rooms', 'Amazing views', 'Mansions', 'Amazing pools', 'Beach', 'Cabins', 'Farms']; %>
+              <% for(let cat of categoriesList) { %>
+                <div>
+                  <input 
+                    type="radio" 
+                    class="pill-check-input inline-auto-stream-trigger" 
+                    name="category" 
+                    id="cat_<%= cat.replace(/\s+/g, '_') %>" 
+                    value="<%= cat %>"
+                    <%= (typeof currentFilters !== 'undefined' && currentFilters.category === cat) ? 'checked' : '' %>
+                  >
+                  <label class="pill-check-label" for="cat_<%= cat.replace(/\s+/g, '_') %>"><%= cat %></label>
+                </div>
+              <% } %>
+            </div>
           </div>
-        </div>
 
-        <div class="filter-inline-hr"></div>
-
-        <!-- 📸 3. Horizontal Checkboxes Ambiance Focus Mapping -->
-        <div class="mb-4">
-          <label class="filter-dropdown-section-title">Ambiance focus</label>
-          <div class="horizontal-pill-flex-wrapper">
-            <% const availableTags = ['General', 'Bedroom', 'Kitchen', 'Bathroom', 'Exterior']; %>
-            <% for(let tag of availableTags) { %>
-              <div class="pill-node">
-                <input type="checkbox" class="btn-check inline-auto-stream-trigger" name="imageTag" id="in_tag_<%= tag %>" value="<%= tag %>"
-                       <%= (typeof currentFilters !== 'undefined' && currentFilters.imageTag && currentFilters.imageTag.includes(tag)) ? 'checked' : '' %>>
-                <label class="btn inline-enterprise-pill" for="in_tag_<%= tag %>"><%= tag %></label>
-              </div>
-            <% } %>
+          <!-- Room Features Tag Checkboxes -->
+          <div class="mb-3">
+            <label class="filter-section-header">Room Features</label>
+            <div class="category-pill-matrix">
+              <% const tagsList = ['General', 'Bedroom', 'Kitchen', 'Bathroom', 'Exterior']; %>
+              <% for(let tag of tagsList) { %>
+                <div>
+                  <input 
+                    type="checkbox" 
+                    class="pill-check-input inline-auto-stream-trigger" 
+                    name="imageTag" 
+                    id="tag_<%= tag %>" 
+                    value="<%= tag %>"
+                    <%= (typeof currentFilters !== 'undefined' && currentFilters.imageTag && currentFilters.imageTag.includes(tag)) ? 'checked' : '' %>
+                  >
+                  <label class="pill-check-label" for="tag_<%= tag %>"><%= tag %></label>
+                </div>
+              <% } %>
+            </div>
           </div>
+
+          <!-- Actions -->
+          <div class="filter-actions-bottom">
+            <a href="/listings" class="filter-clear-link">Clear all</a>
+            <button type="button" class="btn-filter-apply" id="inlineFilterPanelCloseApplyBtn">Apply Filters</button>
+          </div>
+
         </div>
+      </form>
 
-        <div class="filter-inline-hr"></div>
-
-        <!-- Action Control Buttons -->
-        <div class="inline-dropdown-footer-actions">
-          <a href="/listings" class="inline-clear-all-btn">Clear all</a>
-          <button type="button" class="btn inline-apply-action-btn" id="inlineFilterPanelCloseApplyBtn">Apply filters</button>
-        </div>
-      </div>
-    </form>
-
-    <div class="atithi-autocomplete-panel" id="atithiAutocompletePanel"></div>
+      <!-- Autocomplete Dropdown List -->
+      <div class="atithi-autocomplete-panel" id="atithiAutocompletePanel"></div>
+    </div>
   </div>
-  
-  <div class="right-nav-items">
-    <a class="add-listing-link d-none d-lg-block" href="/listings/new">Join as a Host</a>
 
+  <!-- 3. RIGHT UTILITY CONTROLS -->
+  <div class="right-utility-deck">
+    
+    <a class="nav-host-link d-none d-lg-block" href="/listings/new">Join as a Host</a>
+
+    <!-- Multi-Currency Selector Trigger -->
+    <button class="currency-globe-btn" id="currencyModalTriggerBtn" title="Choose a currency">
+      <i class="bi bi-globe2"></i> <span id="currentActiveCurrencyDisplay">INR (₹)</span>
+    </button>
+
+    <!-- User Profile Dropdown -->
     <div class="dropdown">
-      <div class="profile-trigger-pill <%= currUser ? 'is-logged-in' : '' %>" data-bs-toggle="dropdown">
-        <i class="bi bi-list" style="color: #94a3b8;"></i>
-        <div class="profile-avatar-circle">
+      <div class="profile-trigger-pill" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-list fs-5" style="color: #222222;"></i>
+        <div class="profile-avatar-node">
           <% if(!currUser) { %>
-            <i class="bi bi-person-fill"></i>
+            <i class="bi bi-person-fill" style="font-size: 16px;"></i>
+          <% } else if(currUser.avatar) { %>
+            <img src="<%= currUser.avatar %>" alt="<%= currUser.username %>" referrerpolicy="no-referrer">
           <% } else { %>
             <%= currUser.username.charAt(0).toUpperCase() %>
           <% } %>
         </div>
       </div>
-      
-      <ul class="dropdown-menu dropdown-menu-end">
+
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-atithi">
         <% if(!currUser){ %>
-          <li><a class="dropdown-item fw-bold" href="/signup"><i class="bi bi-person-plus"></i>Sign Up</a></li>
-          <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right"></i>Log In</a></li>
+          <li><a class="dropdown-item fw-bold" href="/signup"><i class="bi bi-person-plus text-primary"></i>Sign Up</a></li>
+          <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right text-success"></i>Log In</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/listings/new"><i class="bi bi-house-door"></i>Host your home</a></li>
+          <li><a class="dropdown-item" href="/settings"><i class="bi bi-gear"></i>Settings</a></li>
+          <li><a class="dropdown-item" href="/help"><i class="bi bi-question-circle"></i>Help Centre</a></li>
         <% } else { %>
-          <li>
-            <div class="user-badge-context">
-              <span class="d-block text-secondary small fw-bold" style="letter-spacing: 0.5px; text-transform: uppercase; font-size: 10px;">Authenticated Node</span>
-              <span class="d-block fw-bold text-white text-truncate" style="max-width: 200px; font-size: 14px; margin-top: 2px;">@<%= currUser.username %></span>
-            </div>
+          <li class="px-3 py-2">
+            <span class="d-block text-secondary small fw-bold text-uppercase" style="font-size: 10px;">Logged In As</span>
+            <span class="d-block fw-bold text-dark text-truncate" style="font-size: 14px;">@<%= currUser.username %></span>
           </li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="/bookings/my-bookings"><i class="bi bi-suit-case-fill text-info"></i>My Bookings</a></li>
-          <li><a class="dropdown-item" href="/bookings/owner-dashboard"><i class="bi bi-speedometer2 text-success"></i>Host Dashboard</a></li>
-        <% } %>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="/listings/new"><i class="bi bi-house-add"></i>Join as a Host</a></li>
-        <% if (currUser) { %>
+          <li><a class="dropdown-item" href="/bookings/owner-dashboard"><i class="bi bi-speedometer2 text-warning"></i>Host Dashboard</a></li>
+          <li><a class="dropdown-item" href="/listings/new"><i class="bi bi-house-add text-success"></i>Create New Listing</a></li>
+          <li><a class="dropdown-item" href="/settings"><i class="bi bi-gear text-secondary"></i>Account Settings</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item text-danger fw-semibold" href="/logout"><i class="bi bi-box-arrow-right"></i>Log Out</a></li>
         <% } %>
       </ul>
     </div>
+
   </div>
+
 </nav>
 
-<!-- ⚡ TOP ENTERPRISE AJAX REALTIME CONTENT RE-HYDRATOR -->
+<!-- ==========================================
+     🌍 5. GLOBAL CURRENCY SELECTION MODAL
+     ========================================== -->
+<div class="atithi-currency-modal-backdrop" id="atithiCurrencyModal">
+  <div class="currency-modal-sheet" onclick="event.stopPropagation()">
+    <div class="currency-modal-head">
+      <h4>Choose a currency</h4>
+      <button class="btn btn-sm btn-light rounded-circle" id="closeCurrencyModalBtn" style="width: 36px; height: 36px;">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Currency Options Grid -->
+    <div class="currency-grid-deck">
+      <div class="currency-option-card selected-curr" data-code="INR" data-symbol="₹">
+        <span class="curr-card-name">Indian Rupee</span>
+        <span class="curr-card-code">INR &middot; ₹</span>
+      </div>
+      <div class="currency-option-card" data-code="USD" data-symbol="$">
+        <span class="curr-card-name">United States Dollar</span>
+        <span class="curr-card-code">USD &middot; $</span>
+      </div>
+      <div class="currency-option-card" data-code="EUR" data-symbol="€">
+        <span class="curr-card-name">Euro</span>
+        <span class="curr-card-code">EUR &middot; €</span>
+      </div>
+      <div class="currency-option-card" data-code="GBP" data-symbol="£">
+        <span class="curr-card-name">British Pound</span>
+        <span class="curr-card-code">GBP &middot; £</span>
+      </div>
+      <div class="currency-option-card" data-code="JPY" data-symbol="¥">
+        <span class="curr-card-name">Japanese Yen</span>
+        <span class="curr-card-code">JPY &middot; ¥</span>
+      </div>
+      <div class="currency-option-card" data-code="AED" data-symbol="د.إ">
+        <span class="curr-card-name">Emirati Dirham</span>
+        <span class="curr-card-code">AED &middot; د.إ</span>
+      </div>
+      <div class="currency-option-card" data-code="CAD" data-symbol="$">
+        <span class="curr-card-name">Canadian Dollar</span>
+        <span class="curr-card-code">CAD &middot; $</span>
+      </div>
+      <div class="currency-option-card" data-code="AUD" data-symbol="$">
+        <span class="curr-card-name">Australian Dollar</span>
+        <span class="curr-card-code">AUD &middot; $</span>
+      </div>
+      <div class="currency-option-card" data-code="SGD" data-symbol="$">
+        <span class="curr-card-name">Singapore Dollar</span>
+        <span class="curr-card-code">SGD &middot; $</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     JAVASCRIPT: SCROLL SHRINK, CURRENCY, VOICE, AJAX
+     ========================================== -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    const navbar = document.getElementById("masterAtithiNavbar");
     const searchInput = document.getElementById("atithiSearchInput");
     const suggestionPanel = document.getElementById("atithiAutocompletePanel");
     const filterBtnToggle = document.getElementById("inlineFilterDropdownBtnToggle");
@@ -413,48 +956,152 @@
     const inlineSliderInput = document.getElementById("inlineDropdownSliderInput");
     const inlineDisplayPriceLbl = document.getElementById("inlineDisplayPriceLbl");
     const closeApplyBtn = document.getElementById("inlineFilterPanelCloseApplyBtn");
+    const micBtn = document.getElementById("voiceSearchTrigger");
+    
+    // Currency modal variables
+    const currTrigger = document.getElementById("currencyModalTriggerBtn");
+    const currModal = document.getElementById("atithiCurrencyModal");
+    const currClose = document.getElementById("closeCurrencyModalBtn");
+    const currCards = document.querySelectorAll(".currency-option-card");
+    const currDisplay = document.getElementById("currentActiveCurrencyDisplay");
+
     let debounceTimer;
 
-    // 1. Fluid Filter Open/Close Toggle Control
-    filterBtnToggle.addEventListener("click", (e) => {
-      e.stopPropagation();
-      suggestionPanel.style.display = "none"; 
-      if(filterDropdownPanel.style.display === "block") {
-         filterDropdownPanel.style.display = "none";
-         filterBtnToggle.classList.remove("active");
+    // 🚀 1. DYNAMIC SCROLL SHRINK & EXPAND LISTENER
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add("navbar-scrolled");
       } else {
-         filterDropdownPanel.style.display = "block";
-         filterBtnToggle.classList.add("active");
+        navbar.classList.remove("navbar-scrolled");
       }
     });
 
-    // 2. Main Area Grid Card Updater Modules
+    // 🚀 2. MULTI-CURRENCY CONVERSION ENGINE & MODAL CONTROLS
+    const exchangeRates = {
+      INR: { symbol: "₹", rate: 1 },
+      USD: { symbol: "$", rate: 0.012 },
+      EUR: { symbol: "€", rate: 0.011 },
+      GBP: { symbol: "£", rate: 0.0095 },
+      JPY: { symbol: "¥", rate: 1.85 },
+      AED: { symbol: "د.إ", rate: 0.044 },
+      CAD: { symbol: "CA$", rate: 0.016 },
+      AUD: { symbol: "AU$", rate: 0.018 },
+      SGD: { symbol: "SG$", rate: 0.016 }
+    };
+
+    function applyCurrencyConversion(code) {
+      const config = exchangeRates[code] || exchangeRates.INR;
+      localStorage.setItem("atithi_currency", code);
+
+      if (currDisplay) {
+        currDisplay.textContent = `${code} (${config.symbol})`;
+      }
+
+      document.querySelectorAll("[data-base-price]").forEach(el => {
+        const inrPrice = parseFloat(el.getAttribute("data-base-price"));
+        if (!isNaN(inrPrice)) {
+          const converted = Math.round(inrPrice * config.rate);
+          el.innerHTML = `<bdi>${config.symbol}</bdi>${converted.toLocaleString()}`;
+        }
+      });
+
+      document.querySelectorAll("[data-tax-base]").forEach(el => {
+        const taxBase = parseFloat(el.getAttribute("data-tax-base"));
+        if (!isNaN(taxBase)) {
+          const converted = Math.round(taxBase * config.rate);
+          el.innerHTML = `<bdi>${config.symbol}</bdi>${converted.toLocaleString()}`;
+        }
+      });
+
+      if (inlineDisplayPriceLbl && inlineSliderInput) {
+        const convertedMax = Math.round(parseFloat(inlineSliderInput.value) * config.rate);
+        inlineDisplayPriceLbl.innerHTML = `max <bdi>${config.symbol}</bdi>${convertedMax.toLocaleString()}`;
+      }
+
+      window.dispatchEvent(new CustomEvent("atithi_currency_updated", { detail: { code, config } }));
+    }
+
+    if (currTrigger && currModal && currClose) {
+      currTrigger.addEventListener("click", () => {
+        currModal.classList.add("active-curr-modal");
+      });
+
+      currClose.addEventListener("click", () => {
+        currModal.classList.remove("active-curr-modal");
+      });
+
+      currModal.addEventListener("click", (e) => {
+        if (e.target === currModal) {
+          currModal.classList.remove("active-curr-modal");
+        }
+      });
+
+      currCards.forEach(card => {
+        card.addEventListener("click", () => {
+          currCards.forEach(c => c.classList.remove("selected-curr"));
+          card.classList.add("selected-curr");
+          const code = card.dataset.code;
+          applyCurrencyConversion(code);
+          currModal.classList.remove("active-curr-modal");
+        });
+      });
+
+      const savedCurrency = localStorage.getItem("atithi_currency") || "INR";
+      const activeCard = document.querySelector(`.currency-option-card[data-code="${savedCurrency}"]`);
+      if (activeCard) {
+        currCards.forEach(c => c.classList.remove("selected-curr"));
+        activeCard.classList.add("selected-curr");
+      }
+      applyCurrencyConversion(savedCurrency);
+    }
+
+    // 🚀 3. FILTER PANEL TOGGLE
+    if (filterBtnToggle && filterDropdownPanel) {
+      filterBtnToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (suggestionPanel) suggestionPanel.style.display = "none";
+        const isShown = filterDropdownPanel.style.display === "block";
+        filterDropdownPanel.style.display = isShown ? "none" : "block";
+        filterBtnToggle.classList.toggle("active", !isShown);
+      });
+    }
+
+    // 🚀 4. REALTIME GRID RE-HYDRATOR
     window.appendTextHtmlGrid = function() {
-      const formData = new FormData(document.getElementById("atithiLiveSearchForm"));
+      const form = document.getElementById("atithiLiveSearchForm");
+      if (!form) return;
+      const formData = new FormData(form);
       const searchParams = new URLSearchParams(formData);
 
-      if(window.location.pathname === "/listings" || window.location.pathname === "/") {
-         fetch(`/listings?${searchParams.toString()}`)
+      if (window.location.pathname === "/listings" || window.location.pathname === "/") {
+        fetch(`/listings?${searchParams.toString()}`)
           .then(res => res.text())
           .then(html => {
-             const parser = new DOMParser();
-             const doc = parser.parseFromString(html, 'text/html');
-             const newContent = doc.querySelector('.row') || doc.querySelector('[class*="row-cols"]');
-             const currentContent = document.querySelector('.row') || document.querySelector('[class*="row-cols"]');
-             if(newContent && currentContent) currentContent.innerHTML = newContent.innerHTML;
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newContent = doc.querySelector('.row') || doc.querySelector('[class*="row-cols"]');
+            const currentContent = document.querySelector('.row') || document.querySelector('[class*="row-cols"]');
+            if (newContent && currentContent) {
+              currentContent.innerHTML = newContent.innerHTML;
+              const currentCurr = localStorage.getItem("atithi_currency") || "INR";
+              applyCurrencyConversion(currentCurr);
+            }
           });
       }
-    }
+    };
 
     if (inlineSliderInput && inlineDisplayPriceLbl) {
       inlineSliderInput.addEventListener("input", (e) => {
-        inlineDisplayPriceLbl.innerText = "max ₹" + Number(e.target.value).toLocaleString('en-IN');
+        const savedCurr = localStorage.getItem("atithi_currency") || "INR";
+        const config = exchangeRates[savedCurr] || exchangeRates.INR;
+        const converted = Math.round(Number(e.target.value) * config.rate);
+        inlineDisplayPriceLbl.innerHTML = `max <bdi>${config.symbol}</bdi>${converted.toLocaleString()}`;
       });
       inlineSliderInput.addEventListener("change", () => window.appendTextHtmlGrid());
     }
 
-    document.querySelectorAll(".inline-auto-stream-trigger").forEach(element => {
-      element.addEventListener("change", () => window.appendTextHtmlGrid());
+    document.querySelectorAll(".inline-auto-stream-trigger").forEach(el => {
+      el.addEventListener("change", () => window.appendTextHtmlGrid());
     });
 
     if (closeApplyBtn) {
@@ -464,99 +1111,117 @@
       });
     }
 
-    // 3. Isolated Live Search Auto-suggestions Array parser 
-    searchInput.addEventListener("input", () => {
-      clearTimeout(debounceTimer);
-      filterDropdownPanel.style.display = "none"; 
-      filterBtnToggle.classList.remove("active");
-      
-      const query = searchInput.value.trim().toLowerCase();
+    // 🚀 5. VOICE SEARCH
+    if (micBtn && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-IN';
 
-      if (query.length < 1) {
-        suggestionPanel.style.display = "none";
-        window.appendTextHtmlGrid();
-        return;
-      }
+      micBtn.addEventListener("click", () => {
+        try {
+          recognition.start();
+          micBtn.classList.add("recording-active");
+        } catch(err) {
+          recognition.stop();
+          micBtn.classList.remove("recording-active");
+        }
+      });
 
-      debounceTimer = setTimeout(() => {
-        window.appendTextHtmlGrid(); 
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        if (searchInput) {
+          searchInput.value = transcript;
+          window.appendTextHtmlGrid();
+          document.getElementById("atithiLiveSearchForm").submit();
+        }
+        micBtn.classList.remove("recording-active");
+      };
 
-        fetch(`/listings?search=${encodeURIComponent(query)}&json=true`)
-          .then(res => res.json())
-          .then(data => {
-            suggestionPanel.innerHTML = "";
-            
-            if (!data.success || !data.listings || data.listings.length === 0) {
-              suggestionPanel.innerHTML = `<div class="text-muted small p-3 text-center">No exact matches in Atithi records...</div>`;
-              suggestionPanel.style.display = "block";
-              return;
-            }
+      recognition.onerror = () => micBtn.classList.remove("recording-active");
+      recognition.onend = () => micBtn.classList.remove("recording-active");
+    }
 
-            data.listings.slice(0, 6).forEach(listing => {
-              const title = listing.title ? listing.title.trim() : "Atithi Stay";
-              const location = listing.location ? listing.location.trim().split(',')[0] : "India";
-              const price = listing.price ? Number(listing.price).toLocaleString('en-IN') : "N/A";
-              
-              let averageRating = "New"; 
-              if (listing.reviews && listing.reviews.length > 0) {
-                let sum = 0, validReviewsCount = 0;
-                listing.reviews.forEach(r => { if (r.rating) { sum += Number(r.rating); validReviewsCount++; } });
-                if(validReviewsCount > 0) averageRating = (sum / validReviewsCount).toFixed(1);
+    // 🚀 6. LIVE SEARCH AUTOCOMPLETE
+    if (searchInput && suggestionPanel) {
+      searchInput.addEventListener("input", () => {
+        clearTimeout(debounceTimer);
+        if (filterDropdownPanel) {
+          filterDropdownPanel.style.display = "none";
+          filterBtnToggle.classList.remove("active");
+        }
+
+        const query = searchInput.value.trim().toLowerCase();
+        if (query.length < 1) {
+          suggestionPanel.style.display = "none";
+          window.appendTextHtmlGrid();
+          return;
+        }
+
+        debounceTimer = setTimeout(() => {
+          window.appendTextHtmlGrid();
+
+          fetch(`/listings?search=${encodeURIComponent(query)}&json=true`)
+            .then(res => res.json())
+            .then(data => {
+              suggestionPanel.innerHTML = "";
+              if (!data.success || !data.listings || data.listings.length === 0) {
+                suggestionPanel.innerHTML = `<div class="text-muted small p-3 text-center">No stays found matching "${query}"</div>`;
+                suggestionPanel.style.display = "block";
+                return;
               }
 
-              const imgSrc = (listing.images && listing.images.length > 0 && listing.images[0].url) 
-                ? listing.images[0].url 
-                : "https://images.unsplash.com/photo-1584132967334-10e028bd69f7";
+              const savedCurr = localStorage.getItem("atithi_currency") || "INR";
+              const config = exchangeRates[savedCurr] || exchangeRates.INR;
 
-              const item = document.createElement("div");
-              item.className = "suggestion-item";
-              
-              const isLocationMatch = location.toLowerCase().includes(query);
-              if (isLocationMatch) item.classList.add("loc-match");
+              data.listings.slice(0, 5).forEach(listing => {
+                const title = listing.title || "Atithi Stay";
+                const location = listing.location || "India";
+                
+                let price = "N/A";
+                if (listing.price) {
+                  const converted = Math.round(Number(listing.price) * config.rate);
+                  price = `<bdi>${config.symbol}</bdi>${converted.toLocaleString()}`;
+                }
 
-              item.innerHTML = `
-                <img src="${imgSrc}" class="suggestion-img-thumbnail" alt="atithi">
-                <div class="suggestion-info-block">
-                  <div class="text-white fw-bold text-truncate" style="font-size:15px; max-width: 260px;">
-                    ${isLocationMatch ? location : title}
+                const imgSrc = (listing.images && listing.images.length > 0) 
+                  ? listing.images[0].url 
+                  : (listing.image && listing.image.url ? listing.image.url : "https://images.unsplash.com/photo-1584132967334-10e028bd69f7");
+
+                const item = document.createElement("div");
+                item.className = "suggestion-item";
+                item.innerHTML = `
+                  <img src="${imgSrc}" class="suggestion-thumb" alt="stay">
+                  <div class="flex-grow-1 min-w-0">
+                    <div class="suggestion-title text-truncate">${title}</div>
+                    <div class="suggestion-subtitle text-truncate">${location}</div>
                   </div>
-                  <div class="suggestion-meta-row">
-                    <span class="text-truncate" style="max-width: 140px;">${isLocationMatch ? `🏨 ${title}` : `📍 ${location}`}</span>
-                    <span style="color: rgba(255,255,255,0.15);">|</span>
-                    <span style="color:var(--brand-green); font-weight:600;">₹${price}</span>
-                    <span style="color: rgba(255,255,255,0.15);">|</span>
-                    <span class="suggestion-rating-badge"><i class="bi bi-star-fill"></i> ${averageRating}</span>
-                  </div>
-                </div>
-                <span class="item-type-badge">${isLocationMatch ? 'Location' : 'Property'}</span>
-              `;
+                  <div class="suggestion-price">${price}</div>
+                `;
 
-              item.addEventListener("click", () => {
-                searchInput.value = isLocationMatch ? location : title;
-                suggestionPanel.style.display = "none";
-                window.appendTextHtmlGrid();
-                document.getElementById("atithiLiveSearchForm").submit();
+                item.addEventListener("click", () => {
+                  window.location.href = `/listings/${listing._id}`;
+                });
+
+                suggestionPanel.appendChild(item);
               });
 
-              suggestionPanel.appendChild(item);
+              suggestionPanel.style.display = "block";
+            })
+            .catch(() => {
+              suggestionPanel.style.display = "none";
             });
+        }, 250);
+      });
+    }
 
-            suggestionPanel.style.display = "block";
-          })
-          .catch(err => {
-            console.error("JSON Autocomplete sync broken:", err);
-            suggestionPanel.style.display = "none";
-          });
-      }, 250);
-    });
-
-    // Dismiss active layouts on external wrapper tap triggers
+    // Dismiss on click outside
     document.addEventListener("click", (e) => {
-      if (!filterDropdownPanel.contains(e.target) && !filterBtnToggle.contains(e.target)) {
+      if (filterDropdownPanel && !filterDropdownPanel.contains(e.target) && !filterBtnToggle.contains(e.target)) {
         filterDropdownPanel.style.display = "none";
         filterBtnToggle.classList.remove("active");
       }
-      if (!searchInput.contains(e.target) && !suggestionPanel.contains(e.target)) {
+      if (suggestionPanel && !searchInput.contains(e.target) && !suggestionPanel.contains(e.target)) {
         suggestionPanel.style.display = "none";
       }
     });
