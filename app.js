@@ -109,7 +109,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/auth/google/callback',
+      // Updated
+      callbackURL: (process.env.APP_BASE_URL || 'https://atithii.co.in') + '/auth/google/callback',
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
