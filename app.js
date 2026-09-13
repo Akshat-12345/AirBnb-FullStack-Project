@@ -62,6 +62,7 @@ async function main() {
 }
 
 app.engine('ejs', ejsMate);
+app.set("trust proxy", 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "views"));
 
@@ -109,6 +110,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: '/auth/google/callback',
+      proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -244,3 +246,4 @@ server.timeout = 600000;
 
 //cd "C:\Users\aksha\OneDrive\Desktop\AKSHAT ENTIRE WORK\SIGMA_8.0\Air_Bnb_Project"
 // ssh -i "my-airbnb-key.pem" ubuntu@13.60.169.79
+//ssh -i ~/Downloads/atithi.pem ubuntu@51.21.200.144
