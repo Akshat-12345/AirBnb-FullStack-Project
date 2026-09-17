@@ -3,13 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atithi</title>
+    <title>Atithi | Find Your Perfect Stay</title>
     <link rel="icon" href="/images/airbnbicon.png" type="image/png">
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style> #map { height: 400px; width: 100%; } </style>
+
+    <style>
+        #map { height: 400px; width: 100%; }
+
+        /* 1. Scrollbar buttons hide */
+        ::-webkit-scrollbar-button {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        /* 2. Scrollbar width thodi widen ki taaki vertical stripes clear dikhein */
+        ::-webkit-scrollbar {
+            width: 14px !important;
+            height: 14px !important;
+        }
+
+        /* 3. Force dark background on the entire scroll track */
+        ::-webkit-scrollbar-track {
+            background-color: #0b1329 !important;
+        }
+
+        /* 4. Exact 5-stripe logo palette across the thumb (90deg Left to Right) */
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+                90deg,
+                #36c2ce 0% 20%,    /* Paint Cyan */
+                #2563eb 20% 40%,   /* Royal Blue */
+                #facc15 40% 60%,   /* Yellow */
+                #f97316 60% 80%,   /* Orange */
+                #e11d48 80% 100%   /* Pink */
+            ) !important;
+            border-radius: 20px !important;
+            border: 2.5px solid #0b1329 !important; /* Midnight border for pill look */
+        }
+
+        /* 5. Hover brightness */
+        ::-webkit-scrollbar-thumb:hover {
+            filter: brightness(1.15) !important;
+        }
+    </style>
 </head>
 <body>
     <%-include("../includes/navbar.ejs")%>

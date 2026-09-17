@@ -1,123 +1,185 @@
+<!-- Bootstrap Icons CDN (already in your head/layout if included) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
   :root {
-    /* Atithi Signature Creative Colors Blueprint */
-    --brand-orange: #FF9432;
-    --brand-green: #67B636;
-    --brand-blue: #00A3E0;
+    /* Exact Brand Palette from Atithi Logo */
+    --brand-cyan: #36c2ce;
+    --brand-blue: #2563eb;
+    --brand-yellow: #f59e0b;
+    --brand-orange: #f97316;
+    --brand-pink: #e11d48;
     
-    --matrix-dark: #0f172a;       /* 🚀 FIXED: Exact dark backdrop matching image_6350ff.png */
-    --bg-sub-dark: #1e293b;       /* Balanced slate interior layers for fields */
-    --text-pure: #ffffff;         /* Premium high-end text headers */
-    --text-muted-gray: #94a3b8;   /* Sleek clean grey text parameters */
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --font-premium-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    /* Requested Background & Glass Elements */
+    --footer-bg: #0b1329;
+    --footer-card: rgba(255, 255, 255, 0.035);
+    --footer-card-hover: rgba(255, 255, 255, 0.07);
+    --footer-border: rgba(255, 255, 255, 0.08);
+    --footer-border-glow: rgba(249, 115, 22, 0.4);
+    
+    --text-pure: #ffffff;
+    --text-muted-gray: #94a3b8;
+    --text-dim: #64748b;
+    --font-premium-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   }
 
-  /* === 🌌 ABSOLUTE SPACE METALLIC FOOTER CONSOLE === */
+  /* === 🌌 ULTRA-MODERN FOOTER CONTAINER === */
   .footer-clean-engine {
-    background-color: var(--matrix-dark) !important;
-    border-top: 1px solid var(--glass-border);
-    padding-top: 65px;
-    padding-bottom: 35px;
+    background-color: var(--footer-bg) !important;
     position: relative;
+    padding-top: 70px;
+    padding-bottom: 35px;
     font-family: var(--font-premium-stack);
     -webkit-font-smoothing: antialiased;
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  /* 🚀 TOP CEILING GLOW STRIP: Matches navbar dynamic ceiling pixel-for-pixel */
+  /* 🖌️ ANIMATED BRAND SPECTRUM TOP BORDER */
   .footer-clean-engine::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3.5px;
-    background: linear-gradient(90deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
+    height: 3px;
+    background: linear-gradient(90deg, 
+      var(--brand-cyan) 0%, 
+      var(--brand-blue) 25%, 
+      var(--brand-yellow) 50%, 
+      var(--brand-orange) 75%, 
+      var(--brand-pink) 100%);
+    background-size: 200% 100%;
+    animation: spectrumFlow 8s ease infinite;
     z-index: 10;
   }
 
+  @keyframes spectrumFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .footer-container-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* === 🏷️ BRAND COLUMN (Pure & Clean Logo Integration) === */
   .footer-brand-block {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding-right: 30px; 
+    padding-right: 25px;
   }
   
+  .footer-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  /* Effect removed completely to blend seamlessly with #0b1329 */
   .footer-logo-img {
-    height: 36px;
+    height: 42px;
+    width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(255, 148, 50, 0.25));
+    filter: none !important;
+    background: transparent !important;
+    display: block;
   }
 
   .footer-logo-text {
     font-weight: 800;
     font-size: 28px;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
+    background: linear-gradient(90deg, #38bdf8 0%, #fbbf24 35%, #fb923c 70%, #f43f5e 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+    line-height: 1;
   }
   
   .footer-brand-desc {
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--text-muted-gray);
-    line-height: 1.6;
+    line-height: 1.65;
     font-weight: 400;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
-  /* === 🔍 PREMIUM INTEGRATED INPUT DOCK === */
+  /* === 📨 GLASS NEWSLETTER DOCK === */
   .footer-newsletter-form {
     display: flex;
-    gap: 10px;
-    max-width: 320px;
-    margin-top: 4px;
-    position: relative;
-  }
-  .newsletter-input {
-    flex: 1;
-    background: var(--bg-sub-dark);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 11px 14px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--text-pure);
-    outline: none;
-    transition: all 0.25s ease;
-  }
-  .newsletter-input:focus {
-    border-color: var(--brand-orange);
-    box-shadow: 0 0 0 4px rgba(255, 148, 50, 0.15);
-  }
-  .newsletter-submit-btn {
-    background: linear-gradient(135deg, var(--brand-orange), #ff5a36);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 11px 18px;
-    font-size: 13.5px;
-    font-weight: 700;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(255, 90, 54, 0.25);
-  }
-  .newsletter-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(255, 90, 54, 0.4);
+    align-items: center;
+    background: var(--footer-card);
+    padding: 5px 6px;
+    border-radius: 50px;
+    border: 1px solid var(--footer-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   }
 
+  .footer-newsletter-form:focus-within {
+    border-color: var(--footer-border-glow);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 25px rgba(249, 115, 22, 0.2);
+  }
+
+  .newsletter-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    font-size: 13.5px;
+    color: var(--text-pure);
+    outline: none;
+  }
+
+  .newsletter-input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .newsletter-submit-btn {
+    background: linear-gradient(135deg, #f97316 0%, #e11d48 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .newsletter-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.55);
+    opacity: 0.95;
+  }
+
+  .newsletter-submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .newsletter-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* === 🗂️ NAV COLUMNS === */
   .footer-col-deck h6 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    color: var(--text-pure) !important; /* Bold solid white text header categories */
-    margin-bottom: 22px;
-    letter-spacing: 0.3px;
-    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-pure) !important;
+    margin-bottom: 20px;
   }
 
   .footer-col-deck ul {
@@ -131,85 +193,113 @@
   }
 
   .footer-col-deck ul li a {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 13.5px;
     color: var(--text-muted-gray) !important;
     text-decoration: none;
-    display: inline-block;
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition: all 0.2s ease;
   }
 
-  /* 🚀 ADDED MICRO ANIMATIONS: Organic kinetic lift on focus */
-  .footer-col-deck ul li a:hover {
-    transform: translateX(4px); 
-    color: var(--text-pure) !important;
+  .footer-col-deck ul li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 1px;
+    background: var(--brand-orange);
+    transition: width 0.25s ease;
   }
-  
-  /* === 👤 MINIMALIST BOTTOM CREDITS DASHBOARD === */
+
+  .footer-col-deck ul li a:hover {
+    color: var(--text-pure) !important;
+    transform: translateX(4px);
+  }
+
+  .footer-col-deck ul li a:hover::before {
+    width: 100%;
+  }
+
+  /* === ⚓ BOTTOM DOCK === */
   .footer-clean-dock {
-    border-top: 1px solid var(--glass-border);
-    margin-top: 45px;
-    padding-top: 26px;
-    font-size: 14px;
+    border-top: 1px solid var(--footer-border);
+    margin-top: 50px;
+    padding-top: 25px;
+    font-size: 13px;
   }
 
   .copyright-pill {
-    font-weight: 500;
     color: var(--text-muted-gray);
   }
 
   .dock-links-array {
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 18px;
   }
 
   .dock-links-array a {
     color: var(--text-muted-gray);
     text-decoration: none;
-    font-weight: 500;
     transition: color 0.2s ease;
   }
+
   .dock-links-array a:hover {
     color: var(--text-pure);
   }
 
   .dock-social-deck {
     display: flex;
-    gap: 16px;
+    gap: 10px;
   }
 
   .social-minimal-item {
-    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--footer-card);
+    border: 1px solid var(--footer-border);
+    font-size: 14px;
     color: var(--text-muted-gray);
     text-decoration: none;
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: inline-block;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .social-minimal-item:hover {
-    transform: scale(1.2) translateY(-2px);
-    color: var(--brand-orange); /* Glowing pop to primary branding accent color */
+    background: var(--footer-card-hover);
+    color: var(--text-pure);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
   }
 </style>
 
 <footer class="footer footer-clean-engine">
-  <div class="container">
+  <div class="container footer-container-inner">
     <div class="row">
+      <!-- Brand & Newsletter Section -->
       <div class="col-12 col-lg-4 mb-5 mb-lg-0 footer-brand-block">
-        <div class="d-flex align-items-center gap-2">
+        <a href="/" class="footer-logo-link">
           <img src="/images/airbnb.png" alt="Atithi Logo" class="footer-logo-img">
           <span class="footer-logo-text">Atithi</span>
-        </div>
+        </a>
         <p class="footer-brand-desc">
           Discover localized stay paradigms and premium group experiences. Stay integrated, travel unified.
         </p>
         
+        <!-- Preserved Form ID & Action Logic -->
         <form class="footer-newsletter-form" id="newsletterForm">
-          <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Subscribe to our updates" required>
+          <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Enter your email for updates" required>
           <button class="newsletter-submit-btn" type="submit" id="newsletterBtn">Join</button>
         </form>
       </div>
 
+      <!-- Navigation Columns -->
       <div class="col-6 col-md-3 col-lg-2 mb-4 footer-col-deck">
         <h6>About</h6>
         <ul>
@@ -248,6 +338,7 @@
       </div>
     </div>
 
+    <!-- Bottom Dock Bar -->
     <div class="footer-clean-dock d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
       <div class="d-flex flex-column flex-md-row align-items-center gap-3">
         <span class="copyright-pill">© 2026 Atithi, Inc.</span>
@@ -258,6 +349,7 @@
         </div>
       </div>
       
+      <!-- Social Media Icons -->
       <div class="dock-social-deck">
         <a href="#" class="social-minimal-item" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
         <a href="#" class="social-minimal-item" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
@@ -267,6 +359,7 @@
   </div>
 </footer>
 
+<!-- Same Event Listener & Fetch Logic -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("newsletterForm");

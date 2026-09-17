@@ -2,21 +2,30 @@
 
 <style>
   :root {
-    --brand-orange: #FF9432;
-    --brand-green: #67B636;
-    --brand-blue: #00A3E0;
-    --nav-bg: rgba(255, 255, 255, 0.94);
-    --nav-border: #ebebeb;
-    --nav-text: #222222;
-    --nav-muted: #717171;
-    --nav-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    --nav-shadow-scrolled: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Exact Logo Palette */
+    --logo-teal: #1EBBD7;
+    --logo-blue: #1D78D6;
+    --logo-yellow: #F5B800;
+    --logo-orange: #F26C23;
+    --logo-pink: #E32D76;
+    --logo-purple: #7A36A8;
+    
+    --brand-spectrum: linear-gradient(135deg, #1EBBD7 0%, #1D78D6 20%, #F5B800 40%, #F26C23 60%, #E32D76 80%, #7A36A8 100%);
+    --brand-spectrum-h: linear-gradient(90deg, #1EBBD7 0%, #1D78D6 20%, #F5B800 40%, #F26C23 60%, #E32D76 80%, #7A36A8 100%);
+    --brand-spectrum-v: linear-gradient(180deg, #1EBBD7 0%, #1D78D6 20%, #F5B800 40%, #F26C23 60%, #E32D76 80%, #7A36A8 100%);
+
+    --nav-bg: rgba(255, 255, 255, 0.92);
+    --nav-border: rgba(30, 187, 215, 0.12);
+    --nav-text: #1f242e;
+    --nav-muted: #64748b;
+    --nav-shadow: 0 10px 30px -10px rgba(29, 120, 214, 0.08);
+    --nav-shadow-scrolled: 0 12px 35px -5px rgba(242, 108, 35, 0.12);
   }
 
-  /* === 🌐 1. EXACT 1/3RD ATITHI TRI-COLOR SCROLLBAR === */
+  /* === 🌐 1. EXACT LOGO PALETTE SCROLLBAR === */
   html, body, * {
     scrollbar-width: thin;
-    scrollbar-color: var(--brand-orange) #f8fafc;
+    scrollbar-color: var(--logo-teal) #f8fafc;
   }
 
   ::-webkit-scrollbar {
@@ -30,62 +39,31 @@
     margin: 3px 0;
   }
 
-  /* Vertical Thumb: Exact 1/3rd Orange, 1/3rd Green, 1/3rd Blue smoothly mixed */
+  /* Vertical Thumb: Smooth drip spectrum matching the paint strips */
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      180deg,
-      #FF9432 0%,
-      #FF9432 28%,
-      #67B636 33.33%,
-      #67B636 61.33%,
-      #00A3E0 66.66%,
-      #00A3E0 100%
-    );
+    background: var(--brand-spectrum-v);
     border-radius: 100px;
     border: 2px solid #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   }
 
-  /* Horizontal Thumb: 1/3rd split left to right */
+  /* Horizontal Thumb */
   ::-webkit-scrollbar-thumb:horizontal {
-    background: linear-gradient(
-      90deg,
-      #FF9432 0%,
-      #FF9432 28%,
-      #67B636 33.33%,
-      #67B636 61.33%,
-      #00A3E0 66.66%,
-      #00A3E0 100%
-    );
+    background: var(--brand-spectrum-h);
     border-radius: 100px;
     border: 2px solid #ffffff;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      180deg,
-      #ff7f0e 0%,
-      #ff7f0e 28%,
-      #55a524 33.33%,
-      #55a524 61.33%,
-      #008dc4 66.66%,
-      #008dc4 100%
-    );
+    filter: brightness(1.1);
+    box-shadow: 0 0 10px rgba(30, 187, 215, 0.4);
   }
 
   ::-webkit-scrollbar-thumb:horizontal:hover {
-    background: linear-gradient(
-      90deg,
-      #ff7f0e 0%,
-      #ff7f0e 28%,
-      #55a524 33.33%,
-      #55a524 61.33%,
-      #008dc4 66.66%,
-      #008dc4 100%
-    );
+    filter: brightness(1.1);
   }
 
-  /* Modals & Dropdown panel scrollbars */
+  /* Modals & Dropdown scrollbars */
   .currency-grid-deck::-webkit-scrollbar,
   .atithi-autocomplete-panel::-webkit-scrollbar,
   .atithi-inline-filter-dropdown::-webkit-scrollbar {
@@ -95,15 +73,7 @@
   .currency-grid-deck::-webkit-scrollbar-thumb,
   .atithi-autocomplete-panel::-webkit-scrollbar-thumb,
   .atithi-inline-filter-dropdown::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      180deg,
-      #FF9432 0%,
-      #FF9432 28%,
-      #67B636 33.33%,
-      #67B636 61.33%,
-      #00A3E0 66.66%,
-      #00A3E0 100%
-    );
+    background: var(--brand-spectrum-v);
     border-radius: 100px;
     border: 1px solid #ffffff;
   }
@@ -115,10 +85,10 @@
     left: 0;
     right: 0;
     z-index: 99999 !important;
-    height: 102px;
+    height: 100px;
     background: var(--nav-bg) !important;
-    backdrop-filter: blur(28px) saturate(190%);
-    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid var(--nav-border);
     box-shadow: var(--nav-shadow);
     display: grid;
@@ -126,33 +96,33 @@
     align-items: center;
     padding: 0 4rem;
     gap: 16px;
-    transition: height 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.28s ease, 
-                padding 0.28s ease,
-                background 0.28s ease;
+    transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.3s ease, 
+                padding 0.3s ease,
+                background 0.3s ease;
     box-sizing: border-box;
   }
 
   .atithi-navbar-master.navbar-scrolled {
-    height: 85px;
+    height: 82px;
     box-shadow: var(--nav-shadow-scrolled);
-    background: rgba(255, 255, 255, 0.97) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     padding: 0 3.5rem;
   }
 
-  /* Top laser spectrum line */
+  /* Top laser spectrum line with animated glow */
   .atithi-navbar-master::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 2.5px;
-    background: linear-gradient(90deg, var(--brand-orange) 0%, var(--brand-green) 50%, var(--brand-blue) 100%);
+    height: 3px;
+    background: var(--brand-spectrum-h);
     z-index: 100000;
   }
 
-  /* Brand Logo */
+/* Brand Logo - Clean & Seamless */
   .brand-identity-anchor {
     display: flex;
     align-items: center;
@@ -160,30 +130,62 @@
     text-decoration: none !important;
     cursor: pointer;
     flex-shrink: 0;
+    background: transparent !important;
   }
+  
   .brand-logo-img {
-    height: 40px;
+    height: 50px;
+    width: auto;
     object-fit: contain;
-    transition: all 0.28s ease;
+    /* White background ko navbar ke sath seamlessly blend karta hai */
+    mix-blend-mode: multiply; 
+    filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    transition: transform 0.25s ease;
   }
+
   .navbar-scrolled .brand-logo-img {
-    height: 34px;
+    height: 36px;
   }
+
+  /* Simple subtle scale on hover without weird tilts/shadows */
   .brand-identity-anchor:hover .brand-logo-img {
-    transform: rotate(-6deg) scale(1.08);
+    transform: scale(1.05);
   }
+
   .brand-logo-text {
-    font-weight: 800;
-    font-size: 26px;
-    letter-spacing: -0.8px;
-    background: linear-gradient(135deg, var(--brand-orange) 10%, var(--brand-green) 55%, var(--brand-blue) 100%);
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: -0.5px;
+    /* Exactly matching the teal & orange blend of the logo */
+    background: linear-gradient(135deg, #1EBBD7 10%, #F5B800 50%, #F26C23 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
-    transition: font-size 0.28s ease;
+    transition: font-size 0.3s ease;
+  }
+
+  .navbar-scrolled .brand-logo-text {
+    font-size: 24px;
+  }
+  .brand-identity-anchor:hover .brand-logo-img {
+    transform: rotate(-8deg) scale(1.12);
+    filter: drop-shadow(0 6px 12px rgba(242, 108, 35, 0.35));
+  }
+  .brand-logo-text {
+    font-weight: 700;
+    font-size: 35px;
+    letter-spacing: -0.3px;
+    background: var(--brand-spectrum);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    transition: font-size 0.3s ease;
   }
   .navbar-scrolled .brand-logo-text {
-    font-size: 23px;
+    font-size: 26px;
   }
 
   /* === 🔍 3. SEARCH CAPSULE === */
@@ -199,23 +201,25 @@
     display: flex;
     align-items: center;
     background: #ffffff;
-    border: 1px solid #dddddd;
+    border: 1.5px solid #eef2f6;
     border-radius: 40px;
-    padding: 7px 8px 7px 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    padding: 6px 8px 6px 20px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
     max-width: 100%;
   }
   .navbar-scrolled .atithi-search-pill-hub {
     padding: 5px 6px 5px 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.07);
   }
   .atithi-search-pill-hub:hover {
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+    border-color: rgba(30, 187, 215, 0.4);
+    box-shadow: 0 8px 24px rgba(30, 187, 215, 0.12);
+    transform: translateY(-1px);
   }
   .atithi-search-pill-hub:focus-within {
-    border-color: #222222;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+    border-color: var(--logo-blue);
+    box-shadow: 0 10px 30px rgba(29, 120, 214, 0.18);
   }
 
   .search-inline-form {
@@ -230,22 +234,22 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: 14px;
+    font-size: 14.5px;
     font-weight: 600;
-    color: #222222;
+    color: #1e293b;
     width: 270px;
-    transition: width 0.25s ease;
+    transition: width 0.3s ease;
   }
   .main-search-input:focus {
     width: 310px;
   }
   .main-search-input::placeholder {
-    color: #717171;
+    color: #94a3b8;
     font-weight: 500;
   }
 
   .capsule-v-divider {
-    color: #dddddd;
+    color: #cbd5e1;
     font-weight: 300;
     font-size: 16px;
     user-select: none;
@@ -254,27 +258,28 @@
   .btn-voice-mic-trigger {
     background: transparent;
     border: none;
-    color: #717171;
+    color: #64748b;
     font-size: 15px;
-    padding: 4px 6px;
+    padding: 6px 8px;
     cursor: pointer;
     border-radius: 50%;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .btn-voice-mic-trigger:hover {
-    color: var(--brand-orange);
-    background: #f8fafc;
+    color: var(--logo-pink);
+    background: rgba(227, 45, 118, 0.08);
   }
   .btn-voice-mic-trigger.recording-active {
-    color: #ff385c;
-    animation: micBlink 1s infinite alternate;
+    color: var(--logo-pink);
+    background: rgba(227, 45, 118, 0.15);
+    animation: micPulse 1s infinite alternate;
   }
-  @keyframes micBlink {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.2); }
+  @keyframes micPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--logo-pink)); }
+    100% { transform: scale(1.22); filter: drop-shadow(0 0 8px var(--logo-pink)); }
   }
 
   .btn-capsule-filter-toggle {
@@ -283,8 +288,8 @@
     outline: none;
     font-size: 13.5px;
     font-weight: 600;
-    color: #222222;
-    padding: 6px 12px;
+    color: #334155;
+    padding: 6px 14px;
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -294,15 +299,16 @@
     white-space: nowrap;
   }
   .btn-capsule-filter-toggle:hover, .btn-capsule-filter-toggle.active {
-    background: #f7f7f7;
-    color: var(--brand-orange);
+    background: rgba(30, 187, 215, 0.08);
+    color: var(--logo-teal);
   }
 
+  /* Vibrant Paint-Gradient Search Button */
   .btn-search-magnifier {
-    background: linear-gradient(135deg, var(--brand-orange) 0%, #ff5e3a 100%);
+    background: linear-gradient(135deg, var(--logo-orange) 0%, var(--logo-pink) 100%);
     color: white;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     border: none;
     display: flex;
@@ -310,17 +316,18 @@
     justify-content: center;
     font-size: 13px;
     cursor: pointer;
-    box-shadow: 0 3px 10px rgba(255, 94, 58, 0.4);
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 14px rgba(242, 108, 35, 0.35);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     flex-shrink: 0;
   }
   .navbar-scrolled .btn-search-magnifier {
-    width: 33px;
-    height: 33px;
+    width: 34px;
+    height: 34px;
     font-size: 12px;
   }
   .btn-search-magnifier:hover {
-    transform: scale(1.08) rotate(5deg);
+    transform: scale(1.1) rotate(8deg);
+    box-shadow: 0 6px 20px rgba(227, 45, 118, 0.45);
   }
 
   /* === AUTOCOMPLETE & FILTERS === */
@@ -330,9 +337,9 @@
     left: 0;
     right: 0;
     background: #ffffff;
-    border: 1px solid #ededed;
+    border: 1px solid #eef2f6;
     border-radius: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.14);
     max-height: 420px;
     overflow-y: auto;
     z-index: 100002;
@@ -351,7 +358,7 @@
     border-bottom: 1px solid #f8fafc;
   }
   .suggestion-item:hover {
-    background: #f8fafc;
+    background: rgba(30, 187, 215, 0.05);
     transform: translateX(4px);
   }
   .suggestion-thumb {
@@ -360,7 +367,7 @@
     border-radius: 12px;
     object-fit: cover;
     flex-shrink: 0;
-    border: 1px solid #e2e8f0;
+    border: 1.5px solid #e2e8f0;
   }
   .suggestion-title {
     font-size: 14.5px;
@@ -372,9 +379,9 @@
     color: #64748b;
   }
   .suggestion-price {
-    font-size: 12.5px;
+    font-size: 13px;
     font-weight: 700;
-    color: var(--brand-green);
+    color: var(--logo-blue);
   }
 
   .atithi-inline-filter-dropdown {
@@ -384,9 +391,9 @@
     width: 540px;
     max-width: 90vw;
     background: #ffffff;
-    border: 1px solid #ededed;
+    border: 1px solid #eef2f6;
     border-radius: 26px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.16);
     padding: 24px;
     display: none;
     z-index: 100001;
@@ -395,21 +402,21 @@
   .filter-section-header {
     font-size: 15px;
     font-weight: 700;
-    color: #222222;
+    color: #1e293b;
     margin-bottom: 12px;
   }
   .price-slider-label {
     font-size: 13px;
     font-weight: 700;
-    color: #222222;
-    background: #f7f7f7;
+    color: var(--logo-orange);
+    background: rgba(242, 108, 35, 0.08);
     padding: 4px 14px;
     border-radius: 20px;
-    border: 1px solid #ebebeb;
+    border: 1px solid rgba(242, 108, 35, 0.2);
   }
   .atithi-filter-slider {
     width: 100%;
-    accent-color: #222222;
+    accent-color: var(--logo-orange);
     cursor: pointer;
   }
   .category-pill-matrix {
@@ -427,38 +434,54 @@
     padding: 7px 16px;
     border-radius: 20px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
+  }
+  .pill-check-label:hover {
+    border-color: var(--logo-teal);
+    color: var(--logo-teal);
+    background: #ffffff;
   }
   .pill-check-input:checked + .pill-check-label {
-    background: #222222;
+    background: linear-gradient(135deg, var(--logo-blue) 0%, var(--logo-teal) 100%);
     color: #ffffff;
-    border-color: #222222;
+    border-color: transparent;
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(29, 120, 214, 0.25);
   }
   .filter-actions-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: 18px;
-    border-top: 1px solid #ebebeb;
+    border-top: 1px solid #f1f5f9;
     margin-top: 20px;
   }
   .filter-clear-link {
     font-size: 14px;
     font-weight: 600;
-    color: #222222;
+    color: #64748b;
     text-decoration: underline;
     cursor: pointer;
+    transition: color 0.2s;
+  }
+  .filter-clear-link:hover {
+    color: var(--logo-pink);
   }
   .btn-filter-apply {
-    background: #222222;
+    background: linear-gradient(135deg, var(--logo-orange) 0%, var(--logo-pink) 100%);
     color: #ffffff;
     border: none;
     font-size: 14px;
     font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 10px;
+    padding: 10px 24px;
+    border-radius: 12px;
     cursor: pointer;
+    box-shadow: 0 4px 14px rgba(227, 45, 118, 0.3);
+    transition: all 0.2s;
+  }
+  .btn-filter-apply:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(227, 45, 118, 0.4);
   }
 
   /* === 👤 4. RIGHT UTILITY CONTROLS === */
@@ -471,49 +494,61 @@
   .nav-host-link {
     font-size: 14px;
     font-weight: 600;
-    color: #222222;
+    color: #334155;
     text-decoration: none !important;
-    padding: 10px 14px;
+    padding: 10px 16px;
     border-radius: 24px;
     white-space: nowrap;
+    transition: all 0.2s;
   }
   .nav-host-link:hover {
-    background: #f7f7f7;
-    color: #000000;
+    background: rgba(30, 187, 215, 0.08);
+    color: var(--logo-teal);
   }
   .currency-globe-btn {
     background: transparent;
     border: none;
-    color: #222222;
+    color: #334155;
     font-weight: 600;
     font-size: 14px;
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 12px;
+    padding: 8px 14px;
     border-radius: 24px;
     cursor: pointer;
     white-space: nowrap;
+    transition: all 0.2s;
   }
   .currency-globe-btn:hover {
-    background: #f7f7f7;
+    background: rgba(29, 120, 214, 0.08);
+    color: var(--logo-blue);
   }
+  .currency-globe-btn i {
+    color: var(--logo-blue);
+  }
+
   .profile-trigger-pill {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 5px 6px 5px 12px;
+    padding: 5px 6px 5px 14px;
     background: #ffffff;
-    border: 1px solid #dddddd;
+    border: 1.5px solid #e2e8f0;
     border-radius: 30px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    transition: all 0.25s ease;
+  }
+  .profile-trigger-pill:hover {
+    border-color: var(--logo-purple);
+    box-shadow: 0 4px 14px rgba(122, 54, 168, 0.15);
   }
   .profile-avatar-node {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: #222222;
+    background: linear-gradient(135deg, var(--logo-purple) 0%, var(--logo-pink) 100%);
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -521,6 +556,7 @@
     font-size: 14px;
     font-weight: 700;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(122, 54, 168, 0.25);
   }
   .profile-avatar-node img {
     width: 100%;
@@ -530,26 +566,29 @@
 
   .dropdown-menu-atithi {
     border-radius: 20px;
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
-    padding: 8px;
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.15);
+    padding: 10px;
     min-width: 250px;
     margin-top: 12px !important;
-    border: 1px solid #ebebeb;
+    border: 1px solid #eef2f6;
     background: #ffffff;
   }
   .dropdown-menu-atithi .dropdown-item {
     padding: 10px 14px;
     font-size: 14px;
     font-weight: 500;
-    color: #222222;
+    color: #334155;
     border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 10px;
     text-decoration: none;
+    transition: all 0.15s;
   }
   .dropdown-menu-atithi .dropdown-item:hover {
-    background: #f7f7f7;
+    background: #f8fafc;
+    color: var(--logo-blue);
+    transform: translateX(3px);
   }
 
   /* Currency Modal */
@@ -559,7 +598,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(15, 23, 42, 0.5);
     backdrop-filter: blur(8px);
     z-index: 100005;
     display: none;
@@ -574,9 +613,9 @@
     background: #ffffff;
     width: 100%;
     max-width: 740px;
-    border-radius: 24px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
-    padding: 26px;
+    border-radius: 26px;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.22);
+    padding: 28px;
   }
   .currency-modal-head {
     display: flex;
@@ -584,7 +623,7 @@
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #f1f5f9;
   }
   .currency-grid-deck {
     display: grid;
@@ -594,21 +633,25 @@
     overflow-y: auto;
   }
   .currency-option-card {
-    padding: 12px 14px;
+    padding: 12px 16px;
     border-radius: 14px;
-    border: 1px solid #ebebeb;
+    border: 1.5px solid #eef2f6;
     cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .currency-option-card:hover {
+    border-color: var(--logo-teal);
+    background: rgba(30, 187, 215, 0.04);
   }
   .currency-option-card.selected-curr {
-    border-color: var(--brand-orange);
-    background: rgba(255, 148, 50, 0.08);
+    border-color: var(--logo-orange);
+    background: rgba(242, 108, 35, 0.08);
+    box-shadow: 0 2px 10px rgba(242, 108, 35, 0.15);
   }
 
   /* ========================================================
      📱 RESPONSIVE RULES: TABLET & MOBILE VIEWPORTS
      ======================================================== */
-  
-  /* 💻 TABLET (Full features matching Windows) */
   @media (max-width: 1024px) and (min-width: 768px) {
     .atithi-navbar-master {
       padding: 0 1.5rem;
@@ -637,7 +680,6 @@
     }
   }
 
-  /* 📱 MOBILE (Search visible, currency hidden) */
   @media (max-width: 767px) {
     .atithi-navbar-master {
       padding: 0 12px;
@@ -652,7 +694,7 @@
       display: none;
     }
     .brand-logo-img {
-      height: 32px;
+      height: 36px;
     }
     .center-capsule-scaffold {
       display: flex !important;
@@ -681,8 +723,8 @@
       font-size: 14px;
     }
     .btn-search-magnifier {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       font-size: 11px;
     }
     .currency-globe-btn {
@@ -696,8 +738,8 @@
       gap: 6px;
     }
     .profile-avatar-node {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       font-size: 12px;
     }
     .atithi-inline-filter-dropdown {
@@ -722,7 +764,7 @@
   
   <!-- 1. LEFT BRAND LOGO -->
   <a class="brand-identity-anchor" href="/listings">
-    <img src="/images/airbnb.png" alt="Atithi Logo" class="brand-logo-img">
+    <img src="/images/airbnbicon.png" alt="Atithi Logo" class="brand-logo-img">
     <span class="brand-logo-text">Atithi</span>
   </a>
 
@@ -849,7 +891,7 @@
     <!-- User Profile Dropdown -->
     <div class="dropdown">
       <div class="profile-trigger-pill" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-list fs-5" style="color: #222222;"></i>
+        <i class="bi bi-list fs-5" style="color: #334155;"></i>
         <div class="profile-avatar-node">
           <% if(!currUser) { %>
             <i class="bi bi-person-fill" style="font-size: 16px;"></i>
