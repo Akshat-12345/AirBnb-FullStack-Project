@@ -17,9 +17,9 @@ module.exports.index = async(req, res) => {
         if (search && search.trim() !== "") {
             const cleanSearch = search.trim();
             filter.$or = [
-                { title: { $regex: cleanSearch, $options: "i" } },
-                { location: { $regex: cleanSearch, $options: "i" } },
-                { country: { $regex: cleanSearch, $options: "i" } }
+                { title: { $regex: cleanSearch,$options: "i" } },
+                { location: { $regex: cleanSearch,$options: "i" } },
+                { country: { $regex: cleanSearch,$options: "i" } }
             ];
         }
 
@@ -32,7 +32,7 @@ module.exports.index = async(req, res) => {
         if (imageTag) {
             const tagsArray = Array.isArray(imageTag) ? imageTag : [imageTag];
             filter.images = {
-                $elemMatch: { tag: { $in: tagsArray } }
+                $elemMatch: { tag: {$in: tagsArray } }
             };
         }
 
@@ -99,7 +99,7 @@ module.exports.showListing = async(req, res) => {
         // Step 2: Fallback if less than 4 matching category stays found
         if (similarListings.length < 4) {
             const fallbackListings = await Listing.find({
-                _id: { $ne: id, $nin: similarListings.map(l => l._id) }
+                _id: { $ne: id,$nin: similarListings.map(l => l._id) }
             })
             .populate("reviews")
             .limit(10 - similarListings.length);
@@ -206,7 +206,7 @@ module.exports.showListing = async(req, res) => {
         console.error("Error fetching approved guest media:", mediaErr.message);
     }
 
-    // Render template with similarListings & calculated host metadata
+    // Render template with similarListings, calculated host metadata, and mapToken
     res.render("listings/show.ejs", { 
         data, 
         similarListings,
@@ -214,6 +214,7 @@ module.exports.showListing = async(req, res) => {
         weatherForecast: forecastArray, 
         approvedMedia, 
         razorpayKeyId: process.env.RAZORPAY_KEY_ID,
+        mapToken: process.env.MAP_TOKEN,
         hostTotalReviews,
         hostAverageRating
     });
